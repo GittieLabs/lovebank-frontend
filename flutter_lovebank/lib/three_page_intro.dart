@@ -19,27 +19,36 @@ class _ThreePageIntroState extends State<ThreePageIntro> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Spacer(flex: 11),
+              Spacer(flex: 31),
               Container(
-                padding: EdgeInsets.all(100),
+                padding: EdgeInsets.only(left: 60, right: 60),
                   child: Text("Improve your relationship with measurable expresions of love",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,
+                    fontSize: 24,
+                    fontFamily: 'Helvetica',
                   ),
                 ),
               ),
-              Spacer(flex: 2),
+              Spacer(flex: 5),
               Container(
-                child: Text("Love Bank"),
+                child: Text("LoveBank",
+                textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 58,
+                    fontFamily: 'AdobeMingStd',
+                  ),
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                Spacer(flex: 13),
+                Spacer(flex: 31),
                 Container(
-                  width: 15,
-                  height: 15,
+                  width: 10,
+                  height: 10,
                   decoration: BoxDecoration(
                     color: Colors.red,
                     shape: BoxShape.circle,
@@ -47,8 +56,8 @@ class _ThreePageIntroState extends State<ThreePageIntro> {
                 ),
                 Spacer(),
                 Container(
-                  width: 15,
-                  height: 15,
+                  width: 10,
+                  height: 10,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     shape: BoxShape.circle,
@@ -56,17 +65,17 @@ class _ThreePageIntroState extends State<ThreePageIntro> {
                 ),
                 Spacer(),
                 Container(
-                  width: 15,
-                  height: 15,
+                  width: 10,
+                  height: 10,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     shape: BoxShape.circle,
                   ),
                 ),
-                Spacer(flex: 13),
+                Spacer(flex: 31),
               ],
             ),
-            Spacer(),
+            Spacer(flex: 3),
             ],
           ),
         ),
