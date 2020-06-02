@@ -1,11 +1,88 @@
 import 'package:flutter/material.dart';
 
-
-class ThreePageIntro extends StatefulWidget {
-
+///The three dot indicator at the bottom of the page.
+///  Transparent if page is passed in as 0.
+class ThreeDots extends StatelessWidget {
+  final int page;
+  ThreeDots({this.page});
 
   @override
-    _ThreePageIntroState createState() => _ThreePageIntroState();
+  Widget build(BuildContext context) {
+    Color w = Colors.white;
+    Color r = Colors.red;
+    Color t = Colors.transparent;
+
+    Color c1 = (page == 0) ? t : (page == 1) ? r : w;
+    Color c2 = (page == 0) ? t : (page == 2) ? r : w;
+    Color c3 = (page == 0) ? t : (page == 3) ? r : w;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Spacer(flex: 31),
+        Container(
+          width: 10,
+          height: 10,
+          decoration: BoxDecoration(
+            color: c1,
+            shape: BoxShape.circle,
+          ),
+        ),
+        Spacer(),
+        Container(
+          width: 10,
+          height: 10,
+          decoration: BoxDecoration(
+            color: c2,
+            shape: BoxShape.circle,
+          ),
+        ),
+        Spacer(),
+        Container(
+          width: 10,
+          height: 10,
+          decoration: BoxDecoration(
+            color: c3,
+            shape: BoxShape.circle,
+          ),
+        ),
+        Spacer(flex: 31),
+      ],
+    );
+  }
+}
+
+///The title bar at the bottom of the page complete
+///  with ThreeDots. If page is passed in as 0, the
+///  ThreeDots at the bottom is made transparent.
+class BottomTitleBar extends StatelessWidget {
+  final int page;
+  BottomTitleBar({this.page});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          child: Text("LoveBank",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 50,
+              fontFamily: 'AdobeMingStd',
+            ),
+          ),
+        ),
+        ThreeDots(page: page),
+      ],
+    );
+  }
+}
+
+///The three page intro screen widget.
+class ThreePageIntro extends StatefulWidget {
+
+  @override
+  _ThreePageIntroState createState() => _ThreePageIntroState();
 }
 
 class _ThreePageIntroState extends State<ThreePageIntro> {
@@ -18,6 +95,31 @@ class _ThreePageIntroState extends State<ThreePageIntro> {
   }
 
   Widget build(BuildContext context) {
+    Container mainContent = Container();
+    String text = "";
+    if (_page == 1) {
+        text = "Improve your relationship with measurable expresions of love";
+    }
+    if (_page == 2) {
+        text = "Increase your love bank account by performing the tasks most important to your partner";
+    }
+
+    mainContent = Container(
+      padding: EdgeInsets.only(left: 60, right: 60),
+      child: Text( text,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 20,
+          fontFamily: 'Helvetica',
+        ),
+      ),
+    );
+
+    if (_page == 3) {
+        mainContent = Container();
+    }
+
     return GestureDetector(
       onTap: _handleTap,
       child: Material(
@@ -29,69 +131,15 @@ class _ThreePageIntroState extends State<ThreePageIntro> {
             ),
             color: Theme.of(context).backgroundColor,
           ),
-          child: Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Spacer(flex: 31),
-                (_page == 1 || _page == 2) ? Container(
-                  padding: EdgeInsets.only(left: 60, right: 60),
-                    child: Text((_page == 1) ? "Improve your relationship with measurable expresions of love" : "Increase your love bank account by performing the tasks most important to your partner",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontFamily: 'Helvetica',
-                    ),
-                  ),
-                ) : Spacer(),
-                Spacer(flex: 3),
-                Container(
-                  child: Text("LoveBank",
-                  textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 50,
-                      fontFamily: 'AdobeMingStd',
-                    ),
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                  Spacer(flex: 31),
-                  Container(
-                    width: 10,
-                    height: 10,
-                    decoration: BoxDecoration(
-                      color: (_page == 1) ? Colors.red : Colors.white,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                  Spacer(),
-                  Container(
-                    width: 10,
-                    height: 10,
-                    decoration: BoxDecoration(
-                      color: (_page == 2) ? Colors.red : Colors.white,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                  Spacer(),
-                    Container(
-                    width: 10,
-                    height: 10,
-                    decoration: BoxDecoration(
-                      color: (_page == 3) ? Colors.red : Colors.white,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                  Spacer(flex: 31),
-                ],
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              mainContent,
+              Padding(
+              padding: EdgeInsets.all(50),
+              child: BottomTitleBar(page: _page),
               ),
-              Spacer(flex: 3),
-              ],
-            ),
+            ],
           ),
         ),
       ),
