@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'wide_button.dart';
 
 ///The three dot indicator at the bottom of the page.
 ///  Transparent if page is passed in as 0.
@@ -85,6 +86,7 @@ class ThreePageIntro extends StatefulWidget {
   _ThreePageIntroState createState() => _ThreePageIntroState();
 }
 
+///The state of the three page intro screen widget.
 class _ThreePageIntroState extends State<ThreePageIntro> {
   int _page = 1;
 
@@ -97,15 +99,18 @@ class _ThreePageIntroState extends State<ThreePageIntro> {
   Widget build(BuildContext context) {
     Container mainContent = Container();
     String text = "";
+    String imgPath = "";
     if (_page == 1) {
         text = "Improve your relationship with measurable expresions of love";
+        imgPath = "assets/images/intro/intro-1.png";
     }
     if (_page == 2) {
         text = "Increase your love bank account by performing the tasks most important to your partner";
+        imgPath = "assets/images/intro/intro-2.png";
     }
 
     mainContent = Container(
-      padding: EdgeInsets.only(left: 60, right: 60),
+      padding: EdgeInsets.only(left: 60, right: 60, bottom: 60),
       child: Text( text,
         textAlign: TextAlign.center,
         style: TextStyle(
@@ -117,7 +122,27 @@ class _ThreePageIntroState extends State<ThreePageIntro> {
     );
 
     if (_page == 3) {
-        mainContent = Container();
+        mainContent = Container(
+          child: Column(
+            children: [
+              Padding( padding: EdgeInsets.all(10),
+                child: WideButton(
+                  text: "Sign in",
+                  color: Theme.of(context).primaryColor,
+                  onTap: _handleTap,
+                ),
+              ),
+              Padding( padding: EdgeInsets.all(10),
+                child: WideButton(
+                  text: "Create an account",
+                  color: Theme.of(context).accentColor,
+                  onTap: _handleTap,
+                ),
+              ),
+            ],
+          ),
+        );
+        imgPath = "assets/images/intro/intro-3.png";
     }
 
     return GestureDetector(
@@ -126,7 +151,7 @@ class _ThreePageIntroState extends State<ThreePageIntro> {
         child: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: (_page == 1) ? ExactAssetImage('assets/images/intro/intro-1.png') : ((_page == 2) ? ExactAssetImage('assets/images/intro/intro-2.png') : ExactAssetImage('assets/images/intro/intro-3.png')),
+              image: ExactAssetImage(imgPath),
               fit: BoxFit.cover,
             ),
             color: Theme.of(context).backgroundColor,
@@ -136,8 +161,8 @@ class _ThreePageIntroState extends State<ThreePageIntro> {
             children: [
               mainContent,
               Padding(
-              padding: EdgeInsets.all(50),
-              child: BottomTitleBar(page: _page),
+                padding: EdgeInsets.only(left: 50, right: 50, bottom: 50),
+                child: BottomTitleBar(page: _page),
               ),
             ],
           ),
