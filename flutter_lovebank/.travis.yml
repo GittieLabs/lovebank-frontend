@@ -1,0 +1,7 @@
+language: dart
+os: linux
+install: git clone $FLUTTER_GITHUB -b stable
+before_script:
+  - ./flutter/bin/flutter doctor
+script: 
+  - ./flutter/bin/flutter test
