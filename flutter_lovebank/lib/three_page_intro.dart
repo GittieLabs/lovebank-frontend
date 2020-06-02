@@ -69,7 +69,7 @@ class BottomTitleBar extends StatelessWidget {
             style: TextStyle(
               color: Colors.white,
               fontSize: 50,
-              fontFamily: 'AdobeMingStd',
+              fontFamily: 'AbhayaLibre',
             ),
           ),
         ),
@@ -116,7 +116,6 @@ class _ThreePageIntroState extends State<ThreePageIntro> {
         style: TextStyle(
           color: Colors.white,
           fontSize: 20,
-          fontFamily: 'Helvetica',
         ),
       ),
     );
