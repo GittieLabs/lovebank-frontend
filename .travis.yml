@@ -1,6 +1,6 @@
 language: dart
 os: linux
-install: git clone $FLUTTER_GITHUB -b stable
+install: git clone https://github.com/flutter/flutter.git -b stable
 before_script:
   - ./flutter/bin/flutter doctor
 script: 
