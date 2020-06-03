@@ -38,6 +38,7 @@ flutter:
     - assets/images/intro/intro-1.png
     - assets/images/intro/intro-2.png
     - assets/images/intro/intro-3.png
+    - assets/images/intro/splash.png
   fonts:
     - family: AbhayaLibre
       fonts:
