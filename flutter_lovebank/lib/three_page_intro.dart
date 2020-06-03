@@ -17,36 +17,42 @@ class ThreeDots extends StatelessWidget {
     Color c2 = (page == 0) ? t : (page == 2) ? r : w;
     Color c3 = (page == 0) ? t : (page == 3) ? r : w;
     return Row(
+      mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Spacer(flex: 31),
         Container(
-          width: 10,
-          height: 10,
-          decoration: BoxDecoration(
-            color: c1,
-            shape: BoxShape.circle,
+          padding: EdgeInsets.all(2),
+          child: Container(
+            width: 10,
+            height: 10,
+            decoration: BoxDecoration(
+              color: c1,
+              shape: BoxShape.circle,
+            ),
           ),
         ),
-        Spacer(),
         Container(
-          width: 10,
-          height: 10,
-          decoration: BoxDecoration(
-            color: c2,
-            shape: BoxShape.circle,
+          padding: EdgeInsets.all(2),
+          child: Container(
+            width: 10,
+            height: 10,
+            decoration: BoxDecoration(
+              color: c2,
+              shape: BoxShape.circle,
+            ),
           ),
         ),
-        Spacer(),
         Container(
-          width: 10,
-          height: 10,
-          decoration: BoxDecoration(
-            color: c3,
-            shape: BoxShape.circle,
+          padding: EdgeInsets.all(2),
+          child: Container(
+            width: 10,
+            height: 10,
+            decoration: BoxDecoration(
+              color: c3,
+              shape: BoxShape.circle,
+            ),
           ),
         ),
-        Spacer(flex: 31),
       ],
     );
   }
@@ -64,7 +70,8 @@ class BottomTitleBar extends StatelessWidget {
     return Column(
       children: [
         Container(
-          child: Text("LoveBank",
+          child: Text(
+            "LoveBank",
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.white,
@@ -79,16 +86,103 @@ class BottomTitleBar extends StatelessWidget {
   }
 }
 
+///Each individual page, including page 0 (the splash page)
+class IntroPage extends StatelessWidget {
+  final int page;
+  IntroPage({this.page});
+
+  @override
+  Widget build(BuildContext context) {
+    Container mainContent = Container();
+    String text = " ";
+    String imgPath = "";
+    if (page == 0) {
+      imgPath = "assets/images/intro/splash.png";
+    }
+    if (page == 1) {
+      text = "Improve your relationship with measurable expresions of love";
+      imgPath = "assets/images/intro/intro-1.png";
+    }
+    if (page == 2) {
+      text =
+          "Increase your love bank account by performing the tasks most important to your partner";
+      imgPath = "assets/images/intro/intro-2.png";
+    }
+
+    mainContent = Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      padding: EdgeInsets.only(left: 60, right: 60),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Spacer(flex: 3),
+          Text(
+            text,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+            ),
+          ),
+          Spacer(flex: 1),
+        ],
+      ),
+    );
+
+    if (page == 3) {
+      mainContent = Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Spacer(flex: 3),
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: WideButton(
+                text: "Sign in",
+                color: Theme.of(context).primaryColor,
+                onTap: () => {},
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: WideButton(
+                text: "Create an account",
+                color: Theme.of(context).accentColor,
+                onTap: () => {},
+              ),
+            ),
+            Spacer(flex: 1),
+          ],
+        ),
+      );
+      imgPath = "assets/images/intro/intro-3.png";
+    }
+
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: ExactAssetImage(imgPath),
+          fit: BoxFit.cover,
+        ),
+        color: Theme.of(context).backgroundColor,
+      ),
+      child: mainContent,
+    );
+  }
+}
+
 ///The three page intro screen widget.
 class ThreePageIntro extends StatefulWidget {
-
   @override
   _ThreePageIntroState createState() => _ThreePageIntroState();
 }
 
 ///The state of the three page intro screen widget.
 class _ThreePageIntroState extends State<ThreePageIntro> {
-  int _page = 1;
+  int _page = 0;
 
   void _handleTap() {
     setState(() {
@@ -97,74 +191,21 @@ class _ThreePageIntroState extends State<ThreePageIntro> {
   }
 
   Widget build(BuildContext context) {
-    Container mainContent = Container();
-    String text = "";
-    String imgPath = "";
-    if (_page == 1) {
-        text = "Improve your relationship with measurable expresions of love";
-        imgPath = "assets/images/intro/intro-1.png";
-    }
-    if (_page == 2) {
-        text = "Increase your love bank account by performing the tasks most important to your partner";
-        imgPath = "assets/images/intro/intro-2.png";
-    }
-
-    mainContent = Container(
-      padding: EdgeInsets.only(left: 60, right: 60, bottom: 60),
-      child: Text( text,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 20,
-        ),
-      ),
-    );
-
-    if (_page == 3) {
-        mainContent = Container(
-          child: Column(
-            children: [
-              Padding( padding: EdgeInsets.all(10),
-                child: WideButton(
-                  text: "Sign in",
-                  color: Theme.of(context).primaryColor,
-                  onTap: _handleTap,
-                ),
-              ),
-              Padding( padding: EdgeInsets.all(10),
-                child: WideButton(
-                  text: "Create an account",
-                  color: Theme.of(context).accentColor,
-                  onTap: _handleTap,
-                ),
-              ),
-            ],
-          ),
-        );
-        imgPath = "assets/images/intro/intro-3.png";
-    }
+    var page = IntroPage(page: _page);
 
     return GestureDetector(
       onTap: _handleTap,
       child: Material(
-        child: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: ExactAssetImage(imgPath),
-              fit: BoxFit.cover,
+        child: Stack(
+          children: [
+            page,
+            Positioned(
+              bottom: 20,
+              left: 0,
+              right: 0,
+              child: BottomTitleBar(page: _page),
             ),
-            color: Theme.of(context).backgroundColor,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              mainContent,
-              Padding(
-                padding: EdgeInsets.only(left: 50, right: 50, bottom: 50),
-                child: BottomTitleBar(page: _page),
-              ),
-            ],
-          ),
+          ],
         ),
       ),
     );
