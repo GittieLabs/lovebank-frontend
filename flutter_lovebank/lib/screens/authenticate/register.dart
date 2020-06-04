@@ -59,7 +59,7 @@ class _RegisterState extends State<Register> {
                   setState(()=>password = val);
                 }
               ),
-              SizedBox(height: 5.0),
+              // SizedBox(height: 1.0),
               RaisedButton(
                 color: Colors.blue[200],
                 child: Text(
@@ -75,7 +75,7 @@ class _RegisterState extends State<Register> {
                   }
                 }
               ),
-              SizedBox(height: 1.0),
+              // SizedBox(height: 1.0),
               Text(
                 error,
                 style: TextStyle(color: Colors.red, fontSize:10)
