@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 // import 'package:flutter/src/material/icons.dart';
-import 'package:flutterapp/userAuthentication.dart';
+import 'package:flutterapp/services/userAuthentication.dart';
 
 /*
 Basic Home Screen Layout created to test user sign in

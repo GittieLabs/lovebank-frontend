@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapp/screens/authenticate/authenticate.dart';
 import 'package:flutterapp/screens/components/wide_button.dart';
 
 ///The three dot indicator at the bottom of the page.
@@ -94,6 +95,12 @@ class IntroPage extends StatelessWidget {
   final int page;
   IntroPage({this.page});
 
+  void _loadLoginScreen(bool signIn, BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Authenticate(showSignIn: signIn)),
+    );
+}
   @override
   Widget build(BuildContext context) {
     Container mainContent = Container();
@@ -146,7 +153,7 @@ class IntroPage extends StatelessWidget {
               child: WideButton(
                 text: "Sign in",
                 color: Theme.of(context).primaryColor,
-                onTap: () => {},
+                onTap: () => {_loadLoginScreen(true, context)},
               ),
             ),
             Padding(
@@ -154,7 +161,7 @@ class IntroPage extends StatelessWidget {
               child: WideButton(
                 text: "Create an account",
                 color: Theme.of(context).accentColor,
-                onTap: () => {},
+                onTap: () => {_loadLoginScreen(false, context)},
               ),
             ),
             Spacer(flex: 1),

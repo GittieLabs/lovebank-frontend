@@ -7,13 +7,17 @@ import 'package:flutterapp/screens/authenticate/register.dart';
 */
 
 class Authenticate extends StatefulWidget {
+  final bool showSignIn;
+  Authenticate({this.showSignIn});
+
   @override
-  _AuthenticateState createState() => _AuthenticateState();
+  _AuthenticateState createState() => _AuthenticateState(showSignIn: showSignIn);
 }
 
 class _AuthenticateState extends State<Authenticate> {
 
   bool showSignIn = true; //shows the sign in page by default
+  _AuthenticateState({this.showSignIn});
 
   //toggles the showSignIn variable to switch between sign in and sign up screens
   void toggleView(){
@@ -22,12 +26,10 @@ class _AuthenticateState extends State<Authenticate> {
 
   @override
   Widget build(BuildContext context) {
-    
       if (showSignIn) {
         return SignIn(toggleView: toggleView);
-      } else{
+      } else {
         return Register(toggleView: toggleView);
       }
-      
   }
 }

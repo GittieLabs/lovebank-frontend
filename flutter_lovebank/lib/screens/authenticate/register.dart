@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterapp/userAuthentication.dart';
+import 'package:flutterapp/services/userAuthentication.dart';
 
 /* 
 LayOut of the Sign In Widget
