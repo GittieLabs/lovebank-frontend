@@ -86,7 +86,10 @@ class BottomTitleBar extends StatelessWidget {
   }
 }
 
-///Each individual page, including page 0 (the splash page)
+///Each individual page, including 
+/// page 0 (the splash page).
+/// Generated differently depending 
+/// on the value of page passed in.
 class IntroPage extends StatelessWidget {
   final int page;
   IntroPage({this.page});
@@ -181,32 +184,72 @@ class ThreePageIntro extends StatefulWidget {
 }
 
 ///The state of the three page intro screen widget.
+/// Also has a 2.5 second splash page.
 class _ThreePageIntroState extends State<ThreePageIntro> {
   int _page = 0;
+  PageController _pageController;
+  List<IntroPage> pages = [
+    IntroPage(page: 1),
+    IntroPage(page: 2),
+    IntroPage(page: 3),
+  ];
 
-  void _handleTap() {
-    setState(() {
-      _page = (_page % 3) + 1;
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+    Future.delayed(const Duration(milliseconds: 2500), () {
+      setState(() {
+        _page = 1;
+      });
     });
   }
 
-  Widget build(BuildContext context) {
-    var page = IntroPage(page: _page);
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
-    return GestureDetector(
-      onTap: _handleTap,
-      child: Material(
-        child: Stack(
-          children: [
-            page,
-            Positioned(
-              bottom: 20,
-              left: 0,
-              right: 0,
-              child: BottomTitleBar(page: _page),
+  void _changePage(int x) {
+    setState(() {
+      _page = x + 1;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      child: Stack(
+        children: [
+          AnimatedCrossFade(
+            crossFadeState: (_page == 0)
+                ? CrossFadeState.showFirst
+                : CrossFadeState.showSecond,
+            duration: const Duration(milliseconds: 700),
+            firstChild: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: PageView(
+                children: [IntroPage(page: 0)],
+              ),
             ),
-          ],
-        ),
+            secondChild: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: PageView(
+                onPageChanged: _changePage,
+                children: pages,
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 20,
+            left: 0,
+            right: 0,
+            child: BottomTitleBar(page: _page),
+          ),
+        ],
       ),
     );
   }
