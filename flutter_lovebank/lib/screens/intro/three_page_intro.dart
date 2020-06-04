@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'wide_button.dart';
+import 'package:flutterapp/screens/components/wide_button.dart';
 
 ///The three dot indicator at the bottom of the page.
 ///  Transparent if page is passed in as 0.
