@@ -4,7 +4,10 @@ import 'package:flutterapp/screens/wrapper.dart';
 import 'package:provider/provider.dart';
 import 'package:flutterapp/services/userAuthentication.dart';
 import 'package:flutter/rendering.dart'; //used for debugPaintSizeEnabled
-void main() => runApp(new LoveApp());
+void main() { 
+    //debugPaintSizeEnabled = true; //uncomment this line and restart to better see the sizes of elements drawn onscreen
+    runApp(new LoveApp());
+}
 
 class LoveApp extends StatelessWidget {
   @override
