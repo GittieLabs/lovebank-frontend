@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterapp/screens/authenticate/authenticate.dart';
+import 'package:flutterapp/screens/authenticate/register_sign_in.dart';
 import 'package:flutterapp/screens/components/wide_button.dart';
 
 ///The three dot indicator at the bottom of the page.
@@ -98,7 +98,7 @@ class IntroPage extends StatelessWidget {
   void _loadLoginScreen(bool signIn, BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => Authenticate(showSignIn: signIn)),
+      MaterialPageRoute(builder: (context) => RegisterSignIn(showSignIn: signIn)),
     );
 }
   @override

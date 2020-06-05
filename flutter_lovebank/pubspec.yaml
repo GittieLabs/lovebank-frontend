@@ -40,6 +40,8 @@ flutter:
     - assets/images/intro/intro-2.png
     - assets/images/intro/intro-3.png
     - assets/images/intro/splash.png
+    - assets/images/intro/sign-in-image.png
+    - assets/images/intro/sign-up.png
   fonts:
     - family: AbhayaLibre
       fonts:
