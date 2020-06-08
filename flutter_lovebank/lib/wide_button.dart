@@ -28,4 +28,4 @@ class WideButton extends StatelessWidget {
       ),
     );
   }
-}// TODO Implement this library.
+}
