@@ -49,14 +49,16 @@ class _RegisterSignInState extends State<RegisterSignIn> {
     String signInText3 = "Don't have an account yet? ";
     String signInText4 = "Sign up!";
 
+    double cloudHeight = MediaQuery.of(context).size.height / 4;
+
     Widget cloudArea = Column(
       children: [
         Container(
           width: 340,
-          height: 230,
+          height: (cloudHeight > 200) ? 200 : cloudHeight,//max: 200,
           decoration: BoxDecoration(
             image: DecorationImage(
-                fit: BoxFit.fitWidth,
+                fit: BoxFit.fitHeight,
                 image: ExactAssetImage(
                     (showSignIn) ? signInImage : registerImage)),
           ),
