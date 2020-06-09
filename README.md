@@ -10,13 +10,13 @@ You will need to have the followings installed or downloaded:
  - Android Studio/VScode (Android App)
 
 
-How to run the App?(Android)
+## Steps to run the Android App:
 
 1. Download/Clone the lovebank-frontend github repo
-2. For the Android App, Download the google-services.json from Firebase (Android project(LoveBank) > project Overview> project settings and scroll down)
+2. For the Android App, Download the google-services.json from Firebase (It can befound on Firebase account at , Android project(LoveBank) > project Overview> project settings and scroll down)
 3. Add the .json file to flutter_lovebank>android>app directory
-4. Run the project on an Android emulator (You can use eithe Android Studio or VSCode for this purpose)
-5. You'' land in the 3 page app carousel, sliding through them to third page would give you the Sign In/Create an Account options
+4. Run the project on an Android Simulator (You can use either Android Studio or VSCode for this purpose)
+5. You'll land in the 3 page app carousel, sliding through them to third page would give you the Sign In/Create an Account options
 6. click the 'Create An Account' page to create a new account
       - email should be a valid working email
       - Password Should be at least 8 characters long
