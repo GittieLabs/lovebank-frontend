@@ -1,6 +1,15 @@
 # lovebank-frontend
 Mobile app for the LoveBank app
 
+## Installation
+Please follow the following link before you proceed further.(https://flutter.dev/docs/get-started/install/macos)<br/>
+You will need to have the followings installed or downloaded:
+
+ - Flutter SDK
+ - Xcode (iOS App)
+ - Android Studio/VScode (Android App)
+
+
 How to run the App?(Android)
 
 1. Download/Clone the lovebank-frontend github repo
@@ -18,3 +27,14 @@ How to run the App?(Android)
       - Takes you to home screen with valid credentials
       - Error Message otherwise
 
+## Steps to run the iOS App:
+The flask app is connected to the Firebase. In order to run the app, you need to download `GoogleService-Info.plist` from the Firebase project overview page.
+
+If you are using the Android Studio: 
+ - Follow `flutter_lovebank -> ios` and right click `Runner.xcworkspace` and find `Flutter -> Open iOS module in XCode`. 
+ - You need to add `GoogleService-Info.plist` using Xcode or building the iOS app will throw an error. 
+ - Once you are done, choose your iOS simulator and click 'Run'. Enjor the beautiful love bank iOS app. <br/>
+
+If you want to run with the command line:
+ - In the flutter_lovebank directory, open a simulator: `open -a Simulator`
+ - Run the Flutter App:`flutter run` 
