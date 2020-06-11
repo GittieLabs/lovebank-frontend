@@ -26,6 +26,7 @@ class _RegisterSignInState extends State<RegisterSignIn> {
   String email = '';
   String password = '';
   String error = '';
+  String mobile = '';
 
   _RegisterSignInState({this.showSignIn});
 
@@ -122,10 +123,23 @@ class _RegisterSignInState extends State<RegisterSignIn> {
           contentPadding: EdgeInsets.only(top: 15),
         ),
         validator: (showSignIn)
-            ? ((val) => val.isEmpty ? 'Please enter a valid email' : null)
+            ? ((val) => val.isEmpty ? 'Enter a valid email' : null)
             : ((val) => val.isEmpty ? 'Please enter an email' : null),
         onChanged: (val) {
           setState(() => email = val.trim());
+        });
+
+    Widget mobileField = TextFormField(
+        style: TextStyle(fontSize: 12),
+        decoration: InputDecoration(
+          hintText: 'Enter your mobile number',
+          contentPadding: EdgeInsets.only(top: 15),
+        ),
+        validator: (showSignIn)
+            ? ((val) => val.isEmpty ? 'Please enter a valid mobile number' : null)
+            : ((val) => val.isEmpty ? 'Please enter a mobile number' : null),
+        onChanged: (val) {
+          setState(() => mobile = val.trim());
         });
 
     Widget passwordField = TextFormField(
@@ -147,7 +161,7 @@ class _RegisterSignInState extends State<RegisterSignIn> {
         padding: EdgeInsets.only(top: 30),
         child: RichText(
           text: TextSpan(
-            text: "forgot your password?",
+            text: "Forgot your password?",
             style: TextStyle(
               color: Colors.red,
               fontSize: 12,
@@ -182,11 +196,17 @@ class _RegisterSignInState extends State<RegisterSignIn> {
                     child: fullNameField,
                   ) : Container(),
                   Positioned(
-                    top: (showSignIn) ? 0 : 60,
+                    top: (showSignIn) ? 0 : 40,
                     left: 0,
                     right: 0,
                     child: emailField,
                   ),
+                  (!showSignIn) ? Positioned(
+                    top: 80,
+                    left: 0,
+                    right: 0,
+                    child: mobileField,
+                  ) : Container(),
                   Positioned(
                     top: (showSignIn) ? 60 : 120,
                     left: 0,
@@ -234,7 +254,7 @@ class _RegisterSignInState extends State<RegisterSignIn> {
         height: MediaQuery.of(context).size.height,
         padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 25.0),
         child: Column(
-            children: [Spacer(), cloudArea, Spacer(), form, Spacer(flex: 2)]),
+            children: [Spacer(), cloudArea, form, Spacer(flex: 2)]),
       ),
     );
 
