@@ -55,7 +55,7 @@ class _RegisterSignInState extends State<RegisterSignIn> {
       children: [
         Container(
           width: 340,
-          height: (cloudHeight > 200) ? 200 : cloudHeight,//max: 200,
+          height: (cloudHeight > 200) ? 200 : cloudHeight, //max: 200,
           decoration: BoxDecoration(
             image: DecorationImage(
                 fit: BoxFit.fitHeight,
@@ -107,6 +107,8 @@ class _RegisterSignInState extends State<RegisterSignIn> {
     Widget fullNameField = TextFormField(
         style: TextStyle(fontSize: 12),
         decoration: InputDecoration(
+          fillColor: Colors.white,
+          filled: true,
           hintText: 'Enter your full name',
           contentPadding: EdgeInsets.only(top: 15),
         ),
@@ -118,6 +120,8 @@ class _RegisterSignInState extends State<RegisterSignIn> {
     Widget emailField = TextFormField(
         style: TextStyle(fontSize: 12),
         decoration: InputDecoration(
+          fillColor: Colors.white,
+          filled: true,
           hintText: 'Enter your email',
           contentPadding: EdgeInsets.only(top: 15),
         ),
@@ -132,6 +136,8 @@ class _RegisterSignInState extends State<RegisterSignIn> {
         style: TextStyle(fontSize: 12),
         obscureText: true,
         decoration: InputDecoration(
+          fillColor: Colors.white,
+          filled: true,
           hintText: 'Enter your password',
           contentPadding: EdgeInsets.only(top: 15),
         ),
@@ -163,66 +169,72 @@ class _RegisterSignInState extends State<RegisterSignIn> {
       ),
     );
 
+    double verticalOffset = (MediaQuery.of(context).size.height / 2.5);
+
     Widget form = Container(
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
       child: Form(
         key: _formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
+        child: Stack(
           children: <Widget>[
-            Container(
-              height: 200,
-              padding: EdgeInsets.only(left: 35, right: 35),
-              child: Stack(
-                fit: StackFit.passthrough,
-                children: [
-                  (!showSignIn) ? Positioned(
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    child: fullNameField,
-                  ) : Container(),
-                  Positioned(
-                    top: (showSignIn) ? 0 : 60,
-                    left: 0,
-                    right: 0,
-                    child: emailField,
-                  ),
-                  Positioned(
-                    top: (showSignIn) ? 60 : 120,
-                    left: 0,
-                    right: 0,
-                    child: passwordField,
-                  ),
-                  (showSignIn) ? Positioned(
-                    top: 120,
-                    left: 0,
-                    right: 0,
-                    child: forgotPassword,
-                  ) : Container(),
-                ],
-              ),
+            Stack(
+              fit: StackFit.passthrough,
+              children: [
+                (showSignIn)
+                    ? Positioned(
+                        top: 120 + verticalOffset,
+                        left: 0,
+                        right: 0,
+                        child: forgotPassword,
+                      )
+                    : Container(),
+                Positioned(
+                  top: ((showSignIn) ? 60 : 120) + verticalOffset,
+                  left: 0,
+                  right: 0,
+                  child: passwordField,
+                ),
+                Positioned(
+                  top: ((showSignIn) ? 0 : 60) + verticalOffset,
+                  left: 0,
+                  right: 0,
+                  child: emailField,
+                ),
+                (!showSignIn)
+                    ? Positioned(
+                        top: 0 + verticalOffset,
+                        left: 0,
+                        right: 0,
+                        child: fullNameField,
+                      )
+                    : Container(),
+              ],
             ),
-            WideButton(
-                color: Theme.of(context).primaryColor,
-                text: (showSignIn) ? ('Sign in') : ('Sign up'),
-                onTap: () async {
-                  if (_formKey.currentState.validate()) {
-                    dynamic result;
-                    if (showSignIn) {
-                      result = await _authentication.signInWithEmail(
-                          email, password);
-                    } else {
-                      result = await _authentication.registerWithEmail(
-                          email, password);
+            Positioned(
+              bottom: 30,
+              child: WideButton(
+                  color: Theme.of(context).primaryColor,
+                  text: (showSignIn) ? ('Sign in') : ('Sign up'),
+                  onTap: () async {
+                    if (_formKey.currentState.validate()) {
+                      dynamic result;
+                      if (showSignIn) {
+                        result = await _authentication.signInWithEmail(
+                            email, password);
+                      } else {
+                        result = await _authentication.registerWithEmail(
+                            email, password);
+                      }
+                      if (result == null) {
+                        setState(() => error = 'Please enter a valid email');
+                      } else {
+                        Navigator.pop(context);
+                      }
                     }
-                    if (result == null) {
-                      setState(() => error = 'Please enter a valid email');
-                    } else {
-                      Navigator.pop(context);
-                    }
-                  }
-                }),
-            Text(error, style: TextStyle(color: Colors.red, fontSize: 10))
+                  }),
+            ),
+            Text(error, style: TextStyle(color: Colors.red, fontSize: 10)),
           ],
         ),
       ),
@@ -233,8 +245,12 @@ class _RegisterSignInState extends State<RegisterSignIn> {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 25.0),
-        child: Column(
-            children: [Spacer(), cloudArea, Spacer(), form, Spacer(flex: 2)]),
+        child: Stack(
+          children: [
+            Positioned(top: 10, left: 0, right: 0, child: cloudArea),
+            form,
+          ],
+        ),
       ),
     );
 
