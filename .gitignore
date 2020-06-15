@@ -21,3 +21,4 @@ doc/api/
 *.js.map
 flutter_lovebank/ios/Runner/GoogleService-Info.plist
 flutter_lovebank/android/app/google-services.json
+
