@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:http/http.dart' as http;
 
 class AuthService {
 
@@ -29,7 +32,14 @@ class AuthService {
     try {
       AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = result.user;
-      return user;
+      http.post(
+          'https://lovebank.herokuapp.com/users',
+          body:jsonEncode(<String, String>{
+          'id': user.uid,
+            'email': user.email,
+          }),
+      );
+          return user;
     } catch(e){
       print(e.toString());
       return null;
