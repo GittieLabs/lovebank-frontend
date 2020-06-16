@@ -28,7 +28,7 @@ You will need to have the followings installed or downloaded:
       - Error Message otherwise
 
 ## Steps to run the iOS App:
-The flask app is connected to the Firebase. In order to run the app, you need to download `GoogleService-Info.plist` from the Firebase project overview page.
+The flask app is connected to the Firebase. In order to run the app, you need to download `GoogleService-Info.plist` from the Firebase project overview page. Add the `.plist` file into `flutter_lovebank -> ios -> Runner`.
 
 If you are using the Android Studio: 
  - Follow `flutter_lovebank -> ios` and right click `Runner.xcworkspace` and find `Flutter -> Open iOS module in XCode`. 
