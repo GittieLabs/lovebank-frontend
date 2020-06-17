@@ -21,102 +21,34 @@ class _RegisterSignInState extends State<RegisterSignIn> {
   final AuthService _authentication = AuthService();
   final _formKey = GlobalKey<FormState>();
 
-  // Variables to Store email. password and error message to show up when they are not valid
-  // also stores the focusNodes for the form fields and the error state of the fields
+  // Variables to Store name, email, and password
   String fullname = '';
-  FocusNode nameNode = FocusNode();
-  bool nameFocus = false;
-  bool nameError = false;
-
   String email = '';
-  FocusNode emailNode = FocusNode();
-  bool emailFocus = false;
-  bool emailError = false;
-
   String password = '';
-  FocusNode passwordNode = FocusNode();
-  bool passwordFocus = false;
-  bool passwordError = false;
-
-  String error = '';
 
   _RegisterSignInState({this.showSignIn});
-
-  @override
-  void initState() {
-    super.initState();
-    nameNode.addListener(_onNameFocus);
-    emailNode.addListener(_onEmailFocus);
-    passwordNode.addListener(_onPasswordFocus);
-    nameError = false;
-    emailError = false;
-    passwordError = false;
-  }
 
   // toggles the showSignIn variable to switch between sign in and sign up screens
   void toggleView() {
     setState(() {
       showSignIn = !showSignIn;
-      nameError = false;
-      emailError = false;
-      passwordError = false;
-    });
-  }
-
-  void _onNameFocus() {
-    setState(() {
-      nameFocus = true;
-      emailFocus = false;
-      passwordFocus = false;
-    });
-  }
-
-  void _onEmailFocus() {
-    setState(() {
-      nameFocus = false;
-      emailFocus = true;
-      passwordFocus = false;
-    });
-  }
-
-  void _onPasswordFocus() {
-    setState(() {
-      nameFocus = false;
-      emailFocus = false;
-      passwordFocus = true;
     });
   }
 
   // This function builds a formField because they are all essentially the same structure.
-  Container buildField(FocusNode node, String hintText, String validatorText,
-      dynamic validator, dynamic onChanged, bool invalid, bool obscure) {
-    return Container(
-      height: 70,
-      color: Colors.white,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          TextFormField(
-            obscureText: obscure,
-            focusNode: node,
-            style: TextStyle(fontSize: 12),
-            decoration: InputDecoration(
-              fillColor: Colors.white,
-              filled: true,
-              hintText: hintText,
-              contentPadding: EdgeInsets.only(top: 15),
-            ),
-            validator: validator,
-            onChanged: onChanged,
-          ),
-          (invalid)
-              ? Text(validatorText,
-                  style: TextStyle(fontSize: 12, height: 0, color: Colors.red),
-                  textAlign: TextAlign.left)
-              : Container(),
-        ],
+  Widget buildField(
+      String hintText, dynamic validator, dynamic onChanged, bool obscure) {
+    return TextFormField(
+      obscureText: obscure,
+      style: TextStyle(fontSize: 12),
+      decoration: InputDecoration(
+        fillColor: Colors.white,
+        filled: true,
+        hintText: hintText,
+        contentPadding: EdgeInsets.only(top: 15),
       ),
+      validator: validator,
+      onChanged: onChanged,
     );
   }
 
@@ -136,6 +68,14 @@ class _RegisterSignInState extends State<RegisterSignIn> {
     String signInText4 = "Sign up!";
 
     double cloudHeight = MediaQuery.of(context).size.height / 4;
+
+    double verticalPadding = 15;
+    double horizontalPadding = 25;
+
+    double mainSectionHeight =
+        MediaQuery.of(context).size.height - (verticalPadding * 2);
+    double mainSectionWidth =
+        MediaQuery.of(context).size.width - (horizontalPadding * 2);
 
     // The cloudArea contains the cloud picture and the text immediately beneath it.
     Widget cloudArea = Column(
@@ -192,152 +132,116 @@ class _RegisterSignInState extends State<RegisterSignIn> {
     );
 
     // Below is each field of the form
-    Widget fullNameField = buildField(
-        nameNode, 'Enter your full name', 'Please enter your full name', (val) {
+    Widget fullNameField = buildField('Enter your full name', (val) {
       if (val.isEmpty) {
-        setState(() => nameError = true);
-        return '';
+        return 'Please enter your full name';
       } else {
-        setState(() => nameError = false);
         return null;
       }
-    }, (val) => (setState(() => fullname = val.trim())), nameError, false);
+    }, (val) => (setState(() => fullname = val.trim())), true);
 
-    Widget emailField = buildField(emailNode, 'Enter your email',
-        ((showSignIn) ? 'Please enter a valid email' : 'Please enter an email'),
-        (val) {
+    Widget emailField = buildField('Enter your email', (val) {
       if (val.isEmpty) {
-        setState(() => emailError = true);
-        return '';
+        return ((showSignIn)
+            ? 'Please enter a valid email'
+            : 'Please enter an email');
       } else {
-        setState(() => emailError = false);
         return null;
       }
-    }, (val) => (setState(() => email = val.trim())), emailError, false);
+    }, (val) => (setState(() => email = val.trim())), false);
 
-    Widget passwordField = buildField(passwordNode, 'Enter your password',
-        'Password should be 8 characters or longer', (val) {
+    Widget passwordField = buildField('Enter your password', (val) {
       if (val.length < 8) {
-        setState(() => passwordError = true);
-        return '';
+        return 'Password should be 8 characters or longer';
       } else {
-        setState(() => passwordError = false);
         return null;
       }
-    }, (val) => (setState(() => password = val)), passwordError, true);
+    }, (val) => (setState(() => password = val)), true);
 
-    Widget forgotPassword = Align(
-      alignment: Alignment.topRight,
-      child: Container(
-        padding: EdgeInsets.only(top: 30),
-        child: RichText(
-          text: TextSpan(
-            text: "forgot your password?",
-            style: TextStyle(
-              color: Colors.red,
-              fontSize: 12,
-            ),
-            recognizer: TapGestureRecognizer()
-              ..onTap = () => Navigator.push(
+    Widget forgotPassword = Container(
+      padding: EdgeInsets.only(top: 30),
+      child: RichText(
+        text: TextSpan(
+          text: "forgot your password?",
+          style: TextStyle(
+            color: Colors.red,
+            fontSize: 12,
+          ),
+          recognizer: TapGestureRecognizer()
+            ..onTap = () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => Material(
-                          child: Text("Password reset page placeholder")))),
-          ),
+                    builder: (context) => Material(
+                      child: Text("Password reset page placeholder"),
+                    ),
+                  ),
+                ),
         ),
       ),
     );
 
-    // The below set of variables is used to move a text field up above the keyboard
-    // if the keyboard is up.
-    double verticalOffset = (MediaQuery.of(context).size.height / 2.5);
-    double keyboardTop = MediaQuery.of(context).viewInsets.bottom;
-
-    bool moveName =
-        nameFocus && (MediaQuery.of(context).viewInsets.bottom != 0);
-    bool moveEmail =
-        emailFocus && (MediaQuery.of(context).viewInsets.bottom != 0);
-    bool movePassword =
-        passwordFocus && (MediaQuery.of(context).viewInsets.bottom != 0);
-
-    double nameTop = (0 + verticalOffset);
-    double emailTop = (((showSignIn) ? 0 : 70) + verticalOffset);
-    double passwordTop = (((showSignIn) ? 70 : 140) + verticalOffset);
-
-    moveName = moveName && (nameTop > keyboardTop);
-    moveEmail = moveEmail && (emailTop > keyboardTop);
-    movePassword = movePassword && (passwordTop > keyboardTop);
+    Widget submitButton = WideButton(
+        color: Theme.of(context).primaryColor,
+        text: (showSignIn) ? ('Sign in') : ('Sign up'),
+        onTap: () async {
+          if (_formKey.currentState.validate()) {
+            dynamic result;
+            if (showSignIn) {
+              result = await _authentication.signInWithEmail(email, password);
+            } else {
+              result = await _authentication.registerWithEmail(email, password);
+            }
+            if (result == null) {
+              ///Error with signin or registration.
+            } else {
+              Navigator.pop(context);
+            }
+          }
+        });
 
     // The list below keeps the fields positioned in the correct way in preparation
     // for being used in a stack for the form.
     List<Widget> formFields = [
-      (!showSignIn)
-          ? Positioned(
-              top: (moveName) ? keyboardTop : nameTop,
-              left: 0,
-              right: 0,
-              child: fullNameField,
-            )
-          : Container(),
-      Positioned(
-        top: (moveEmail) ? keyboardTop : emailTop,
-        left: 0,
-        right: 0,
-        child: emailField,
-      ),
-      Positioned(
-        top: (movePassword) ? keyboardTop : passwordTop,
-        left: 0,
-        right: 0,
-        child: passwordField,
-      ),
+      (!showSignIn) ? fullNameField : Container(),
+      emailField,
+      passwordField,
       (showSignIn)
-          ? Positioned(
-              top: 140 + verticalOffset,
-              left: 0,
-              right: 0,
-              child: forgotPassword,
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [forgotPassword],
             )
           : Container(),
+      Spacer(),
+      submitButton
     ];
 
+    // The below set of variables is used to move a text field up above the keyboard
+    // if the keyboard is up.
+    double keyboardTop = MediaQuery.of(context).viewInsets.bottom;
 
-    // The below form has a stack of fields inside of it with a button at the bottom
+    // The below form has a stack of fields inside of it
     Widget form = Container(
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
+      height: mainSectionHeight,
+      width: mainSectionWidth,
       child: Form(
         key: _formKey,
         child: Stack(
+          fit: StackFit.expand,
           children: <Widget>[
-            Stack(
-              fit: StackFit.passthrough,
-              children: formFields,
-            ),
             Positioned(
-              bottom: 30,
-              child: WideButton(
-                  color: Theme.of(context).primaryColor,
-                  text: (showSignIn) ? ('Sign in') : ('Sign up'),
-                  onTap: () async {
-                    if (_formKey.currentState.validate()) {
-                      dynamic result;
-                      if (showSignIn) {
-                        result = await _authentication.signInWithEmail(
-                            email, password);
-                      } else {
-                        result = await _authentication.registerWithEmail(
-                            email, password);
-                      }
-                      if (result == null) {
-                        setState(() => error = 'Please enter a valid email');
-                      } else {
-                        Navigator.pop(context);
-                      }
-                    }
-                  }),
+              bottom: (keyboardTop > 0) ? keyboardTop : 30,
+              child: Container(
+                height: 300,
+                width: mainSectionWidth,
+                color: Colors.white,
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: formFields,
+                ),
+              ),
             ),
-            Text(error, style: TextStyle(color: Colors.red, fontSize: 10)),
           ],
         ),
       ),
@@ -348,10 +252,16 @@ class _RegisterSignInState extends State<RegisterSignIn> {
       child: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 25.0),
+        padding: EdgeInsets.symmetric(
+            vertical: verticalPadding, horizontal: horizontalPadding),
         child: Stack(
           children: [
-            Positioned(top: 10, left: 0, right: 0, child: cloudArea),
+            Positioned(
+              top: mainSectionHeight / 25,
+              left: 0,
+              right: 0,
+              child: cloudArea,
+            ),
             form,
           ],
         ),
