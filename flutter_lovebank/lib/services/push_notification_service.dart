@@ -5,9 +5,7 @@ class PushNotificationService {
   final FirebaseMessaging _fcm = FirebaseMessaging();
 
   Future initialise() async {
-    if (Platform.isIOS) {
-      _fcm.requestNotificationPermissions(IosNotificationSettings());
-    }
+    _fcm.requestNotificationPermissions();
 
     _fcm.configure(
       onMessage: (Map<String, dynamic> message) async {
