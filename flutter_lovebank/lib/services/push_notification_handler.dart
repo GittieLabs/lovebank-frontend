@@ -1,3 +1,4 @@
+import "dart:io" show Platform;
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
@@ -16,14 +17,17 @@ class _MessageHandlerState extends State<MessageHandler> {
     _fcm.requestNotificationPermissions(IosNotificationSettings());
 
     _fcm.configure(
+      
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
                 showDialog(
           context: context,
           builder: (context) => AlertDialog(
+            // different logic for iOS - message composition varies based on platform
+            
                 content: ListTile(
-                  title: Text(message['notification']['title']),
-                  subtitle: Text(message['notification']['body']),
+                  title: Text(message["notification"]["title"]),
+                  subtitle: Text(message['notification']["body"]),
                 ),
                 actions: <Widget>[
                   FlatButton(
@@ -46,6 +50,35 @@ class _MessageHandlerState extends State<MessageHandler> {
         // TODO optional
       },
     );
+
+
+    if (Platform.isIOS) {
+      // iOS-specific code
+      _fcm.configure(
+        onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            // different logic for iOS - message composition varies based on platform
+            
+                content: ListTile(
+                  title: Text(message["aps"]["alert"]["title"]),
+                  subtitle: Text(message["aps"]["alert"]["body"]),
+                ),
+                actions: <Widget>[
+                  FlatButton(
+                    color: Colors.amber,
+                    child: Text('Dismiss'),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                ],
+              ),
+        );
+      },
+      );
+
+    }
   }  
     
   @override
