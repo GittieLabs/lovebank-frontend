@@ -42,7 +42,7 @@ class _RegisterSignInState extends State<RegisterSignIn> {
       obscureText: obscure,
       style: TextStyle(fontSize: 12),
       decoration: InputDecoration(
-        fillColor: Colors.white,
+        fillColor: Theme.of(context).backgroundColor,
         filled: true,
         hintText: hintText,
         contentPadding: EdgeInsets.only(top: 15),
@@ -77,20 +77,26 @@ class _RegisterSignInState extends State<RegisterSignIn> {
     double mainSectionWidth =
         MediaQuery.of(context).size.width - (horizontalPadding * 2);
 
+    double formHeight = mainSectionHeight * 0.50;
+
+    // The below set of variables is used to move a text field up above the keyboard
+    // if the keyboard is up.
+    double keyboardTop = MediaQuery.of(context).viewInsets.bottom;
+
     // The cloudArea contains the cloud picture and the text immediately beneath it.
     Widget cloudArea = Column(
       children: [
         Container(
           width: 340,
           height: (cloudHeight > 200) ? 200 : cloudHeight, //max: 200,
-          decoration: BoxDecoration(
+          decoration: (keyboardTop > 0) ? BoxDecoration() : BoxDecoration(
             image: DecorationImage(
                 fit: BoxFit.fitHeight,
                 image: ExactAssetImage(
                     (showSignIn) ? signInImage : registerImage)),
           ),
         ),
-        Container(
+        (keyboardTop > 0)? Container() : Container(
           height: 60,
           padding: EdgeInsets.only(left: 35, right: 35),
           child: Column(
@@ -212,14 +218,12 @@ class _RegisterSignInState extends State<RegisterSignIn> {
               children: [forgotPassword],
             )
           : Container(),
-      Spacer(),
-      submitButton
+      Spacer(flex: 5),
+      submitButton,
+      Spacer(flex: 2),
     ];
 
-    // The below set of variables is used to move a text field up above the keyboard
-    // if the keyboard is up.
-    double keyboardTop = MediaQuery.of(context).viewInsets.bottom;
-
+   
     // The below form has a stack of fields inside of it
     Widget form = Container(
       height: mainSectionHeight,
@@ -232,9 +236,9 @@ class _RegisterSignInState extends State<RegisterSignIn> {
             Positioned(
               bottom: (keyboardTop > 0) ? keyboardTop : 30,
               child: Container(
-                height: 300,
+                height: formHeight,
                 width: mainSectionWidth,
-                color: Colors.white,
+                color: Theme.of(context).backgroundColor,
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -252,6 +256,7 @@ class _RegisterSignInState extends State<RegisterSignIn> {
       child: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
+        color: Theme.of(context).backgroundColor,
         padding: EdgeInsets.symmetric(
             vertical: verticalPadding, horizontal: horizontalPadding),
         child: Stack(
