@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/screens/home/home_with_notification.dart';
 import 'package:provider/provider.dart';
 import 'package:flutterapp/screens/intro/three_page_intro.dart';
-import 'package:flutterapp/screens/home/home_widget.dart';
 
 class Wrapper extends StatelessWidget {
   @override

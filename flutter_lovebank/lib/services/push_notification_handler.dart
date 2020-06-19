@@ -1,6 +1,22 @@
 import "dart:io" show Platform;
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
+  if (message.containsKey('data')) {
+    // Handle data message
+    final dynamic data = message['data'];
+  }
+
+  if (message.containsKey('notification')) {
+    // Handle notification message
+    final dynamic notification = message['notification'];
+  }
+
+  // Or do other work.
+}
 
 class MessageHandler extends StatefulWidget {
   @override
@@ -8,6 +24,7 @@ class MessageHandler extends StatefulWidget {
 }
 
 class _MessageHandlerState extends State<MessageHandler> {
+  final Firestore _db = Firestore.instance;
   final FirebaseMessaging _fcm = FirebaseMessaging();
 
   @override
@@ -15,6 +32,7 @@ class _MessageHandlerState extends State<MessageHandler> {
     super.initState();
 
     _fcm.requestNotificationPermissions(IosNotificationSettings());
+    _saveDeviceToken(); // save User ID and device token for individualized notification
 
     _fcm.configure(
       
@@ -39,6 +57,8 @@ class _MessageHandlerState extends State<MessageHandler> {
               ),
         );
       },
+
+      onBackgroundMessage: myBackgroundMessageHandler,
 
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
@@ -78,6 +98,32 @@ class _MessageHandlerState extends State<MessageHandler> {
       },
       );
 
+    }
+  }
+
+    _saveDeviceToken() async {
+    // Get the current user
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    FirebaseUser user = await _auth.currentUser();
+    String uid = user.uid;
+    print(uid);
+    // FirebaseUser user = await _auth.currentUser();
+
+    // Get the token for this device
+    String fcmToken = await _fcm.getToken();
+
+    // Save it to Firestore
+    if (fcmToken != null) {
+      var tokens = _db
+          .collection('user')
+          .document(uid)
+          .collection('device')
+          .document(fcmToken);
+
+      await tokens.setData({
+        'token': fcmToken,
+        'platform': Platform.operatingSystem 
+      });
     }
   }  
     
