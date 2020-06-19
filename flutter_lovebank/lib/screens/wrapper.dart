@@ -14,8 +14,10 @@ class Wrapper extends StatelessWidget {
     if (user == null){
       return ThreePageIntro();
     }
+    // write an else if condition to return the Invitation Screen if the user has no partner in the backend
+
     else{
-      //return Home Widget
+      //return Home Widget when the user has a partner
       return Home();
     }
   }

@@ -11,10 +11,10 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-      backgroundColor: Colors.blue[100],
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar:AppBar(
         title: Text('LoveBank'),
-        backgroundColor: Colors.blue[500],
+        backgroundColor: Theme.of(context).backgroundColor,
         elevation: 0.0,
         actions: <Widget>[
           FlatButton.icon(
@@ -26,6 +26,25 @@ class Home extends StatelessWidget {
             )
         ]
       ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+          size: 50.0,
+          ),
+        onPressed: () {},
+        backgroundColor: Theme.of(context).backgroundColor,
+      ),
+
     );
   }
+  // should this be a class?
+  Widget circleImage = CircleAvatar(
+    radius: 53.0,
+    backgroundColor: Color(0xff9e00ff),
+    child: CircleAvatar(
+      radius: 50,
+      backgroundImage: AssetImage('assets/images/home/Ellipse_2.png'),
+    ),
+  );
 }
