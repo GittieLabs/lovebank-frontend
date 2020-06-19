@@ -35,6 +35,16 @@ class _RegisterSignInState extends State<RegisterSignIn> {
     setState(() => showSignIn = !showSignIn);
   }
 
+  String validateMobile(String val) {
+    Pattern pattern =
+        r'/^(\+\d{1,3}[- ]?)?\d{10}$/';
+    RegExp regex = new RegExp(pattern);
+    if (!regex.hasMatch(val))
+      return 'Please enter a valid mobile number';
+    else
+      return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     String registerImage = "assets/images/intro/sign-up.png";
@@ -123,7 +133,7 @@ class _RegisterSignInState extends State<RegisterSignIn> {
           contentPadding: EdgeInsets.only(top: 15),
         ),
         validator: (showSignIn)
-            ? ((val) => val.isEmpty ? 'Enter a valid email' : null)
+            ? ((val) => val.isEmpty ? 'Please enter a valid email' : null)
             : ((val) => val.isEmpty ? 'Please enter an email' : null),
         onChanged: (val) {
           setState(() => email = val.trim());
@@ -135,9 +145,8 @@ class _RegisterSignInState extends State<RegisterSignIn> {
           hintText: 'Enter your mobile number',
           contentPadding: EdgeInsets.only(top: 15),
         ),
-        validator: (showSignIn)
-            ? ((val) => val.isEmpty ? 'Please enter a valid mobile number' : null)
-            : ((val) => val.isEmpty ? 'Please enter a mobile number' : null),
+        keyboardType: TextInputType.phone,
+        validator: validateMobile,
         onChanged: (val) {
           setState(() => mobile = val.trim());
         });
