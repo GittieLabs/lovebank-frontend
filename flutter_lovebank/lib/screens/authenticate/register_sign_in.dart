@@ -144,7 +144,7 @@ class _RegisterSignInState extends State<RegisterSignIn> {
       } else {
         return null;
       }
-    }, (val) => (setState(() => fullname = val.trim())), true);
+    }, (val) => (setState(() => fullname = val.trim())), false);
 
     Widget emailField = buildField('Enter your email', (val) {
       if (val.isEmpty) {
