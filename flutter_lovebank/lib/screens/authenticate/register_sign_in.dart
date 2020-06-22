@@ -37,7 +37,7 @@ class _RegisterSignInState extends State<RegisterSignIn> {
 
   String validateMobile(String val) {
     Pattern pattern =
-        r'/^(\+\d{1,3}[- ]?)?\d{10}$/';
+        r'/^(\+\d{1,3}[- ]?)?(\d{10})|((\d{3}[- ])(\d{3}[- ])(\d{4}))$/';
     RegExp regex = new RegExp(pattern);
     if (!regex.hasMatch(val))
       return 'Please enter a valid mobile number';
@@ -146,7 +146,9 @@ class _RegisterSignInState extends State<RegisterSignIn> {
           contentPadding: EdgeInsets.only(top: 15),
         ),
         keyboardType: TextInputType.phone,
-        validator: validateMobile,
+        validator: (showSignIn)
+            ? validateMobile
+            : ((val) => val.isEmpty ? 'Please enter a mobile number' : null),
         onChanged: (val) {
           setState(() => mobile = val.trim());
         });
@@ -193,7 +195,7 @@ class _RegisterSignInState extends State<RegisterSignIn> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Container(
-              height: 200,
+              height: 240,
               padding: EdgeInsets.only(left: 35, right: 35),
               child: Stack(
                 fit: StackFit.passthrough,
@@ -205,19 +207,19 @@ class _RegisterSignInState extends State<RegisterSignIn> {
                     child: fullNameField,
                   ) : Container(),
                   Positioned(
-                    top: (showSignIn) ? 0 : 40,
+                    top: (showSignIn) ? 0 : 50,
                     left: 0,
                     right: 0,
                     child: emailField,
                   ),
                   (!showSignIn) ? Positioned(
-                    top: 80,
+                    top: 100,
                     left: 0,
                     right: 0,
                     child: mobileField,
                   ) : Container(),
                   Positioned(
-                    top: (showSignIn) ? 60 : 120,
+                    top: (showSignIn) ? 60 : 150,
                     left: 0,
                     right: 0,
                     child: passwordField,
