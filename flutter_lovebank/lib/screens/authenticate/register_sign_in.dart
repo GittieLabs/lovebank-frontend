@@ -37,12 +37,12 @@ class _RegisterSignInState extends State<RegisterSignIn> {
 
   String validateMobile(String val) {
     Pattern pattern =
-        r'/^(\+\d{1,3}[- ]?)?(\d{10})|((\d{3}[- ])(\d{3}[- ])(\d{4}))$/';
+        r'^(\+\d{1,3}[- ]?)?(\d{10})|((\d{3}[- ])(\d{3}[- ])(\d{4}))$';
     RegExp regex = new RegExp(pattern);
-    if (!regex.hasMatch(val))
-      return 'Please enter a valid mobile number';
-    else
+    if (regex.hasMatch(val))
       return null;
+    else
+      return 'Please enter a valid mobile number';
   }
 
   @override
@@ -146,11 +146,9 @@ class _RegisterSignInState extends State<RegisterSignIn> {
           contentPadding: EdgeInsets.only(top: 15),
         ),
         keyboardType: TextInputType.phone,
-        validator: (showSignIn)
-            ? validateMobile
-            : ((val) => val.isEmpty ? 'Please enter a mobile number' : null),
+        validator: validateMobile,
         onChanged: (val) {
-          setState(() => mobile = val.trim());
+          setState(() => mobile = val);
         });
 
     Widget passwordField = TextFormField(
