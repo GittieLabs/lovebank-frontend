@@ -19,7 +19,7 @@ class LoveApp extends StatelessWidget {
         theme: ThemeData(
         primaryColor: Color(0xffce00e8),
         accentColor: Color(0xfff68dc7),
-        backgroundColor: Color(0xff9e00ff),
+        backgroundColor: Color(0xfff2f2f2),
         fontFamily: 'LiberationSans',
         ),
         home: Wrapper(), //wrapper class deals with the login status of the user 
@@ -27,3 +27,5 @@ class LoveApp extends StatelessWidget {
     );
   }
 }
+
+

@@ -2,9 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Model/UserData.dart';
 import 'package:flutterapp/screens/invitation/invite.dart';
+import 'package:flutterapp/screens/home/home_with_notification.dart';
 import 'package:provider/provider.dart';
 import 'package:flutterapp/screens/intro/three_page_intro.dart';
-import 'home/home_widget.dart';
 
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
@@ -39,7 +39,7 @@ class _WrapperState extends State<Wrapper> {
               if (snapshot.data.partnerId != null){
                 return InvitePartner();
               } else {
-                return Home();
+                return CompleteHome();
               }
             }
             // By default, show a loading spinner.
