@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:http/http.dart' as http;
 
 class AuthService {
 
@@ -14,6 +11,7 @@ class AuthService {
   Stream<FirebaseUser> get user {
       return  _auth.onAuthStateChanged;
   }
+
   
   //Sign In Anon for test; could be opened up as an Option in the future
   // Future signInAnon() async {
@@ -32,13 +30,7 @@ class AuthService {
     try {
       AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = result.user;
-      http.post(
-          'https://lovebank.herokuapp.com/users',
-          body:jsonEncode(<String, String>{
-          'id': user.uid,
-            'email': user.email,
-          }),
-      );
+
           return user;
     } catch(e){
       print(e.toString());
