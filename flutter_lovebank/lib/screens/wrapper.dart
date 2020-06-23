@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/Model/UserData.dart';
@@ -10,36 +9,43 @@ import 'home/home_widget.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 
-class Wrapper extends StatelessWidget {
+class Wrapper extends StatefulWidget {
+  Wrapper({Key key}) : super(key: key);
+
+  @override
+  _WrapperState createState() => _WrapperState();
+}
+
+class _WrapperState extends State<Wrapper> {
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<FirebaseUser>(context);
+    FirebaseUser user = Provider.of<FirebaseUser>(context);
 
     if (user == null) {
-      // If user hasn't login, display intro screen
       return ThreePageIntro();
     } else {
-      Future<User> databaseUser = fetchUser(user.uid);
+      Future<User> userDb = fetchUser(user);
 
-      // If user is logged in, check its partner status
       return FutureBuilder<User>(
-          future: databaseUser,
+          future: userDb,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              if (snapshot.data.partnerId == null) {
-                // If user hasn't been linked to a partner, display invite screen
+              if (snapshot.data.partnerId != null){
                 return InvitePartner();
               } else {
-                // If user has a linked partner, display home screen
                 return Home();
               }
             }
+            // By default, show a loading spinner.
             return CircularProgressIndicator();
           }
       );
     }
   }
 }
-
-
