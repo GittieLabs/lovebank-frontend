@@ -115,7 +115,7 @@ class _MessageHandlerState extends State<MessageHandler> {
     // Save it to Firestore
     if (fcmToken != null) {
       var tokens = _db
-          .collection('user')
+          .collection('user_collection')
           .document(uid)
           .collection('device')
           .document(fcmToken);
