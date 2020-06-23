@@ -1,16 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
-
-Future<User> fetchUser(String firebaseId) async {
-  final response = await http.get('http://127.0.0.1:5000/user/firebase/$firebaseId');
-  if (response.statusCode == 200) {
-    return User.fromJson(json.decode(response.body));
-  } else {
-    throw Exception('Failed to load user');
-  }
-}
 
 class User{
   final String id;
@@ -32,10 +23,16 @@ class User{
   }
 }
 
+Future<User> fetchUser(FirebaseUser user) async {
+  String firebaseId = user.uid;
 
-
-
-
+  final response = await http.get('http://127.0.0.1:5000/user/firebase/$firebaseId');
+  if (response.statusCode == 200) {
+    return User.fromJson(json.decode(response.body));
+  } else {
+    throw Exception('Failed to load user');
+  }
+}
 
 
 
