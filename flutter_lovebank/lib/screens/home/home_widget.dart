@@ -1,7 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterapp/Model/UserData.dart';
+import 'package:flutterapp/screens/intro/three_page_intro.dart';
 // import 'package:flutter/src/material/icons.dart';
 import 'package:flutterapp/services/userAuthentication.dart';
 import 'package:flutterapp/screens/components/circular_image.dart';
+import 'package:provider/provider.dart';
 /*
 Basic Home Screen Layout created to test user sign in
 */
@@ -13,12 +17,14 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final AuthService _auth = AuthService();
+
+  String partnerID;
   String userImagePath = 'assets/images/home/Ellipse_1.png'; //need to replace this with the url to User's profile pic
   String partnerImagePath = 'assets/images/home/Ellipse_2.png';
-  String userName = 'You';
-  String partnerName = 'Ben';
-  int userBalance = 500;
-  int partnerBalance = 500;
+  String userName;
+  String partnerName;
+  int userBalance;
+  int partnerBalance;
   String userMostRecentTask = 'take out the trash' ;
   String partnerMostRecentTask = 'buy take-out';
   int userRecentTaskPoints = 50;
@@ -31,10 +37,38 @@ class _HomeState extends State<Home> {
   String taskSuggestion4 = 'Walk the dog everyday this week';
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<FirebaseUser>(context);
+    Future<User> currentUser = fetchUser(user.uid);
+    FutureBuilder<User>(
+        future: currentUser,
+        // ignore: missing_return
+        builder: (context, snapshot) {
+      if (snapshot.hasData) {
+        userName = snapshot.data.username;
+        userBalance = snapshot.data.balance;
+        partnerID = snapshot.data.partner_firebase_uid;
+      }
+      }
+    );
+
+    if (partnerID != null) {
+      Future<User> partner = fetchUser(partnerID);
+      FutureBuilder<User>(
+          future: partner,
+          // ignore: missing_return
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              partnerName = snapshot.data.username;
+              partnerBalance = snapshot.data.balance;
+            }
+          }
+      );
+    }
+
     Widget userImageNameBalance = Column(
       children: <Widget>[
         CircleImage(
-          imagePath: userImagePath  
+          imagePath: userImagePath
         ),
         Text(
           userName
@@ -52,13 +86,13 @@ class _HomeState extends State<Home> {
             ),
           ],
         ),
-        
+
       ],
     );
     Widget partnerImageNameBalance = Column(
       children: <Widget>[
         CircleImage(
-          imagePath: partnerImagePath  
+          imagePath: partnerImagePath
         ),
         Text(
           partnerName
@@ -76,7 +110,7 @@ class _HomeState extends State<Home> {
             ),
           ],
         ),
-        
+
       ],
     );
     Widget userAndPartnerProfilePictures = Container(
@@ -282,6 +316,8 @@ class SettingsPage extends StatelessWidget {
 
 class ChallengePage extends StatelessWidget {
   final AuthService _auth = AuthService();
+
+
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
