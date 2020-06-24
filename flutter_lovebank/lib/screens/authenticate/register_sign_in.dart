@@ -168,17 +168,20 @@ class _RegisterSignInState extends State<RegisterSignIn> {
       }
     }, (val) => (setState(() => email = val.trim())), false);
 
-    Widget mobileField = TextFormField(
-        style: TextStyle(fontSize: 12),
-        decoration: InputDecoration(
-          hintText: 'Enter your mobile number',
-          contentPadding: EdgeInsets.only(top: 15),
-        ),
-        keyboardType: TextInputType.phone,
-        validator: validateMobile,
-        onChanged: (val) {
-          setState(() => mobile = val);
-        });
+
+    Widget mobileField = buildField('Enter your mobile number', validateMobile,
+     (val) => (setState(() => mobile = val.trim())), false);
+    // Widget mobileField = TextFormField(
+    //     style: TextStyle(fontSize: 12),
+    //     decoration: InputDecoration(
+    //       hintText: 'Enter your mobile number',
+    //       contentPadding: EdgeInsets.only(top: 15),
+    //     ),
+    //     keyboardType: TextInputType.phone,
+    //     validator: validateMobile,
+    //     onChanged: (val) {
+    //       setState(() => mobile = val);
+    //     });
 
     Widget passwordField = buildField('Enter your password', (val) {
       if (val.length < 8) {
@@ -234,6 +237,7 @@ class _RegisterSignInState extends State<RegisterSignIn> {
     List<Widget> formFields = [
       (!showSignIn) ? fullNameField : Container(),
       emailField,
+      (!showSignIn) ? mobileField : Container(),
       passwordField,
       (showSignIn)
           ? Row(
@@ -257,43 +261,43 @@ class _RegisterSignInState extends State<RegisterSignIn> {
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
-            Container(
-              height: 240,
-              padding: EdgeInsets.only(left: 35, right: 35),
-              child: Stack(
-                fit: StackFit.passthrough,
-                children: [
-                  (!showSignIn) ? Positioned(
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    child: fullNameField,
-                  ) : Container(),
-                  Positioned(
-                    top: (showSignIn) ? 0 : 50,
-                    left: 0,
-                    right: 0,
-                    child: emailField,
-                  ),
-                  (!showSignIn) ? Positioned(
-                    top: 100,
-                    left: 0,
-                    right: 0,
-                    child: mobileField,
-                  ) : Container(),
-                  Positioned(
-                    top: (showSignIn) ? 60 : 150,
-                    left: 0,
-                    right: 0,
-                    child: passwordField,
-                  ),
-                  (showSignIn) ? Positioned(
-                    top: 120,
-                    left: 0,
-                    right: 0,
-                    child: forgotPassword,
-                  ) : Container(),
-                ],
+            // Container(
+            //   height: 240,
+            //   padding: EdgeInsets.only(left: 35, right: 35),
+            //   child: Stack(
+            //     fit: StackFit.passthrough,
+            //     children: [
+            //       (!showSignIn) ? Positioned(
+            //         top: 0,
+            //         left: 0,
+            //         right: 0,
+            //         child: fullNameField,
+            //       ) : Container(),
+            //       Positioned(
+            //         top: (showSignIn) ? 0 : 50,
+            //         left: 0,
+            //         right: 0,
+            //         child: emailField,
+            //       ),
+            //       (!showSignIn) ? Positioned(
+            //         top: 100,
+            //         left: 0,
+            //         right: 0,
+            //         child: mobileField,
+            //       ) : Container(),
+            //       Positioned(
+            //         top: (showSignIn) ? 60 : 150,
+            //         left: 0,
+            //         right: 0,
+            //         child: passwordField,
+            //       ),
+            //       (showSignIn) ? Positioned(
+            //         top: 120,
+            //         left: 0,
+            //         right: 0,
+            //         child: forgotPassword,
+            //       ) : Container(),
+            //     ],
             Positioned(
               bottom: (keyboardTop > 0) ? keyboardTop : 30,
               child: Container(
@@ -317,9 +321,9 @@ class _RegisterSignInState extends State<RegisterSignIn> {
       child: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 25.0),
-        child: Column(
-            children: [Spacer(), cloudArea, form, Spacer(flex: 2)]),
+        // padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 25.0),
+        // child: Column(
+        //     children: [Spacer(), cloudArea, form, Spacer(flex: 2)]),
         color: Theme.of(context).backgroundColor,
         padding: EdgeInsets.symmetric(
             vertical: verticalPadding, horizontal: horizontalPadding),
