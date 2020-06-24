@@ -21,7 +21,7 @@ class _RegisterSignInState extends State<RegisterSignIn> {
   final AuthService _authentication = AuthService();
   final _formKey = GlobalKey<FormState>();
 
-  //Variables to Store email. password and error message to show up when they are not valid
+  // Variables to Store name, email, and password
   String fullname = '';
   String email = '';
   String password = '';
@@ -30,9 +30,28 @@ class _RegisterSignInState extends State<RegisterSignIn> {
 
   _RegisterSignInState({this.showSignIn});
 
-  //toggles the showSignIn variable to switch between sign in and sign up screens
+  // toggles the showSignIn variable to switch between sign in and sign up screens
   void toggleView() {
-    setState(() => showSignIn = !showSignIn);
+    setState(() {
+      showSignIn = !showSignIn;
+    });
+  }
+
+  // This function builds a formField because they are all essentially the same structure.
+  Widget buildField(
+      String hintText, dynamic validator, dynamic onChanged, bool obscure) {
+    return TextFormField(
+      obscureText: obscure,
+      style: TextStyle(fontSize: 12),
+      decoration: InputDecoration(
+        fillColor: Theme.of(context).backgroundColor,
+        filled: true,
+        hintText: hintText,
+        contentPadding: EdgeInsets.only(top: 15),
+      ),
+      validator: validator,
+      onChanged: onChanged,
+    );
   }
 
   String validateMobile(String val) {
@@ -62,19 +81,34 @@ class _RegisterSignInState extends State<RegisterSignIn> {
 
     double cloudHeight = MediaQuery.of(context).size.height / 4;
 
+    double verticalPadding = 15;
+    double horizontalPadding = 25;
+
+    double mainSectionHeight =
+        MediaQuery.of(context).size.height - (verticalPadding * 2);
+    double mainSectionWidth =
+        MediaQuery.of(context).size.width - (horizontalPadding * 2);
+
+    double formHeight = mainSectionHeight * 0.50;
+
+    // The below set of variables is used to move a text field up above the keyboard
+    // if the keyboard is up.
+    double keyboardTop = MediaQuery.of(context).viewInsets.bottom;
+
+    // The cloudArea contains the cloud picture and the text immediately beneath it.
     Widget cloudArea = Column(
       children: [
         Container(
           width: 340,
-          height: (cloudHeight > 200) ? 200 : cloudHeight,//max: 200,
-          decoration: BoxDecoration(
+          height: (cloudHeight > 200) ? 200 : cloudHeight, //max: 200,
+          decoration: (keyboardTop > 0) ? BoxDecoration() : BoxDecoration(
             image: DecorationImage(
                 fit: BoxFit.fitHeight,
                 image: ExactAssetImage(
                     (showSignIn) ? signInImage : registerImage)),
           ),
         ),
-        Container(
+        (keyboardTop > 0)? Container() : Container(
           height: 60,
           padding: EdgeInsets.only(left: 35, right: 35),
           child: Column(
@@ -115,29 +149,24 @@ class _RegisterSignInState extends State<RegisterSignIn> {
       ],
     );
 
-    Widget fullNameField = TextFormField(
-        style: TextStyle(fontSize: 12),
-        decoration: InputDecoration(
-          hintText: 'Enter your full name',
-          contentPadding: EdgeInsets.only(top: 15),
-        ),
-        validator: (val) => val.isEmpty ? 'Please enter your full name' : null,
-        onChanged: (val) {
-          setState(() => fullname = val.trim());
-        });
+    // Below is each field of the form
+    Widget fullNameField = buildField('Enter your full name', (val) {
+      if (val.isEmpty) {
+        return 'Please enter your full name';
+      } else {
+        return null;
+      }
+    }, (val) => (setState(() => fullname = val.trim())), false);
 
-    Widget emailField = TextFormField(
-        style: TextStyle(fontSize: 12),
-        decoration: InputDecoration(
-          hintText: 'Enter your email',
-          contentPadding: EdgeInsets.only(top: 15),
-        ),
-        validator: (showSignIn)
-            ? ((val) => val.isEmpty ? 'Please enter a valid email' : null)
-            : ((val) => val.isEmpty ? 'Please enter an email' : null),
-        onChanged: (val) {
-          setState(() => email = val.trim());
-        });
+    Widget emailField = buildField('Enter your email', (val) {
+      if (val.isEmpty) {
+        return ((showSignIn)
+            ? 'Please enter a valid email'
+            : 'Please enter an email');
+      } else {
+        return null;
+      }
+    }, (val) => (setState(() => email = val.trim())), false);
 
     Widget mobileField = TextFormField(
         style: TextStyle(fontSize: 12),
@@ -151,46 +180,82 @@ class _RegisterSignInState extends State<RegisterSignIn> {
           setState(() => mobile = val);
         });
 
-    Widget passwordField = TextFormField(
-        style: TextStyle(fontSize: 12),
-        obscureText: true,
-        decoration: InputDecoration(
-          hintText: 'Enter your password',
-          contentPadding: EdgeInsets.only(top: 15),
-        ),
-        validator: (val) =>
-            val.length < 8 ? 'Password should be 8 characters or longer' : null,
-        onChanged: (val) {
-          setState(() => password = val);
-        });
+    Widget passwordField = buildField('Enter your password', (val) {
+      if (val.length < 8) {
+        return 'Password should be 8 characters or longer';
+      } else {
+        return null;
+      }
+    }, (val) => (setState(() => password = val)), true);
 
-    Widget forgotPassword = Align(
-      alignment: Alignment.topRight,
-      child: Container(
-        padding: EdgeInsets.only(top: 30),
-        child: RichText(
-          text: TextSpan(
-            text: "Forgot your password?",
-            style: TextStyle(
-              color: Colors.red,
-              fontSize: 12,
-            ),
-            recognizer: TapGestureRecognizer()
-              ..onTap = () => Navigator.push(
+    Widget forgotPassword = Container(
+      padding: EdgeInsets.only(top: 30),
+      child: RichText(
+        text: TextSpan(
+          text: "forgot your password?",
+          style: TextStyle(
+            color: Colors.red,
+            fontSize: 12,
+          ),
+          recognizer: TapGestureRecognizer()
+            ..onTap = () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => Material(
-                          child: Text("Password reset page placeholder")))),
-          ),
+                    builder: (context) => Material(
+                      child: Text("Password reset page placeholder"),
+                    ),
+                  ),
+                ),
         ),
       ),
     );
 
+    Widget submitButton = WideButton(
+        color: Theme.of(context).primaryColor,
+        text: (showSignIn) ? ('Sign in') : ('Sign up'),
+        onTap: () async {
+          if (_formKey.currentState.validate()) {
+            dynamic result;
+            if (showSignIn) {
+              result = await _authentication.signInWithEmail(email, password);
+            } else {
+              result = await _authentication.registerWithEmail(email, password);
+            }
+            if (result == null) {
+              ///Error with signin or registration.
+            } else {
+              Navigator.pop(context);
+            }
+          }
+        });
+
+    // The list below keeps the fields positioned in the correct way in preparation
+    // for being used in a stack for the form.
+    List<Widget> formFields = [
+      (!showSignIn) ? fullNameField : Container(),
+      emailField,
+      passwordField,
+      (showSignIn)
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [forgotPassword],
+            )
+          : Container(),
+      Spacer(flex: 5),
+      submitButton,
+      Spacer(flex: 2),
+    ];
+
+   
+    // The below form has a stack of fields inside of it
     Widget form = Container(
+      height: mainSectionHeight,
+      width: mainSectionWidth,
       child: Form(
         key: _formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
+        child: Stack(
+          fit: StackFit.expand,
           children: <Widget>[
             Container(
               height: 240,
@@ -229,34 +294,25 @@ class _RegisterSignInState extends State<RegisterSignIn> {
                     child: forgotPassword,
                   ) : Container(),
                 ],
+            Positioned(
+              bottom: (keyboardTop > 0) ? keyboardTop : 30,
+              child: Container(
+                height: formHeight,
+                width: mainSectionWidth,
+                color: Theme.of(context).backgroundColor,
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: formFields,
+                ),
               ),
             ),
-            WideButton(
-                color: Theme.of(context).primaryColor,
-                text: (showSignIn) ? ('Sign in') : ('Sign up'),
-                onTap: () async {
-                  if (_formKey.currentState.validate()) {
-                    dynamic result;
-                    if (showSignIn) {
-                      result = await _authentication.signInWithEmail(
-                          email, password);
-                    } else {
-                      result = await _authentication.registerWithEmail(
-                          email, password);
-                    }
-                    if (result == null) {
-                      setState(() => error = 'Please enter a valid email');
-                    } else {
-                      Navigator.pop(context);
-                    }
-                  }
-                }),
-            Text(error, style: TextStyle(color: Colors.red, fontSize: 10))
           ],
         ),
       ),
     );
 
+    // The below widget is the above pieces put together.
     Widget registerWidget = Material(
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -264,6 +320,20 @@ class _RegisterSignInState extends State<RegisterSignIn> {
         padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 25.0),
         child: Column(
             children: [Spacer(), cloudArea, form, Spacer(flex: 2)]),
+        color: Theme.of(context).backgroundColor,
+        padding: EdgeInsets.symmetric(
+            vertical: verticalPadding, horizontal: horizontalPadding),
+        child: Stack(
+          children: [
+            Positioned(
+              top: mainSectionHeight / 25,
+              left: 0,
+              right: 0,
+              child: cloudArea,
+            ),
+            form,
+          ],
+        ),
       ),
     );
 
