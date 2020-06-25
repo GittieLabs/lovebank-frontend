@@ -56,7 +56,7 @@ class _RegisterSignInState extends State<RegisterSignIn> {
 
   String validateMobile(String val) {
     Pattern pattern =
-        r'^(\+\d{1,3}[- ]?)?([(]?\d{3}[)]?[- ]?)(\d{3}[- ]?)(\d{4})$';
+        r'^(\+?\d{1,3}[- ]?)?([(]\d{3}[)]|\d{3})[- ]?\d{3}[- ]?\d{4}$';
     RegExp regex = new RegExp(pattern);
     if (regex.hasMatch(val))
       return null;
