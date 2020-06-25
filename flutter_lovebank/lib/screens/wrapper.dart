@@ -36,14 +36,14 @@ class _WrapperState extends State<Wrapper> {
           future: userDb,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              if (snapshot.data.partnerId != null){
-                return InvitePartner();
+              if (snapshot.data.partnerId == null){
+                return InvitePartnerPage();
               } else {
                 return CompleteHome();
               }
             }
             // By default, show a loading spinner.
-            return CircularProgressIndicator();
+            return InvitePartnerPage();
           }
       );
     }
