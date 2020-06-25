@@ -25,6 +25,8 @@ class _RegisterSignInState extends State<RegisterSignIn> {
   String fullname = '';
   String email = '';
   String password = '';
+  String error = '';
+  String mobile = '';
 
   _RegisterSignInState({this.showSignIn});
 
@@ -52,6 +54,16 @@ class _RegisterSignInState extends State<RegisterSignIn> {
     );
   }
 
+  String validateMobile(String val) {
+    Pattern pattern =
+        r'^(\+?\d{1,3}[- ]?)?([(]\d{3}[)]|\d{3})[- ]?\d{3}[- ]?\d{4}$';
+    RegExp regex = new RegExp(pattern);
+    if (regex.hasMatch(val))
+      return null;
+    else
+      return 'Please enter a valid mobile number';
+  }
+
   @override
   Widget build(BuildContext context) {
     String registerImage = "assets/images/intro/sign-up.png";
@@ -77,7 +89,7 @@ class _RegisterSignInState extends State<RegisterSignIn> {
     double mainSectionWidth =
         MediaQuery.of(context).size.width - (horizontalPadding * 2);
 
-    double formHeight = mainSectionHeight * 0.50;
+    double formHeight = mainSectionHeight * 0.55;
 
     // The below set of variables is used to move a text field up above the keyboard
     // if the keyboard is up.
@@ -88,7 +100,7 @@ class _RegisterSignInState extends State<RegisterSignIn> {
       children: [
         Container(
           width: 340,
-          height: (cloudHeight > 200) ? 200 : cloudHeight, //max: 200,
+          height: (cloudHeight > 200) ? 200 : cloudHeight, // max: 200,
           decoration: (keyboardTop > 0) ? BoxDecoration() : BoxDecoration(
             image: DecorationImage(
                 fit: BoxFit.fitHeight,
@@ -156,6 +168,10 @@ class _RegisterSignInState extends State<RegisterSignIn> {
       }
     }, (val) => (setState(() => email = val.trim())), false);
 
+
+    Widget mobileField = buildField('Enter your mobile number', validateMobile,
+     (val) => (setState(() => mobile = val.trim())), false);
+
     Widget passwordField = buildField('Enter your password', (val) {
       if (val.length < 8) {
         return 'Password should be 8 characters or longer';
@@ -210,6 +226,7 @@ class _RegisterSignInState extends State<RegisterSignIn> {
     List<Widget> formFields = [
       (!showSignIn) ? fullNameField : Container(),
       emailField,
+      (!showSignIn) ? mobileField : Container(),
       passwordField,
       (showSignIn)
           ? Row(
@@ -218,7 +235,7 @@ class _RegisterSignInState extends State<RegisterSignIn> {
               children: [forgotPassword],
             )
           : Container(),
-      Spacer(flex: 5),
+      Spacer(flex: 2),
       submitButton,
       Spacer(flex: 2),
     ];
