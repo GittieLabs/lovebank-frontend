@@ -46,7 +46,7 @@ class _HomeState extends State<Home> {
       if (snapshot.hasData) {
         userName = snapshot.data.username;
         userBalance = snapshot.data.balance;
-        partnerID = snapshot.data.partner_firebase_uid;
+        partnerID = snapshot.data.partner_id;
       }
       }
     );
