@@ -31,9 +31,9 @@ class User{
   }
 }
 
-Future<User> fetchUser(String id) async {
+Future<User> fetchUser(String uid) async {
 
-  final response = await http.get('http://127.0.0.1:5000/users/$id');
+  final response = await http.get('http://127.0.0.1:5000/users/$uid');
   if (response.statusCode == 200) {
     return User.fromJson(json.decode(response.body));
   } else {

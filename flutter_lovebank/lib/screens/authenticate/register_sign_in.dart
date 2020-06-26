@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/services/userAuthentication.dart';
 import 'package:flutterapp/screens/components/wide_button.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 /* Authenticate Class Deals with the task of presenting the Sign In/ Register Screen as requested by the User
    Default is the Sign In Screen
@@ -196,6 +199,15 @@ class _RegisterSignInState extends State<RegisterSignIn> {
               result = await _authentication.signInWithEmail(email, password);
             } else {
               result = await _authentication.registerWithEmail(email, password);
+              FirebaseUser user = result.user;
+              http.post(
+                'https://http://127.0.0.1:5000/users',
+                body:jsonEncode({
+                  'firebase_uid': user.uid,
+                  'email': user.email,
+                  'username': fullname,
+                }),
+              );
             }
             if (result == null) {
               ///Error with signin or registration.
