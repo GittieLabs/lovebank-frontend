@@ -110,7 +110,7 @@ class IntroPage extends StatelessWidget {
       imgPath = "assets/images/intro/splash.png";
     }
     if (page == 1) {
-      text = "Improve your relationship with measurable expresions of love";
+      text = "Improve your relationship with measurable expressions of love";
       imgPath = "assets/images/intro/intro-1.png";
     }
     if (page == 2) {
