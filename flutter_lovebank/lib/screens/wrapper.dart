@@ -9,20 +9,13 @@ import 'package:flutterapp/screens/intro/three_page_intro.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 
-class Wrapper extends StatefulWidget {
-  Wrapper({Key key}) : super(key: key);
 
+class Wrapper extends StatefulWidget {
   @override
   _WrapperState createState() => _WrapperState();
 }
 
 class _WrapperState extends State<Wrapper> {
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     FirebaseUser user = Provider.of<FirebaseUser>(context);
