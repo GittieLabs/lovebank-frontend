@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterapp/Model/local_user.dart';
+import 'package:flutterapp/models/local_user.dart';
 import 'package:flutterapp/screens/invitation/invite_page.dart';
 import 'package:flutterapp/screens/home/home_with_notification.dart';
 import 'package:provider/provider.dart';
