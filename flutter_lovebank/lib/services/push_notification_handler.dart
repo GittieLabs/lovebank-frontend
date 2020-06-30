@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+
 Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
   if (message.containsKey('data')) {
     // Handle data message
@@ -107,7 +108,6 @@ class _MessageHandlerState extends State<MessageHandler> {
     FirebaseUser user = await _auth.currentUser();
     String uid = user.uid;
     print(uid);
-    // FirebaseUser user = await _auth.currentUser();
 
     // Get the token for this device
     String fcmToken = await _fcm.getToken();
