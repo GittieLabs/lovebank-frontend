@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterapp/Model/UserData.dart';
-import 'package:flutterapp/screens/invitation/invite.dart';
+import 'package:flutterapp/Model/local_user.dart';
+import 'package:flutterapp/screens/invitation/invite_page.dart';
 import 'package:flutterapp/screens/home/home_with_notification.dart';
 import 'package:provider/provider.dart';
 import 'package:flutterapp/screens/intro/three_page_intro.dart';
@@ -23,7 +23,7 @@ class _WrapperState extends State<Wrapper> {
     if (user == null) {
       return ThreePageIntro();
     } else {
-      Future<User> userDb = fetchUser(user);
+      Future<User> userDb = fetchUser(user.uid);
 
       return FutureBuilder<User>(
           future: userDb,
@@ -34,11 +34,12 @@ class _WrapperState extends State<Wrapper> {
               } else {
                 return CompleteHome();
               }
-            }
+            } else
             // By default, show a loading spinner.
-            return InvitePartnerPage();
+            return CircularProgressIndicator();
           }
       );
     }
   }
 }
+
