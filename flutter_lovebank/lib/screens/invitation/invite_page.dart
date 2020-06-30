@@ -53,6 +53,10 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
                     child: TextFormField(
                         decoration: InputDecoration(
                           hintText: 'Mobile',
+                          contentPadding: const EdgeInsets.only(left: 10),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Theme.of(context).primaryColor)
+                          ),
                         ),
                         validator: (value) {
                           if (value.isEmpty) {
@@ -91,6 +95,10 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
                           child: TextFormField(
                               decoration: InputDecoration(
                                 hintText: 'Invitation code',
+                                contentPadding: const EdgeInsets.only(left: 10),
+                                focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Theme.of(context).primaryColor)
+                                ),
                               ),
                               validator: (value) {
                                 if (value.isEmpty) {
