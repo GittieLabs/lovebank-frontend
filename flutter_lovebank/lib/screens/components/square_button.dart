@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 ///A simple wide button with a few customization options.
 class SquareButton extends StatelessWidget {
   final String text;
+  final Color color;
   final GestureTapCallback onPressed;
 
-  SquareButton({this.text, this.onPressed});
+  SquareButton({this.color, this.text, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class SquareButton extends StatelessWidget {
           ),
         ),
         textColor: Colors.white,
-        color: Colors.purpleAccent,
+        color: color,
         onPressed: onPressed,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(4.0),
