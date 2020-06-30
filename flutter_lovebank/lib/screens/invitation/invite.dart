@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/screens/components/square_button.dart';
@@ -16,12 +17,17 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
   final _mobileFormKey = GlobalKey<FormState>();
   final _codeFormKey = GlobalKey<FormState>();
   final bool inviteSent = true;
+  final AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
+    FirebaseUser user = Provider.of<FirebaseUser>(context);
+
     final partnerMobileField = Form(
         key: _mobileFormKey,
-        child: Column(
+        child: Padding(
+            padding: EdgeInsets.only(top: 25.0, bottom: 25.0),
+            child: Column(
             children: <Widget>[
               Container(
                 height: 44,
@@ -41,6 +47,7 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
               ),
               SquareButton(
                   text: 'Invite',
+                  color: Theme.of(context).primaryColor,
                   onPressed: () {
                     // Validate returns true if the form is valid, or false
                     // otherwise.
@@ -49,12 +56,16 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
               )
             ]
         )
+        )
     );
 
 
-    final inviteCodeField = Form(
+    final inviteCodeField = Center(
+        child: Form(
         key: _codeFormKey,
-        child: Column(
+        child: Padding(
+            padding: EdgeInsets.only(top: 25.0, bottom: 25.0),
+            child: Column(
             children: <Widget>[
               Container (
                 height: 44,
@@ -74,6 +85,7 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
               ),
               SquareButton(
                   text: 'Connect',
+                  color: Theme.of(context).primaryColor,
                   onPressed: () {
                     // Connect to partner by providing invite code
                     _codeFormKey.currentState.validate();
@@ -82,15 +94,39 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
               )
             ]
         )
+    )
+    )
     );
 
-    Widget forms = Column(
+    Widget editButton = FlatButton(
+        onPressed: (){},
+        child: Text(
+          "Edit",
+          style: TextStyle(
+              fontSize: 20,
+              fontFamily: 'Roboto',
+              color: Colors.lightBlueAccent
+          ),
+        )
+    );
+
+
+    Widget invitationForms = Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
+
         children: <Widget>[
-          (inviteSent) ? partnerMobileField : Container(),
+
+         partnerMobileField,
           inviteCodeField
         ]
+    );
+
+    Widget revokeButton = Center(
+        child: SquareButton(
+      text: 'Revoke Invitation',
+      onPressed: ()=>{},
+    )
     );
 
 
@@ -98,39 +134,45 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
         home: Scaffold(
             backgroundColor: Colors.white,
             body: SafeArea(
+
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text('Hi',
+                  Padding(
+                    padding: EdgeInsets.only(top: 80.0, bottom: 10),
+                    child: Text('Hi',
                     style: TextStyle(
                       fontFamily: 'Roboto',
                       fontSize: 30,
                     ),
                   ),
-                  CircleAvatar(
+                  ),
+                  Padding(
+                      padding: EdgeInsets.only(top: 10, bottom: 20),
+                      child: CircleAvatar(
                     radius: 60,
                     backgroundImage: AssetImage('assets/images/invite/person.png'),
                     backgroundColor: Colors.white,
                   ),
-                  FlatButton(
-                    onPressed: (){},
-                    child: Text(
-                      "Edit",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'Roboto',
-                        color: Colors.lightBlueAccent
-                      ),
-                    )
                   ),
-                  Text( (inviteSent) ? 'Let\'s connect you to your significant other.' :
-                  'Your invitation has been sent',
+                  editButton,
+                  Padding(
+                      padding: EdgeInsets.only(top: 30, bottom:80),
+                      child: Text( (inviteSent) ? 'Let\'s connect you to your significant other.' :
+                  'Your invitation has been sent.',
                       style: TextStyle(
                         fontFamily: 'Roboto',
                         fontSize: 20,
                       )),
-                  (inviteSent) ? forms : Container(),
+                  ),
+                  (inviteSent) ? invitationForms : revokeButton,
+                  FlatButton.icon(
+                    icon: Icon(Icons.person),
+                    label: Text('logout'),
+                    onPressed: () async{
+                      await _auth.signOut();
+                    },
+                  ),
               ]
             )
         )
