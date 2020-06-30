@@ -206,9 +206,11 @@ class _ThreePageIntroState extends State<ThreePageIntro> {
     super.initState();
     _pageController = PageController();
     Future.delayed(const Duration(milliseconds: 2500), () {
-      setState(() {
-        _page = 1;
-      });
+      if (this.mounted){
+        setState(() {
+          _page = 1;
+        });
+      }
     });
   }
 
