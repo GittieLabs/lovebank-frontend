@@ -17,14 +17,16 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
   // Testing purpose: set true to show revoke invite page,
   //                  set false to show invitation page
   final bool inviteSent = false;
-
   final _mobileFormKey = GlobalKey<FormState>();
   final _codeFormKey = GlobalKey<FormState>();
   final AuthService _auth = AuthService();
 
+
   @override
   Widget build(BuildContext context) {
     FirebaseUser user = Provider.of<FirebaseUser>(context);
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
 
     // Photo edit button
     Widget editButton = FlatButton(
@@ -124,7 +126,9 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
     );
 
     // Contains both partnerMobile form and inviteCode form
-    Widget invitationForms = Column(
+    Widget invitationForms =
+//        padding: EdgeInsets.only(top:screenHeight * 0.20),
+        Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
 
@@ -135,12 +139,16 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
         ]
     );
 
+
     // Invite revoke button
     Widget revokeButton = Center(
-        child: SquareButton(
+        child: Padding(
+          padding: EdgeInsets.only(top: 15),
+            child: SquareButton(
       text: 'Revoke Invitation',
       color: Theme.of(context).primaryColor,
       onPressed: ()=>{},
+    )
     )
     );
 
@@ -150,46 +158,51 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
             backgroundColor: Colors.white,
             body: SingleChildScrollView(
 
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(top: 80.0, bottom: 10),
-                    child: Text('Hi',
-                    style: TextStyle(
-                      fontFamily: 'Roboto',
-                      fontSize: 30,
-                    ),
-                  ),
-                  ),
-                  Padding(
+              child: Container(
+                  height: screenHeight,
+                  width: screenWidth,
+                  child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                     Padding(
+                       padding: EdgeInsets.only(top: screenHeight * 0.1),
+                        child: Text('Hi',
+                        style: TextStyle(
+                          fontFamily: 'Roboto',
+                          fontSize: 30,
+                        ),
+                      ),
+                     ),
+                    Padding(
                       padding: EdgeInsets.only(top: 10, bottom: 20),
                       child: CircleAvatar(
-                    radius: 60,
-                    backgroundImage: AssetImage('assets/images/invite/person.png'),
-                    backgroundColor: Colors.white,
-                  ),
-                  ),
-                  editButton,
-                  Padding(
-                      padding: EdgeInsets.only(top: 30, bottom:80),
-                      child: Text( (!inviteSent) ? 'Let\'s connect you to your significant other.' :
-                  'Your invitation has been sent.',
-                      style: TextStyle(
-                        fontFamily: 'Roboto',
-                        fontSize: 20,
-                      )),
-                  ),
-                  (!inviteSent) ? invitationForms : revokeButton,
-                  FlatButton.icon(
-                    icon: Icon(Icons.person),
-                    label: Text('logout'),
-                    onPressed: () async{
-                      await _auth.signOut();
-                    },
-                  ),
-              ]
-            )
+                        radius: 60,
+                        backgroundImage: AssetImage('assets/images/invite/person.png'),
+                        backgroundColor: Colors.white,
+                      ),
+                    ),
+                    editButton,
+
+                     Text( (!inviteSent) ? 'Let\'s connect you to your significant other.' :
+                      'Your invitation has been sent.',
+                          style: TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize: 20,
+                          )),
+                    (!inviteSent) ? Spacer() : Container(),
+                    (!inviteSent) ? invitationForms : revokeButton,
+                    FlatButton.icon(
+                      icon: Icon(Icons.person),
+                      label: Text('logout'),
+                      onPressed: () async{
+                        await _auth.signOut();
+                      },
+                    ),
+                    (!inviteSent) ? Spacer() : Container(),
+
+                  ]
+              ))
+
         )
     )
     );
