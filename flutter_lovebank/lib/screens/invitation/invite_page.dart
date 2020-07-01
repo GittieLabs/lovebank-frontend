@@ -196,7 +196,7 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
                       label: Text('logout'),
                       onPressed: () async{
                         await _auth.signOut();
-                      },
+                      }, // This logout button is for testing purpose only. 
                     ),
                     (!inviteSent) ? Spacer() : Container(),
 
