@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 
 Future<User> fetchUser(String id) async {
   final response =
-  await http.get('http://127.0.0.1:5000/users/$id');
+  await http.get('http://localhost:5000/users/$id');
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
