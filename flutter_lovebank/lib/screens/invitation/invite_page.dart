@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/screens/components/square_button.dart';
 import 'package:flutterapp/services/invitationHandler.dart';
 import 'package:flutterapp/services/userAuthentication.dart';
-import 'package:flutterapp/screens/components/wide_button.dart';
 import 'package:provider/provider.dart';
 
 class InvitePartnerPage extends StatefulWidget {
@@ -21,6 +20,15 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
   final _codeFormKey = GlobalKey<FormState>();
   final AuthService _auth = AuthService();
 
+  String validateMobile(String val) {
+    Pattern pattern =
+        r'^(\+?\d{1,3}[- ]?)?([(]\d{3}[)]|\d{3})[- ]?\d{3}[- ]?\d{4}$';
+    RegExp regex = new RegExp(pattern);
+    if (regex.hasMatch(val))
+      return null;
+    else
+      return 'Please enter a valid mobile number';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +57,6 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
             child: Column(
                 children: <Widget>[
                   Container(
-                    height: 44,
                     width: 305,
                     color: Color.fromRGBO(216, 216, 216, 0.4),
                     child: TextFormField(
@@ -68,7 +75,9 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
                         }
                     ),
                   ),
-                  SquareButton(
+                  Padding(
+                      padding: EdgeInsets.only(top: 10),
+                      child: SquareButton(
                       text: 'Invite',
                       color: Theme.of(context).primaryColor,
                       onPressed: () {
@@ -76,6 +85,7 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
                         // otherwise.
                         _mobileFormKey.currentState.validate();
                       }
+                  )
                   )
                 ]
             )
@@ -86,12 +96,9 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
     final inviteCodeField = Center(
         child: Form(
             key: _codeFormKey,
-            child: Padding(
-                padding: EdgeInsets.only(top: 25.0, bottom: 25.0),
-                child: Column(
+            child: Column(
                     children: <Widget>[
                       Container (
-                          height: 44,
                           width: 305,
                           color: Color.fromRGBO(216, 216, 216, 0.4),
                           child: TextFormField(
@@ -122,18 +129,14 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
                     ]
                 )
             )
-        )
     );
 
     // Contains both partnerMobile form and inviteCode form
     Widget invitationForms =
-//        padding: EdgeInsets.only(top:screenHeight * 0.20),
         Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
-
         children: <Widget>[
-
          partnerMobileField,
           inviteCodeField
         ]
@@ -157,7 +160,6 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
         home: Scaffold(
             backgroundColor: Colors.white,
             body: SingleChildScrollView(
-
               child: Container(
                   height: screenHeight,
                   width: screenWidth,
@@ -196,7 +198,7 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
                       label: Text('logout'),
                       onPressed: () async{
                         await _auth.signOut();
-                      }, // This logout button is for testing purpose only. 
+                      }, // This logout button is for testing purpose only.
                     ),
                     (!inviteSent) ? Spacer() : Container(),
 
