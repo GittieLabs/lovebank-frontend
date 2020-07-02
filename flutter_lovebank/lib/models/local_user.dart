@@ -27,12 +27,12 @@ class User {
   final String username;
   final String inviteCode;
   final int balance;
-  final List tasksCreated;
-  final List tasksReceived;
+//  final List tasksCreated;  Not tested yet, will include in the future
+//  final List tasksReceived;
 
 
   User({this.userId, this.partnerId, this.firebaseId, this.email,
-    this.username, this.inviteCode, this.balance, this.tasksCreated, this.tasksReceived});
+    this.username, this.inviteCode, this.balance});
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
@@ -43,8 +43,8 @@ class User {
       username: json['username'],
       inviteCode: json['invite_code'],
       balance: json['balance'],
-      tasksCreated: json['tasks_created'],
-      tasksReceived: json['tasks_received']
+//      tasksCreated: json['tasks_created'],
+//      tasksReceived: json['tasks_received']
     );
   }
 }
