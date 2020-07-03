@@ -87,7 +87,9 @@ class _ChallengePageState extends State<ChallengePage> {
     final response = await http.get('http://lovebank.herokuapp.com/update/$uid/$fcmToken');
     
     if (response.statusCode == 200) {
-      print ("Update Message Sent Successful");
+      print ("Update Request Sent Successful");
+    }else {
+      print ("Update Request Errored");
     }
 
   }

@@ -107,7 +107,6 @@ class _MessageHandlerState extends State<MessageHandler> {
     final FirebaseAuth _auth = FirebaseAuth.instance;
     FirebaseUser user = await _auth.currentUser();
     String uid = user.uid;
-    print(uid);
 
     // Get the token for this device
     String fcmToken = await _fcm.getToken();
