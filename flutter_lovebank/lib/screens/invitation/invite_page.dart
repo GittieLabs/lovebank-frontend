@@ -20,19 +20,8 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
   final _codeFormKey = GlobalKey<FormState>();
   final AuthService _auth = AuthService();
 
-  String validateMobile(String val) {
-    Pattern pattern =
-        r'^(\+?\d{1,3}[- ]?)?([(]\d{3}[)]|\d{3})[- ]?\d{3}[- ]?\d{4}$';
-    RegExp regex = new RegExp(pattern);
-    if (regex.hasMatch(val))
-      return null;
-    else
-      return 'Please enter a valid mobile number';
-  }
-
   @override
   Widget build(BuildContext context) {
-    FirebaseUser user = Provider.of<FirebaseUser>(context);
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
