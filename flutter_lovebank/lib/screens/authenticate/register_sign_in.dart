@@ -101,51 +101,58 @@ class _RegisterSignInState extends State<RegisterSignIn> {
         Container(
           width: 340,
           height: (cloudHeight > 200) ? 200 : cloudHeight, // max: 200,
-          decoration: (keyboardTop > 0) ? BoxDecoration() : BoxDecoration(
-            image: DecorationImage(
-                fit: BoxFit.fitHeight,
-                image: ExactAssetImage(
-                    (showSignIn) ? signInImage : registerImage)),
-          ),
+          decoration: (keyboardTop > 0)
+              ? BoxDecoration()
+              : BoxDecoration(
+                  image: DecorationImage(
+                      fit: BoxFit.fitHeight,
+                      image: ExactAssetImage(
+                          (showSignIn) ? signInImage : registerImage)),
+                ),
         ),
-        (keyboardTop > 0)? Container() : Container(
-          height: 60,
-          padding: EdgeInsets.only(left: 35, right: 35),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text((showSignIn) ? signInText1 : registerText1,
-                  textAlign: TextAlign.left,
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-              Text((showSignIn) ? signInText2 : registerText2,
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-              Padding(
-                padding: EdgeInsets.only(top: 10, bottom: 0),
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: (showSignIn) ? signInText3 : registerText3,
+        (keyboardTop > 0)
+            ? Container()
+            : Container(
+                height: 60,
+                padding: EdgeInsets.only(left: 35, right: 35),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text((showSignIn) ? signInText1 : registerText1,
+                        textAlign: TextAlign.left,
                         style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 12,
+                            fontSize: 15, fontWeight: FontWeight.bold)),
+                    Text((showSignIn) ? signInText2 : registerText2,
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold)),
+                    Padding(
+                      padding: EdgeInsets.only(top: 10, bottom: 0),
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: (showSignIn) ? signInText3 : registerText3,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 12,
+                              ),
+                            ),
+                            TextSpan(
+                              text: (showSignIn) ? signInText4 : registerText4,
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 12,
+                              ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = toggleView,
+                            ),
+                          ],
                         ),
                       ),
-                      TextSpan(
-                        text: (showSignIn) ? signInText4 : registerText4,
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 12,
-                        ),
-                        recognizer: TapGestureRecognizer()..onTap = toggleView,
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
       ],
     );
 
@@ -168,9 +175,8 @@ class _RegisterSignInState extends State<RegisterSignIn> {
       }
     }, (val) => (setState(() => email = val.trim())), false);
 
-
     Widget mobileField = buildField('Enter your mobile number', validateMobile,
-     (val) => (setState(() => mobile = val.trim())), false);
+        (val) => (setState(() => mobile = val.trim())), false);
 
     Widget passwordField = buildField('Enter your password', (val) {
       if (val.length < 8) {
@@ -211,7 +217,8 @@ class _RegisterSignInState extends State<RegisterSignIn> {
             if (showSignIn) {
               result = await _authentication.signInWithEmail(email, password);
             } else {
-              result = await _authentication.registerWithEmail(email, password);
+              result = await _authentication.registerWithEmail(
+                  fullname, mobile, email, password);
             }
             if (result == null) {
               ///Error with signin or registration.
@@ -240,7 +247,6 @@ class _RegisterSignInState extends State<RegisterSignIn> {
       Spacer(flex: 2),
     ];
 
-   
     // The below form has a stack of fields inside of it
     Widget form = Container(
       height: mainSectionHeight,
