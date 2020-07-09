@@ -36,14 +36,14 @@ class _MessageHandlerState extends State<MessageHandler> {
     _saveDeviceToken(); // save User ID and device token for individualized notification
 
     _fcm.configure(
-      
+
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
                 showDialog(
           context: context,
           builder: (context) => AlertDialog(
             // different logic for iOS - message composition varies based on platform
-            
+
                 content: ListTile(
                   title: Text(message["notification"]["title"]),
                   subtitle: Text(message['notification']["body"]),
@@ -82,7 +82,7 @@ class _MessageHandlerState extends State<MessageHandler> {
           context: context,
           builder: (context) => AlertDialog(
             // different logic for iOS - message composition varies based on platform
-            
+
                 content: ListTile(
                   title: Text(message["aps"]["alert"]["title"]),
                   subtitle: Text(message["aps"]["alert"]["body"]),
@@ -121,11 +121,11 @@ class _MessageHandlerState extends State<MessageHandler> {
 
       await tokens.setData({
         'token': fcmToken,
-        'platform': Platform.operatingSystem 
+        'platform': Platform.operatingSystem
       });
     }
-  }  
-    
+  }
+
   @override
   Widget build(BuildContext context) {
     // _handleMessages(context);
