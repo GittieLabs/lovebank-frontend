@@ -29,7 +29,7 @@ class FirebaseAuthMock extends Mock implements FirebaseAuth {
         num i = 0;
         for(i = 0; i < users.length; i++){
             if (users[i].email == email && users[i].password == password) {
-                stream.user = MockFirebaseUser(email: "email1", password: "1234");//users[i];
+                stream.user = MockAuthResult(userIn: users[i]);
                 stream.updated = true;
                 debugPrint("logged in");
                 return MockAuthResult(userIn: users[i]);
