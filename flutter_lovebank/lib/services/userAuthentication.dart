@@ -1,8 +1,22 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutterapp/mocks/firebase_auth_mock.dart';
 
 class AuthService {
+  static bool mockAuth = false;
+  FirebaseAuth _auth;
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  AuthService()
+  {
+      if (AuthService.mockAuth) {
+        if (FirebaseAuthMock.instance == null) {
+            FirebaseAuthMock.instance = FirebaseAuthMock();
+        }
+        _auth = FirebaseAuthMock.instance;
+      } else {
+        _auth = FirebaseAuth.instance;
+      }
+  }
+
   //create user object based on Firebase User
   //This will be useful in the future to return only the needed attributes of the users in the registerWithEmail/signInWithEmail
 
@@ -11,7 +25,6 @@ class AuthService {
   Stream<FirebaseUser> get user {
       return  _auth.onAuthStateChanged;
   }
-  
   //Sign In Anon for test; could be opened up as an Option in the future
   // Future signInAnon() async {
   //   try{
