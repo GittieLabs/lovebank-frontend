@@ -1,7 +1,6 @@
 import 'package:mockito/mockito.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:async';
-import 'package:flutter/foundation.dart';
 
 class FirebaseAuthMock extends Mock implements FirebaseAuth {
 
@@ -17,10 +16,7 @@ class FirebaseAuthMock extends Mock implements FirebaseAuth {
     @override
     Future<AuthResult> createUserWithEmailAndPassword({String email, String password}) async {
         dynamic x = MockAuthResult(email: email, password: password);
-        debugPrint("creating user");
-        users.append(x);
-        debugPrint(users);
-        debugPrint("done");
+        users.add(x.user);
         return x;
     }
 
@@ -29,52 +25,48 @@ class FirebaseAuthMock extends Mock implements FirebaseAuth {
         num i = 0;
         for(i = 0; i < users.length; i++){
             if (users[i].email == email && users[i].password == password) {
-                stream.user = MockAuthResult(userIn: users[i]);
-                stream.updated = true;
-                debugPrint("logged in");
+                stream.pushData(MockAuthResult(userIn: users[i]).user);
                 return MockAuthResult(userIn: users[i]);
             }
         }
-        debugPrint("not logged in");
         return MockAuthResult(nullUser: true);
     }
 
     @override
     Future<void> signOut() async {
-        stream.user = null;
-        stream.updated = true;
+        stream.pushData(null);
     }
-
-
 }
 
 class UserLoginLogout {
-    UserLoginLogout() {
-        Timer.periodic(Duration(seconds: 1), (t) {
-            if (updated) {
-                debugPrint("updating stream");
-                _controller.sink.add(user);
-                updated = false;
-            }
-        });
+
+    void pushData(user) {
+        _controller.sink.add(user);
     }
+
     bool updated = false;
     FirebaseUser user;
     final _controller = StreamController<FirebaseUser>();
 
     Stream<FirebaseUser> get stream => _controller.stream;
+
+    void dispose() {
+        _controller.close();
+    }
 }
 
 class MockAuthResult extends Mock implements AuthResult {
     FirebaseUser user;
 
-    MockAuthResult({email="x@y", password="1234", userIn, nullUser}) {
-        if (nullUser) {
+    MockAuthResult({email="test@test", password="12345678", userIn, nullUser}) {
+        if (nullUser != null) {
             user = null;
-        } else if (userIn) {
-            user = userIn;
         } else {
-            user = MockFirebaseUser(email: email, password: password);
+            if (userIn != null) {
+                user = userIn;
+            } else {
+                user = MockFirebaseUser(email: email, password: password);
+            }
         }
     }
 
