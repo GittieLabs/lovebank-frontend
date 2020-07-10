@@ -66,7 +66,7 @@ void main() {
     await tester.enterText(find.byKey(Key('Enter your password')), '12345678');
 
     await tester.tap(find.text('Sign in'));
-    await tester.pumpAndSettle(const Duration(seconds: 10));
+    await tester.pumpAndSettle(const Duration(seconds: 3));
 
     // Check that on home page.
     expect(find.text("logout"), findsOneWidget);
