@@ -12,7 +12,6 @@ void main() {
 class LoveApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    AuthService.mockAuth = true;
     return StreamProvider<FirebaseUser>.value(
       value: AuthService().user,
       child: MaterialApp(
