@@ -47,7 +47,7 @@ void main() {
     expect(find.text('Sign up'), findsOneWidget);
 
     // Register a test user
-    await tester.enterText(find.byKey(Key('Enter your full name')), 'test_mctesterson');
+    await tester.enterText(find.byKey(Key('Enter your display name')), 'test_mctesterson');
     await tester.enterText(find.byKey(Key('Enter your email')), 'test@test.test');
     await tester.enterText(find.byKey(Key('Enter your mobile number')), '1111111111');
     await tester.enterText(find.byKey(Key('Enter your password')), '12345678');
@@ -66,7 +66,7 @@ void main() {
     await tester.enterText(find.byKey(Key('Enter your password')), '12345678');
 
     await tester.tap(find.text('Sign in'));
-    await tester.pumpAndSettle();
+    await tester.pumpAndSettle(const Duration(seconds: 10));
 
     // Check that on home page.
     expect(find.text("logout"), findsOneWidget);
