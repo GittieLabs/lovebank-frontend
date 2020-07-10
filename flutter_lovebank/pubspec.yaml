@@ -14,7 +14,7 @@ description: The flutter structure for LoveBank
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -27,8 +27,10 @@ dependencies:
   firebase_messaging: ^6.0.16
   cloud_firestore: ^0.13.6
   provider: ^4.1.2
+  http: 0.12.1
   stacked: ^1.6.0
   mockito: ^4.1.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -48,6 +50,7 @@ flutter:
     - assets/images/intro/splash.png
     - assets/images/intro/sign-in-image.png
     - assets/images/intro/sign-up.png
+    - assets/images/invite/person.png
   fonts:
     - family: AbhayaLibre
       fonts:
@@ -64,6 +67,9 @@ flutter:
         - asset: assets/fonts/LiberationSans-BoldItalic.ttf
           style: italic
           weight: 700
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
   # ! -- missing entries here for AbhayaLibre ExtraBold, Medium, and SemiBold
 
   # The following line ensures that the Material Icons font is
