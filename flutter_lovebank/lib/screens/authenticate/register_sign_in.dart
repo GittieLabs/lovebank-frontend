@@ -41,6 +41,7 @@ class _RegisterSignInState extends State<RegisterSignIn> {
   Widget buildField(
       String hintText, dynamic validator, dynamic onChanged, bool obscure) {
     return TextFormField(
+      key: Key(hintText),
       obscureText: obscure,
       style: TextStyle(fontSize: 12),
       decoration: InputDecoration(

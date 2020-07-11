@@ -25,6 +25,8 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
+    bool smallScreen = screenHeight < 601;
+
     // Photo edit button
     Widget editButton = FlatButton(
         onPressed: (){},
@@ -160,14 +162,14 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
                         child: Text('Hi',
                         style: TextStyle(
                           fontFamily: 'Roboto',
-                          fontSize: 30,
+                          fontSize: (smallScreen)? 20 : 30,
                         ),
                       ),
                      ),
                     Padding(
                       padding: EdgeInsets.only(top: 10, bottom: 20),
                       child: CircleAvatar(
-                        radius: 60,
+                        radius: smallScreen ? 30 : 60,
                         backgroundImage: AssetImage('assets/images/invite/person.png'),
                         backgroundColor: Colors.white,
                       ),

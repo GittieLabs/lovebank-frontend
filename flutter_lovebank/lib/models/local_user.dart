@@ -2,12 +2,16 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterapp/services/userAuthentication.dart';
 import 'package:http/http.dart' as http;
 
 Future<User> fetchUser(String id) async {
   final response =
   await http.get('http://lovebank.herokuapp.com/users/$id');
 
+  if (AuthService.mockAuth) {
+      return User(userId: "test_id",partnerId: null,firebaseId: "12345678",email: "test@test.test",username: "test_mctesterson",inviteCode: null,balance: 0);
+  }
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
