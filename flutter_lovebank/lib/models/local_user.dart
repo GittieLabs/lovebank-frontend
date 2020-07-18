@@ -1,27 +1,6 @@
-import 'dart:async';
-import 'dart:convert';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterapp/services/userAuthentication.dart';
-import 'package:http/http.dart' as http;
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-Future<User> fetchUser(String id) async {
-  final response =
-  await http.get('http://lovebank.herokuapp.com/users/$id');
-
-  if (AuthService.mockAuth) {
-      return User(userId: "test_id",partnerId: null,firebaseId: "12345678",email: "test@test.test",username: "test_mctesterson",inviteCode: null,balance: 0);
-  }
-  if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    return User.fromJson(json.decode(response.body));
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to load User.');
-  }
-}
 
 class User {
   final String userId;
@@ -30,13 +9,13 @@ class User {
   final String email;
   final String username;
   final String inviteCode;
+  final String mobile;
   final int balance;
 //  final List tasksCreated;  Not tested yet, will include in the future
 //  final List tasksReceived;
 
-
   User({this.userId, this.partnerId, this.firebaseId, this.email,
-    this.username, this.inviteCode, this.balance});
+    this.username, this.inviteCode, this.mobile, this.balance});
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
@@ -44,6 +23,7 @@ class User {
       partnerId: json['partner_id'],
       firebaseId: json['firebase_uid'],
       email: json['email'],
+      mobile: json['mobile'],
       username: json['username'],
       inviteCode: json['invite_code'],
       balance: json['balance'],
@@ -51,4 +31,76 @@ class User {
 //      tasksReceived: json['tasks_received']
     );
   }
+}
+
+
+
+// Test the listener handler
+void main() => runApp(MyApp());
+
+class MyApp extends StatefulWidget {
+  MyApp({Key key}) : super(key: key);
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  User futureUser;
+
+  @override
+  void initState() {
+    updateUserListener('tyKTkRKzczvhXhtCKB9m');
+    super.initState();
+  }
+
+  void updateUserListener(String id){
+  DocumentReference reference = Firestore.instance.collection('users').document(id);
+  reference.snapshots().listen((snapshot){
+    if (snapshot.data.isNotEmpty) {
+      setState(() {
+        futureUser = User.fromJson(snapshot.data);
+      });
+    }
+  });
+}
+
+   @override
+  Widget build(BuildContext context) {
+    if (futureUser == null) {
+      return Container();
+    }
+       return MaterialApp(
+           home: Scaffold(
+               backgroundColor: Colors.white,
+               body: SingleChildScrollView(
+                   child: Container(
+                       child: Column(
+                           crossAxisAlignment: CrossAxisAlignment.center,
+                           mainAxisAlignment: MainAxisAlignment.center,
+                           children: <Widget>[
+                             Padding(
+                               padding: EdgeInsets.all(100),
+                               child: Text(
+                                 futureUser.balance.toString() == null? "error" : futureUser.username.toString(),
+                                 style: TextStyle(
+                                   fontFamily: 'Roboto',
+                                 ),
+                               ),
+                             ),
+                             Padding(
+                               padding: EdgeInsets.all(100),
+                               child: Text(
+                                 futureUser.balance.toString() == null? "error" : futureUser.mobile.toString(),
+                                 style: TextStyle(
+                                   fontFamily: 'Roboto',
+                                 ),
+                               ),
+                             ),
+                           ]
+                       ))
+               )
+           )
+       );
+   }
 }
