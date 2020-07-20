@@ -1,8 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutterapp/mocks/firebase_auth_mock.dart';
 
 class AuthService {
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  static bool mockAuth = false;
+  FirebaseAuth _auth;
+
+  AuthService()
+  {
+      if (AuthService.mockAuth) {
+        if (FirebaseAuthMock.instance == null) {
+            FirebaseAuthMock.instance = FirebaseAuthMock();
+        }
+        _auth = FirebaseAuthMock.instance;
+      } else {
+        _auth = FirebaseAuth.instance;
+      }
+  }
+
   //create user object based on Firebase User
   //This will be useful in the future to return only the needed attributes of the users in the registerWithEmail/signInWithEmail
 

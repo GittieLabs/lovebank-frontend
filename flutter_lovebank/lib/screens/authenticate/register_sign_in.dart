@@ -22,7 +22,7 @@ class _RegisterSignInState extends State<RegisterSignIn> {
   final _formKey = GlobalKey<FormState>();
 
   // Variables to Store name, email, and password
-  String fullname = '';
+  String displayName = '';
   String email = '';
   String password = '';
   String error = '';
@@ -41,6 +41,7 @@ class _RegisterSignInState extends State<RegisterSignIn> {
   Widget buildField(
       String hintText, dynamic validator, dynamic onChanged, bool obscure) {
     return TextFormField(
+      key: Key(hintText),
       obscureText: obscure,
       style: TextStyle(fontSize: 12),
       decoration: InputDecoration(
@@ -157,13 +158,13 @@ class _RegisterSignInState extends State<RegisterSignIn> {
     );
 
     // Below is each field of the form
-    Widget fullNameField = buildField('Enter your full name', (val) {
+    Widget fullNameField = buildField('Enter your display name', (val) {
       if (val.isEmpty) {
-        return 'Please enter your full name';
+        return 'Please enter your display name';
       } else {
         return null;
       }
-    }, (val) => (setState(() => fullname = val.trim())), false);
+    }, (val) => (setState(() => displayName = val.trim())), false);
 
     Widget emailField = buildField('Enter your email', (val) {
       if (val.isEmpty) {
