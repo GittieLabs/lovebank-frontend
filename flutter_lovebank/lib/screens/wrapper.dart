@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/models/local_user.dart';
@@ -17,25 +16,6 @@ class Wrapper extends StatefulWidget {
 }
 
 class _WrapperState extends State<Wrapper> {
-  User futureUser;
-
-  @override
-  void initState() {
-    updateUserListener('tyKTkRKzczvhXhtCKB9m');
-    super.initState();
-  }
-
-  void updateUserListener(String id){
-    DocumentReference reference = Firestore.instance.collection('users').document(id);
-    reference.snapshots().listen((snapshot){
-      if (snapshot.data.isNotEmpty) {
-        setState(() {
-          futureUser = User.fromJson(snapshot.data);
-        });
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     FirebaseUser user = Provider.of<FirebaseUser>(context);
@@ -43,13 +23,22 @@ class _WrapperState extends State<Wrapper> {
     if (user == null) {
       return ThreePageIntro();
     } else {
-      if (futureUser == null) return Container();
+      Future<User> userDb = fetchUser(user.uid);
 
-      if (futureUser.partnerId == null){
-        return InvitePartnerPage(futureUser);
-      } else {
-        return CompleteHome(futureUser);
-      }
+      return FutureBuilder<User>(
+          future: userDb,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.data.partnerId == null){
+                return InvitePartnerPage();
+              } else {
+                return CompleteHome();
+              }
+            } else
+            // By default, show a loading spinner.
+            return CircularProgressIndicator();
+          }
+      );
     }
   }
 }
