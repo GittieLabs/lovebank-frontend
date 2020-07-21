@@ -219,7 +219,7 @@ class _RegisterSignInState extends State<RegisterSignIn> {
               result = await _authentication.signInWithEmail(email, password);
             } else {
               result = await _authentication.registerWithEmail(
-                  fullname, mobile, email, password);
+                  displayName, mobile, email, password);
             }
             if (result == null) {
               ///Error with signin or registration.

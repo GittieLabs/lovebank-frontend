@@ -7,7 +7,7 @@ class User {
   final String partnerId;
   final String firebaseId;
   final String email;
-  final String username;
+  final String displayName;
   final String inviteCode;
   final String mobile;
   final int balance;
@@ -15,7 +15,7 @@ class User {
 //  final List tasksReceived;
 
   User({this.userId, this.partnerId, this.firebaseId, this.email,
-    this.username, this.inviteCode, this.mobile, this.balance});
+    this.displayName, this.inviteCode, this.mobile, this.balance});
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
@@ -24,7 +24,7 @@ class User {
       firebaseId: json['firebase_uid'],
       email: json['email'],
       mobile: json['mobile'],
-      username: json['username'],
+      displayName: json['username'],
       inviteCode: json['invite_code'],
       balance: json['balance'],
 //      tasksCreated: json['tasks_created'],
