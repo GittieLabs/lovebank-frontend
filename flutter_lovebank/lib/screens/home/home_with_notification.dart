@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapp/models/local_user.dart';
 import 'package:flutterapp/screens/home/home_widget.dart';
 import 'package:flutterapp/services/push_notification_handler.dart';
 
 class CompleteHome extends StatefulWidget {
+  User localUser;
+  CompleteHome(this.localUser);
+
   @override
   _CompleteHomeState createState() => _CompleteHomeState();
 }
