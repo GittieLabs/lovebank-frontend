@@ -49,7 +49,6 @@ class AuthService {
       Firestore.instance.collection('users').document(user.uid).setData({
         'displayName': name,
         'partnerId': "",
-        'inviteCode': "",
         'email': email,
         'balance': 0,
         'mobile': mobile,

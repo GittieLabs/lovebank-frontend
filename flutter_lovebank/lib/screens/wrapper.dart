@@ -16,6 +16,7 @@ class _WrapperState extends State<Wrapper> {
   @override
   Widget build(BuildContext context) {
     FirebaseUser user = Provider.of<FirebaseUser>(context);
+    User userData = Provider.of<User>(context);
 
     if (user != null) {
       UserDataService().listenTo(user.uid);
@@ -24,9 +25,9 @@ class _WrapperState extends State<Wrapper> {
     if (user == null) {
       return ThreePageIntro();
     } else {
-      return (Provider.of<User>(context) == null)
+      return (userData == null)
           ? Container()
-          : (Provider.of<User>(context).partnerId == null)
+          : (userData.partnerId == null)
               ? InvitePartnerPage()
               : CompleteHome();
     }
