@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/models/local_user.dart';
 import 'package:flutterapp/screens/home/home_widget.dart';
 import 'package:flutterapp/services/push_notification_handler.dart';
+import 'package:provider/provider.dart';
+
 
 class CompleteHome extends StatefulWidget {
   CompleteHome();

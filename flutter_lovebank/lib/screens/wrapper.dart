@@ -7,7 +7,6 @@ import 'package:flutterapp/services/user_data_service.dart';
 import 'package:provider/provider.dart';
 import 'package:flutterapp/screens/intro/three_page_intro.dart';
 
-
 class Wrapper extends StatefulWidget {
   @override
   _WrapperState createState() => _WrapperState();
@@ -16,24 +15,20 @@ class Wrapper extends StatefulWidget {
 class _WrapperState extends State<Wrapper> {
   @override
   Widget build(BuildContext context) {
-
     FirebaseUser user = Provider.of<FirebaseUser>(context);
 
-    UserDataService dataService = UserDataService();
-    dataService.listenTo(user.uid);
-    Stream<User> userDataStream = dataService.userData;
+    if (user != null) {
+      UserDataService().listenTo(user.uid);
+    }
 
     if (user == null) {
       return ThreePageIntro();
     } else {
-      return StreamProvider<User>.value(
-          value: userDataStream,
-          child: (Provider.of<User>(context) == null)
-              ? Container()
-              : (Provider.of<User>(context).partnerId == null)
-                  ? InvitePartnerPage()
-                  : CompleteHome()
-      );
+      return (Provider.of<User>(context) == null)
+          ? Container()
+          : (Provider.of<User>(context).partnerId == null)
+              ? InvitePartnerPage()
+              : CompleteHome();
     }
   }
 }
