@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:async';
 import 'package:flutterapp/models/local_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,15 +8,17 @@ class UserDataService {
     UserDataService._privateConstructor();
 
     static final UserDataService _instance = UserDataService._privateConstructor();
-    DocumentReference _reference;
-    StreamSubscription<DocumentSnapshot> _streamSub;
-    dynamic _stream = UserDataStream();
 
     factory UserDataService() {
         return _instance;
     }
     //end
 
+
+
+    DocumentReference _reference;
+    StreamSubscription<DocumentSnapshot> _streamSub;
+    dynamic _stream = UserDataStream();
 
 
     void listenTo(String id) {
@@ -47,10 +48,9 @@ class UserDataStream {
         _controller.sink.add(user);
     }
 
-    bool updated = false;
-    final _controller = StreamController<FirebaseUser>();
+    final _controller = StreamController<User>();
 
-    Stream<FirebaseUser> get stream => _controller.stream;
+    Stream<User> get stream => _controller.stream;
 
     void dispose() {
         _controller.close();
