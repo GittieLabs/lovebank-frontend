@@ -2,15 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterapp/models/local_user.dart';
 import 'package:flutterapp/screens/components/square_button.dart';
 import 'package:flutterapp/services/invitationHandler.dart';
 import 'package:flutterapp/services/userAuthentication.dart';
 import 'package:provider/provider.dart';
 
 class InvitePartnerPage extends StatefulWidget {
-  InvitePartnerPage(User futureUser);
-
   @override
   _InvitePartnerState createState() => _InvitePartnerState();
 }
