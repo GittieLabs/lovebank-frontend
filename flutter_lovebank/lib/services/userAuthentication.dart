@@ -4,7 +4,6 @@ import 'package:flutterapp/mocks/firebase_auth_mock.dart';
 
 class AuthService {
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
   static bool mockAuth = false;
   FirebaseAuth _auth;
 
@@ -48,7 +47,8 @@ class AuthService {
           email: email, password: password);
       FirebaseUser user = result.user;
       Firestore.instance.collection('users').document(user.uid).setData({
-        'name': name,
+        'displayName': name,
+        'partnerId': "",
         'email': email,
         'balance': 0,
         'mobile': mobile,
