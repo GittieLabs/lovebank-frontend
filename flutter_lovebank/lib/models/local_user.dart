@@ -24,7 +24,7 @@ class User {
       firebaseId: json['firebase_uid'],
       email: json['email'],
       mobile: json['mobile'],
-      displayName: json['username'],
+      displayName: json['displayName'],
       inviteCode: json['invite_code'],
       balance: json['balance'],
 //      tasksCreated: json['tasks_created'],
@@ -34,7 +34,7 @@ class User {
 }
 
 
-//
+
 //// Test the listener handler
 //void main() => runApp(MyApp());
 //
@@ -65,42 +65,42 @@ class User {
 //  });
 //}
 //
-//   @override
-//  Widget build(BuildContext context) {
-//    if (futureUser == null) {
-//      return Container();
-//    }
-//       return MaterialApp(
-//           home: Scaffold(
-//               backgroundColor: Colors.white,
-//               body: SingleChildScrollView(
-//                   child: Container(
-//                       child: Column(
-//                           crossAxisAlignment: CrossAxisAlignment.center,
-//                           mainAxisAlignment: MainAxisAlignment.center,
-//                           children: <Widget>[
-//                             Padding(
-//                               padding: EdgeInsets.all(100),
-//                               child: Text(
-//                                 futureUser.balance.toString() == null? "error" : futureUser.username.toString(),
-//                                 style: TextStyle(
-//                                   fontFamily: 'Roboto',
-//                                 ),
-//                               ),
-//                             ),
-//                             Padding(
-//                               padding: EdgeInsets.all(100),
-//                               child: Text(
-//                                 futureUser.balance.toString() == null? "error" : futureUser.mobile.toString(),
-//                                 style: TextStyle(
-//                                   fontFamily: 'Roboto',
-//                                 ),
-//                               ),
-//                             ),
-//                           ]
-//                       ))
-//               )
-//           )
-//       );
-//   }
+////   @override
+//////  Widget build(BuildContext context) {
+//////    if (futureUser == null) {
+//////      return Container();
+//////    }
+//////       return MaterialApp(
+//////           home: Scaffold(
+//////               backgroundColor: Colors.white,
+//////               body: SingleChildScrollView(
+//////                   child: Container(
+//////                       child: Column(
+//////                           crossAxisAlignment: CrossAxisAlignment.center,
+//////                           mainAxisAlignment: MainAxisAlignment.center,
+//////                           children: <Widget>[
+//////                             Padding(
+//////                               padding: EdgeInsets.all(100),
+//////                               child: Text(
+//////                                 futureUser.balance.toString() == null? "error" : futureUser.displayName.toString(),
+//////                                 style: TextStyle(
+//////                                   fontFamily: 'Roboto',
+//////                                 ),
+//////                               ),
+//////                             ),
+//////                             Padding(
+//////                               padding: EdgeInsets.all(100),
+//////                               child: Text(
+//////                                 futureUser.balance.toString() == null? "error" : futureUser.mobile.toString(),
+//////                                 style: TextStyle(
+//////                                   fontFamily: 'Roboto',
+//////                                 ),
+//////                               ),
+//////                             ),
+//////                           ]
+//////                       ))
+//////               )
+//////           )
+//////       );
+////   }
 //}
