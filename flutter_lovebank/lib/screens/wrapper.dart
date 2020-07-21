@@ -10,7 +10,7 @@ import 'package:flutterapp/screens/intro/three_page_intro.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 
-import 'inviteWrapper.dart';
+import 'invite_wrapper.dart';
 
 
 class Wrapper extends StatefulWidget {

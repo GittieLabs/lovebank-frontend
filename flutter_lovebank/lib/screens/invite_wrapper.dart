@@ -20,7 +20,7 @@ class InviteWrapper extends StatefulWidget {
 }
 
 class _InviteWrapperState extends State<InviteWrapper> {
-  User futureUser;
+  User localUser;
 
   @override
   void initState() {
@@ -34,7 +34,7 @@ class _InviteWrapperState extends State<InviteWrapper> {
     reference.snapshots().listen((snapshot) {
       if (snapshot.data.isNotEmpty) {
         setState(() {
-          futureUser = User.fromJson(snapshot.data);
+          localUser = User.fromJson(snapshot.data);
         });
       }
     });
@@ -42,12 +42,12 @@ class _InviteWrapperState extends State<InviteWrapper> {
 
   @override
   Widget build(BuildContext context) {
-    if (futureUser == null) return Container();
+    if (localUser == null) return Container();
 
-    if (futureUser.partnerId == null) {
-      return InvitePartnerPage(futureUser);
+    if (localUser.partnerId == null) {
+      return InvitePartnerPage(localUser);
     } else {
-      return CompleteHome(futureUser);
+      return CompleteHome(localUser);
     }
   }
 }

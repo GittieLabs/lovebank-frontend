@@ -9,8 +9,8 @@ import 'package:flutterapp/services/userAuthentication.dart';
 import 'package:provider/provider.dart';
 
 class InvitePartnerPage extends StatefulWidget {
-  User futureUser;
-  InvitePartnerPage(this.futureUser);
+  User localUser;
+  InvitePartnerPage(this.localUser);
 
   @override
   _InvitePartnerState createState() => _InvitePartnerState();
@@ -163,7 +163,7 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
                   children: <Widget>[
                      Padding(
                        padding: EdgeInsets.only(top: screenHeight * 0.1),
-                        child: Text('Hi' + " " + widget.futureUser.displayName + "!",
+                        child: Text('Hi' + " " + widget.localUser.displayName + "!",
                         style: TextStyle(
                           fontFamily: 'Roboto',
                           fontSize: (smallScreen)? 20 : 30,
