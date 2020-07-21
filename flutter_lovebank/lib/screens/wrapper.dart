@@ -24,9 +24,11 @@ class _WrapperState extends State<Wrapper> {
   Widget build(BuildContext context) {
     FirebaseUser user = Provider.of<FirebaseUser>(context);
 
+    // If no user exists, display ThreePageIntro and login/sign-up page
     if (user == null) {
       return ThreePageIntro();
     } else {
+      // If an user has been signed in, go to InviteWrapper.
       return InviteWrapper(user.uid);
     }
     }

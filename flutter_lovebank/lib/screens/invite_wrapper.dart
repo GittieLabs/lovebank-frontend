@@ -28,6 +28,9 @@ class _InviteWrapperState extends State<InviteWrapper> {
     updateUserListener(widget.uid);
   }
 
+  // This function listens for the user document with the user collection in the
+  // fireStore. It will update the local user automatically if it detects a
+  // change in the user from the fireStore. 
   void updateUserListener(String id) {
     DocumentReference reference =
         Firestore.instance.collection('users').document(id);
