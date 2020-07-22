@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/models/local_user.dart';
 import 'package:flutterapp/screens/home/home_widget.dart';
 import 'package:flutterapp/services/push_notification_handler.dart';
+import 'package:provider/provider.dart';
+
 
 class CompleteHome extends StatefulWidget {
-  User localUser;
-  CompleteHome(this.localUser);
+  CompleteHome();
 
   @override
   _CompleteHomeState createState() => _CompleteHomeState();
@@ -33,6 +34,7 @@ class _CompleteHomeState extends State<CompleteHome> {
 
   @override
   Widget build(BuildContext context) {
+    User localUser = Provider.of<User>(context);
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -55,11 +57,9 @@ class _CompleteHomeState extends State<CompleteHome> {
             title: Text('Settings'),
           ),
         ],
-        
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.purple[300],
         onTap: _onItemTapped,
-        
       ),
     );
   }

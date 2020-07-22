@@ -1,17 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/models/local_user.dart';
 import 'package:flutterapp/screens/invitation/invite_page.dart';
 import 'package:flutterapp/screens/home/home_with_notification.dart';
+import 'package:flutterapp/services/user_data_service.dart';
 import 'package:provider/provider.dart';
 import 'package:flutterapp/screens/intro/three_page_intro.dart';
-
-import 'dart:convert' as convert;
-import 'package:http/http.dart' as http;
-
-import 'invite_wrapper.dart';
-
 
 class Wrapper extends StatefulWidget {
   @override
@@ -19,19 +13,23 @@ class Wrapper extends StatefulWidget {
 }
 
 class _WrapperState extends State<Wrapper> {
-
   @override
   Widget build(BuildContext context) {
     FirebaseUser user = Provider.of<FirebaseUser>(context);
+    User userData = Provider.of<User>(context);
 
-    // If no user exists, display ThreePageIntro and login/sign-up page
+    if (user != null) {
+      UserDataService().listenTo(user.uid);
+    }
+
     if (user == null) {
       return ThreePageIntro();
     } else {
-      // If an user has been signed in, go to InviteWrapper.
-      return InviteWrapper(user.uid);
-    }
+      return (userData == null)
+          ? Container()
+          : (userData.partnerId == null)
+              ? InvitePartnerPage()
+              : CompleteHome();
     }
   }
-
-
+}
