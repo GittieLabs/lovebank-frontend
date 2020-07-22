@@ -17,10 +17,13 @@ class InvitePartnerPage extends StatefulWidget {
 class _InvitePartnerState extends State<InvitePartnerPage> {
   // Testing purpose: set true to show revoke invite page,
   //                  set false to show invitation page
-  final bool inviteSent = false;
+  bool inviteSent = false;
   final _mobileFormKey = GlobalKey<FormState>();
   final _codeFormKey = GlobalKey<FormState>();
   final AuthService _auth = AuthService();
+  String mobile;
+  String userID;
+  String inviteCode;
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +68,7 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
                           if (value.isEmpty) {
                             return 'Please provide a mobile number';
                           }
+                          mobile = value;
                           return null;
                         }
                     ),
@@ -74,10 +78,18 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
                       child: SquareButton(
                       text: 'Invite',
                       color: Theme.of(context).primaryColor,
-                      onPressed: () {
+                      onPressed: () async{
                         // Validate returns true if the form is valid, or false
                         // otherwise.
-                        _mobileFormKey.currentState.validate();
+                        if (_mobileFormKey.currentState.validate()){
+                          FirebaseUser user = Provider.of<FirebaseUser>(context, listen:false);
+                          // print(user.uid);
+                          bool inviteCreated = await inviteBtnClicked(user.uid, mobile);
+                          if (inviteCreated){
+                            inviteSent = true;
+                            return InvitePartnerPage();
+                          }
+                        }
                       }
                   )
                   )
@@ -107,6 +119,7 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
                                 if (value.isEmpty) {
                                   return 'Please provide a valid code.';
                                 }
+                                inviteCode = value;
                                 return null;
                               }
                           )
@@ -116,8 +129,11 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
                           color: Theme.of(context).primaryColor,
                           onPressed: () {
                             // Connect to partner by providing invite code
-                            _codeFormKey.currentState.validate();
-
+                            if (_codeFormKey.currentState.validate()){
+                              FirebaseUser user = Provider.of<FirebaseUser>(context, listen:false);
+                              // print("local USer UID " + localUser.userId);
+                              acceptBtnClicked(user.uid, inviteCode);
+                            }
                           }
                       )
                     ]
@@ -135,7 +151,6 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
           inviteCodeField
         ]
     );
-
 
     // Invite revoke button
     Widget revokeButton = Center(

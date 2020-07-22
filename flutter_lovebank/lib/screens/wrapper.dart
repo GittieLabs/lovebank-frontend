@@ -27,7 +27,7 @@ class _WrapperState extends State<Wrapper> {
     } else {
       return (userData == null)
           ? Container()
-          : (userData.partnerId == null)
+          : (userData.partnerId == "")
               ? InvitePartnerPage()
               : CompleteHome();
     }
