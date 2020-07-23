@@ -1,15 +1,15 @@
 import 'dart:async';
-import 'package:flutterapp/models/local_user.dart';
+import 'package:flutterapp/models/local_invite.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class UserDataService {
+class InviteDataService {
 
     //The constructor and factory code below makes this a singleton
-    UserDataService._privateConstructor();
+    InviteDataService._privateConstructor();
 
-    static final UserDataService _instance = UserDataService._privateConstructor();
+    static final InviteDataService _instance = InviteDataService._privateConstructor();
 
-    factory UserDataService() {
+    factory InviteDataService() {
         return _instance;
     }
     //end
@@ -18,7 +18,7 @@ class UserDataService {
 
     DocumentReference _reference;
     StreamSubscription<DocumentSnapshot> _streamSub;
-    dynamic _stream = UserDataStream();
+    dynamic _stream = InviteDataStream();
 
 
     void listenTo(String id) {
@@ -27,32 +27,32 @@ class UserDataService {
             _streamSub.cancel();
         }
 
-        _reference = Firestore.instance.collection('users').document(id);
+        _reference = Firestore.instance.collection('invites').document(id);
 
         //create a new listener
         _streamSub = _reference.snapshots().listen( (snapshot) {
             if (snapshot.data == null) {
                 _stream.pushData(null);
             } else if (snapshot.data.isNotEmpty) {
-                _stream.pushData(User.fromJson(snapshot.data));
+                _stream.pushData(Invite.fromJson(snapshot.data));
             }
         });
     }
 
-    Stream<User> get userData {
+    Stream<Invite> get inviteData {
         return _stream.stream;
     }
 }
 
-class UserDataStream {
+class InviteDataStream {
 
-    void pushData(user) {
-        _controller.sink.add(user);
+    void pushData(invite) {
+        _controller.sink.add(invite);
     }
 
-    final _controller = StreamController<User>();
+    final _controller = StreamController<Invite>();
 
-    Stream<User> get stream => _controller.stream;
+    Stream<Invite> get stream => _controller.stream;
 
     void dispose() {
         _controller.close();

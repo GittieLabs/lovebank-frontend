@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/models/local_user.dart';
 import 'package:flutterapp/screens/invitation/invite_page.dart';
 import 'package:flutterapp/screens/home/home_with_notification.dart';
+import 'package:flutterapp/services/invite_data_service.dart';
 import 'package:flutterapp/services/user_data_service.dart';
 import 'package:provider/provider.dart';
 import 'package:flutterapp/screens/intro/three_page_intro.dart';
@@ -20,6 +21,7 @@ class _WrapperState extends State<Wrapper> {
 
     if (user != null) {
       UserDataService().listenTo(user.uid);
+      InviteDataService().listenTo(user.uid);
     }
 
     if (user == null) {

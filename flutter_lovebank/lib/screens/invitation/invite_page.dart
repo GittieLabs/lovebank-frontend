@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/models/local_user.dart';
+import 'package:flutterapp/models/local_invite.dart';
 import 'package:flutterapp/screens/components/square_button.dart';
 import 'package:flutterapp/services/invitationHandler.dart';
 import 'package:flutterapp/services/userAuthentication.dart';
@@ -17,7 +18,6 @@ class InvitePartnerPage extends StatefulWidget {
 class _InvitePartnerState extends State<InvitePartnerPage> {
   // Testing purpose: set true to show revoke invite page,
   //                  set false to show invitation page
-  bool inviteSent = false;
   final _mobileFormKey = GlobalKey<FormState>();
   final _codeFormKey = GlobalKey<FormState>();
   final AuthService _auth = AuthService();
@@ -28,6 +28,7 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
   @override
   Widget build(BuildContext context) {
     User localUser = Provider.of<User>(context);
+    bool inviteSent = Provider.of<Invite>(context) != null;
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
@@ -86,7 +87,7 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
                           // print(user.uid);
                           bool inviteCreated = await inviteBtnClicked(user.uid, mobile);
                           if (inviteCreated){
-                            inviteSent = true;
+                            //inviteSent = true;
                             return InvitePartnerPage();
                           }
                         }
