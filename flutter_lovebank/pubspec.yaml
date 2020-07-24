@@ -51,6 +51,7 @@ flutter:
     - assets/images/intro/sign-in-image.png
     - assets/images/intro/sign-up.png
     - assets/images/invite/person.png
+    - assets/images/home/
   fonts:
     - family: AbhayaLibre
       fonts:
