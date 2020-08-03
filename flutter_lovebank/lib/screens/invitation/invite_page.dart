@@ -20,6 +20,7 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
   //                  set false to show invitation page
   final _mobileFormKey = GlobalKey<FormState>();
   final _codeFormKey = GlobalKey<FormState>();
+
   final AuthService _auth = AuthService();
   String mobile;
   String userID;
@@ -28,7 +29,9 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
   @override
   Widget build(BuildContext context) {
     User localUser = Provider.of<User>(context);
-    bool inviteSent = Provider.of<Invite>(context) != null;
+    Invite localInvite = Provider.of<Invite>(context);
+    bool inviteSent = localInvite != null;
+
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
@@ -160,7 +163,9 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
             child: SquareButton(
       text: 'Revoke Invitation',
       color: Theme.of(context).primaryColor,
-      onPressed: ()=>{},
+      onPressed: ()=>{
+        revokeBtnClicked(localInvite.requesterId)
+      },
     )
     )
     );
