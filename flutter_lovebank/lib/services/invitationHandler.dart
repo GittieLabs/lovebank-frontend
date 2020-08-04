@@ -33,3 +33,22 @@ Future acceptBtnClicked(String userId, String code, token) async {
   }
   return false;
 }
+
+// This method takes in an user id and delete the invite code from the database.
+Future revokeBtnClicked(String creatorId, token) async {
+  final response = await http.put('http://localhost:5001/love-bank-9a624/us-central1/users-revoke',
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token'
+      },
+      body: jsonEncode(<String, String>{
+        'id' : creatorId
+      })
+  );
+
+  if (response.statusCode == 200){
+    return true;
+  }
+
+  return false;
+}

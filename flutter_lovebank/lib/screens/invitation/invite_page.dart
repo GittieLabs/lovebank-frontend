@@ -29,8 +29,9 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
   Widget build(BuildContext context) {
     User localUser = Provider.of<User>(context);
     Invite localInvite = Provider.of<Invite>(context);
-    bool inviteSent = localInvite != null;
+    FirebaseUser user = Provider.of<FirebaseUser>(context);
 
+    bool inviteSent = localInvite != null;
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
@@ -81,8 +82,6 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
                         // Validate returns true if the form is valid, or false
                         // otherwise.
                         if (_mobileFormKey.currentState.validate()) {
-                          FirebaseUser user =
-                              Provider.of<FirebaseUser>(context, listen: false);
                           var idToken = await user.getIdToken();
                           bool inviteCreated = await inviteBtnClicked(
                               user.uid, mobile, idToken.token);
@@ -123,8 +122,6 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
                   onPressed: () async {
                     // Connect to partner by providing invite code
                     if (_codeFormKey.currentState.validate()) {
-                      FirebaseUser user =
-                          Provider.of<FirebaseUser>(context, listen: false);
                       var idToken = await user.getIdToken();
                       acceptBtnClicked(user.uid, inviteCode, idToken.token);
                     }
@@ -142,12 +139,13 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
         child: Padding(
             padding: EdgeInsets.only(top: 15),
             child: SquareButton(
-      text: 'Revoke Invitation',
-      color: Theme.of(context).primaryColor,
-      onPressed: ()=>{
-        revokeBtnClicked(localInvite.requesterId)
-      },
-    )
+                      text: 'Revoke Invitation',
+                      color: Theme.of(context).primaryColor,
+                onPressed: () async {
+                    var idToken = await user.getIdToken();
+                    revokeBtnClicked(user.uid, idToken.token);
+                    return InvitePartnerPage();
+                })
     )
     );
 
