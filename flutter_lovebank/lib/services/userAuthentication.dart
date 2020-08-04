@@ -47,6 +47,7 @@ class AuthService {
           email: email, password: password);
       FirebaseUser user = result.user;
       Firestore.instance.collection('users').document(user.uid).setData({
+        'userId': user.uid,
         'displayName': name,
         'partnerId': "",
         'email': email,
