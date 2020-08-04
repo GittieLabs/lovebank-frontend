@@ -10,7 +10,6 @@ Future inviteBtnClicked(String userId, String mobile, token) async {
         'Authorization': 'Bearer $token'
       },
       body: jsonEncode(<String, String>{
-        'action': 'invite',
         'mobile': mobile,
         'id': userId
       }));
@@ -27,7 +26,10 @@ Future acceptBtnClicked(String userId, String code, token) async {
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $token'
       },
-      body: jsonEncode(<String, String>{'code': code, 'id': userId}));
+      body: jsonEncode(<String, String>{
+        'code': code,
+        'id': userId
+      }));
   if (response.statusCode == 200) {
     return true;
   }
