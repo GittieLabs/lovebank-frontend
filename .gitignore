@@ -25,3 +25,5 @@ flutter_lovebank/android/app/google-services.json
 .DS_Store
 .DS_Store
 flutter_lovebank/ios/Podfile.lock
+flutter_lovebank/ios/Flutter/.last_build_id
+flutter_lovebank/ios/fastlane/Appfile
