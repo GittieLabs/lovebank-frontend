@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 // import 'package:flutter/src/material/icons.dart';
-import 'package:flutterapp/services/userAuthentication.dart';
+import 'package:flutterapp/services/user_authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutterapp/screens/components/circular_image.dart';
