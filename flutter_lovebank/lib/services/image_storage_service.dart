@@ -1,21 +1,64 @@
 import 'dart:io';
+import 'dart:convert';
 
 import "package:firebase_storage/firebase_storage.dart";
 import "package:image_picker/image_picker.dart";
 import "package:image_picker_platform_interface/image_picker_platform_interface.dart";
+import 'package:http/http.dart' as http;
 
-Future<String> openGallery() async {
+
+
+// This method opens the gallery and returns the chosen photo as a file
+Future openGallery() async {
   var picker = ImagePicker();
   var pickedImage = await picker.getImage(source: ImageSource.gallery);
 
-  return pickedImage.path;
+  File image = File(pickedImage.path);
+  return image;
 }
 
-Future<String> enableCamera() async {
-  var picker = ImagePicker();
-  var takenPhoto = await picker.getImage(source: ImageSource.camera);
+// This method enables user takes a photo and returns the photo as a file
+//Future enableCamera() async {
+//  var picker = ImagePicker();
+//  var takenPhoto = await picker.getImage(source: ImageSource.camera);
+//
+//  return takenPhoto;
+//}
 
-  return takenPhoto.path;
+
+void uploadFile(File image, String id) async {
+  StorageReference sr = FirebaseStorage.instance.ref().child("profile_image/$id");
+  StorageUploadTask uploadTask = sr.putFile(image);
+  await uploadTask.onComplete;
+
+  // Return the photo url
+  var fileURL = sr.getDownloadURL();
+
+  return fileURL;
 }
+
+// This method takes in an user id and delete the invite code from the database.
+Future updateProfilePic(String id, String fileURL, token) async {
+  final response = await http.put(
+      'https://us-central1-love-bank-9a624.cloudfunctions.net/profile-profilePic',
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token'
+      },
+      body: jsonEncode(<String, String>{
+        'id' : id,
+        'fileURL' : fileURL
+      })
+  );
+
+  if (response.statusCode != 200){
+    throw Exception('Failed to update the user in the database');
+  }
+
+  return true;
+
+}
+
+
 
 
