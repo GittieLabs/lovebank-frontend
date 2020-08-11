@@ -18,6 +18,6 @@ jobs:
       script: flutter test --coverage
       after_success: bash <(curl -s https://codecov.io/bash) -f coverage/lcov.info
 
-  - stage: Fastlane iOS Build
+#   - stage: Fastlane iOS Build
   
-  - stage: Fastlane Andriod Build
+#   - stage: Fastlane Andriod Build
