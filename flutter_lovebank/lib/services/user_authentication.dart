@@ -53,6 +53,7 @@ class AuthService {
         'email': email,
         'balance': 0,
         'mobile': mobile,
+        'profileImage': ""
       });
       return user;
     } catch (e) {
