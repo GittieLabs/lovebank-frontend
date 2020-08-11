@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterapp/services/userAuthentication.dart';
+import 'package:flutterapp/services/user_authentication.dart';
 import 'package:flutterapp/screens/components/wide_button.dart';
 
 /* Authenticate Class Deals with the task of presenting the Sign In/ Register Screen as requested by the User
