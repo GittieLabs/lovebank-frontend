@@ -30,7 +30,6 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
   String mobile;
   String userID;
   String inviteCode;
-  File profileImage;
 
   @override
   Widget build(BuildContext context) {
@@ -44,41 +43,42 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
 
     bool smallScreen = screenHeight < 601;
 
-//    // Photo edit button
-//    Widget editButton = FlatButton(
-//        onPressed: () async {
-//      final action = CupertinoActionSheet(
-//        actions: <Widget>[
-//          CupertinoActionSheetAction(
-//            child: Text("Camera"),
-//            isDefaultAction: true,
-//            onPressed: () async {
-////              profileImage = await enableCamera();
-//              Navigator.pop(context);
-//            },
-//          ),
-//          CupertinoActionSheetAction(
-//            child: Text("Photo Gallery"),
-//            isDefaultAction: true,
-//            onPressed: () async {
-//              File image = await openGallery();
-//              uploadFile(image, user.uid);
-//
-//              Navigator.pop(context);
-//            },
-//          )
-//        ],
-//      );
-//      showCupertinoModalPopup(
-//          context: context, builder: (context) => action);
-//        },
-//        child: Text(
-//          "Edit",
-//          style: TextStyle(
-//              fontSize: 20,
-//              fontFamily: 'Roboto',
-//              color: Colors.lightBlueAccent),
-//        ));
+   // Photo edit button
+   Widget editButton = FlatButton(
+       onPressed: () async {
+     final action = CupertinoActionSheet(
+       actions: <Widget>[
+         CupertinoActionSheetAction(
+           child: Text("Camera"),
+           isDefaultAction: true,
+           onPressed: () async {
+//              profileImage = await enableCamera();
+             Navigator.pop(context);
+           },
+         ),
+         CupertinoActionSheetAction(
+           child: Text("Photo Gallery"),
+           isDefaultAction: true,
+           onPressed: () async {
+             File image = await openGallery();
+             String fileURL = await uploadFile(image, user.uid);
+             var idToken = await user.getIdToken();
+             updateProfilePic(user.uid, fileURL, idToken.token);
+             Navigator.pop(context);
+           },
+         )
+       ],
+     );
+     showCupertinoModalPopup(
+         context: context, builder: (context) => action);
+       },
+       child: Text(
+         "Edit",
+         style: TextStyle(
+             fontSize: 20,
+             fontFamily: 'Roboto',
+             color: Colors.lightBlueAccent),
+       ));
 
     // Form for inputting partner mobile, including text field and submit button
     final partnerMobileField = Form(
@@ -207,11 +207,13 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
                             child: CircleAvatar(
                               radius: smallScreen ? 30 : 60,
                               backgroundImage:
-                                  AssetImage('assets/images/invite/person.png'),
+                                localUser.profilePic == ""? 
+                                AssetImage('assets/images/invite/person.png') :
+                                NetworkImage(localUser.profilePic),
                               backgroundColor: Colors.white,
                             ),
                           ),
-//                          editButton,
+                         editButton,
                           Text(
                               (!inviteSent)
                                   ? 'Let\'s connect you to your significant other.'
