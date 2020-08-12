@@ -26,8 +26,9 @@ Future openGallery() async {
 //}
 
 
-void uploadFile(File image, String id) async {
-  StorageReference sr = FirebaseStorage.instance.ref().child("profile_image/$id");
+Future uploadFile(File image, String id) async {
+  String timeStamp = new DateTime.now().toString();
+  StorageReference sr = FirebaseStorage.instance.ref().child("$id/$timeStamp");
   StorageUploadTask uploadTask = sr.putFile(image);
   await uploadTask.onComplete;
 
@@ -40,7 +41,7 @@ void uploadFile(File image, String id) async {
 // This method takes in an user id and delete the invite code from the database.
 Future updateProfilePic(String id, String fileURL, token) async {
   final response = await http.put(
-      'https://us-central1-love-bank-9a624.cloudfunctions.net/profile-profilePic',
+      'http://localhost:5001/love-bank-9a624/us-central1/profile-profilePic',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $token'
