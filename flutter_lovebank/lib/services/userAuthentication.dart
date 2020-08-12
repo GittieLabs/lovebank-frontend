@@ -46,6 +46,12 @@ class AuthService {
       AuthResult result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       FirebaseUser user = result.user;
+
+      // This if statement skips the firestore data setting details if a mock is being used
+      if(_auth is FirebaseAuthMock){
+        return user;
+      }
+
       Firestore.instance.collection('users').document(user.uid).setData({
         'userId': user.uid,
         'displayName': name,

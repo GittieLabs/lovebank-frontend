@@ -30,6 +30,7 @@ class _MessageHandlerState extends State<MessageHandler> {
 
   @override
   void initState() {
+    debugPrint("init message handler");
     super.initState();
 
     _fcm.requestNotificationPermissions(IosNotificationSettings());

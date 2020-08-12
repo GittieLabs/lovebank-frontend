@@ -9,13 +9,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:flutterapp/main.dart';
+import 'package:flutterapp/mocks/firebase_auth_mock.dart';
+import 'package:flutterapp/mocks/firestore_mock.dart';
 import 'package:flutterapp/screens/intro/three_page_intro.dart';
 import 'package:flutterapp/services/userAuthentication.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
 
-    AuthService.mockAuth = true;
+    LoveApp.firebaseAuth = FirebaseAuthMock();
+    LoveApp.firestore = FirestoreMock();
 
     // Build our app and trigger a frame.
     await tester.pumpWidget(LoveApp());

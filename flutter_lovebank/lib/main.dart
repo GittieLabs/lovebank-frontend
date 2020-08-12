@@ -8,6 +8,7 @@ import 'package:flutter/rendering.dart'; //used for debugPaintSizeEnabled
 import 'package:flutterapp/models/local_user.dart';
 import 'package:flutterapp/models/local_invite.dart';
 import 'package:flutterapp/services/user_data_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() {
   //debugPaintSizeEnabled = true; //uncomment this line and restart to better see the sizes of elements drawn onscreen
@@ -15,10 +16,15 @@ void main() {
 }
 
 class LoveApp extends StatelessWidget {
+  static FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  static Firestore firestore = Firestore.instance;
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        Provider<FirebaseAuth>(create: (_) => LoveApp.firebaseAuth),
+        Provider<Firestore>(create: (_) => LoveApp.firestore),
         StreamProvider<FirebaseUser>.value(value: AuthService().user),
         StreamProvider<User>.value(value: UserDataService().userData),
         StreamProvider<Invite>.value(value: InviteDataService().inviteData),
