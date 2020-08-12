@@ -49,6 +49,8 @@
 	<key>FirebaseAppDelegateProxyEnabled</key>
 	<false/>
 	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This lets you pick a photo from your gallery.</string>
     <key>NSCameraUsageDescription</key>
+	<string>This lets you take a photo and upload it.</string>
 </dict>
 </plist>
