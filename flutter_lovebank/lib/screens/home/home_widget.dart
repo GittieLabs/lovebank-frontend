@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutterapp/screens/components/circular_image.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutterapp/main.dart';
 
 /*
 Basic Home Screen Layout created to test user sign in
@@ -298,7 +299,7 @@ class _ChallengePageState extends State<ChallengePage> {
 
     void get_update_notification() async{
     // Get the current user
-    final FirebaseAuth _auth = FirebaseAuth.instance;
+    final FirebaseAuth _auth = LoveApp.firebaseAuth;
     FirebaseUser user = await _auth.currentUser();
     String uid = user.uid;
     final FirebaseMessaging _fcm = FirebaseMessaging();

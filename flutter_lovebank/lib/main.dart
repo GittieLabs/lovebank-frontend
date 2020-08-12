@@ -9,6 +9,8 @@ import 'package:flutterapp/models/local_user.dart';
 import 'package:flutterapp/models/local_invite.dart';
 import 'package:flutterapp/services/user_data_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutterapp/mocks/firebase_auth_mock.dart';
+import 'package:flutterapp/mocks/firestore_mock.dart';
 
 void main() {
   //debugPaintSizeEnabled = true; //uncomment this line and restart to better see the sizes of elements drawn onscreen
@@ -16,15 +18,13 @@ void main() {
 }
 
 class LoveApp extends StatelessWidget {
-  static FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  static Firestore firestore = Firestore.instance;
+  static FirebaseAuth firebaseAuth = FirebaseAuthMock.instance;
+  static Firestore firestore = FirestoreMock.instance;
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<FirebaseAuth>(create: (_) => LoveApp.firebaseAuth),
-        Provider<Firestore>(create: (_) => LoveApp.firestore),
         StreamProvider<FirebaseUser>.value(value: AuthService().user),
         StreamProvider<User>.value(value: UserDataService().userData),
         StreamProvider<Invite>.value(value: InviteDataService().inviteData),

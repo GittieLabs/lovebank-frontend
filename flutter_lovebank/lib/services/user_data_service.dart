@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutterapp/models/local_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutterapp/main.dart';
 
 class UserDataService {
 
@@ -27,7 +28,7 @@ class UserDataService {
             _streamSub.cancel();
         }
 
-        _reference = Firestore.instance.collection('users').document(id);
+        _reference = LoveApp.firestore.collection('users').document(id);
 
         //create a new listener
         _streamSub = _reference.snapshots().listen( (snapshot) {

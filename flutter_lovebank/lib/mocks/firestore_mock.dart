@@ -2,8 +2,20 @@ import 'package:mockito/mockito.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
+import 'dart:io';
 
 class FirestoreMock extends Mock implements Firestore {
+
+    //The constructor and factory code below makes this a singleton
+    FirestoreMock._privateConstructor();
+
+    static final FirestoreMock instance = FirestoreMock._privateConstructor();
+
+    factory FirestoreMock() {
+        return instance;
+    }
+    //end
+
 
     Map collections = {};
 
@@ -33,10 +45,16 @@ class CollectionReferenceMock extends Mock implements CollectionReference {
 
 class DocumentReferenceMock extends Mock implements DocumentReference {
 
-    List snaps = [];
+    DocumentSnapshot latestsnap = DocumentSnapshotMock({});
 
-    final _streamcontroller = StreamController<DocumentSnapshot>();
+    final _streamcontroller = StreamController<DocumentSnapshot>.broadcast();
     Stream<DocumentSnapshot> get _stream => _streamcontroller.stream;
+
+    DocumentReferenceMock() {
+        _streamcontroller.onListen = () {
+            pushData(latestsnap);
+        };
+    }
 
     @override
     Stream<DocumentSnapshot> snapshots({bool includeMetadataChanges = false}) {
@@ -45,12 +63,15 @@ class DocumentReferenceMock extends Mock implements DocumentReference {
 
     @override
     Future setData(Map<String, dynamic> data, {bool merge=false}) async {
-        pushData(DocumentSnapshotMock(data));
+        DocumentSnapshot snap = DocumentSnapshotMock(data);
+        latestsnap = snap;
+        pushData(snap);
         return;
     }
 
     void pushData(DocumentSnapshot snap) {
         _streamcontroller.sink.add(snap);
+        print(snap.data);
     }
 
     void dispose() {
@@ -60,6 +81,11 @@ class DocumentReferenceMock extends Mock implements DocumentReference {
 }
 
 class DocumentSnapshotMock extends Mock implements DocumentSnapshot {
-    final data;
-    DocumentSnapshotMock(this.data);
+    Map _data = {};
+    DocumentSnapshotMock(Map<String, dynamic> data){
+        this._data = data;
+    }
+
+    @override
+    Map<String, dynamic> get data => _data;
 }

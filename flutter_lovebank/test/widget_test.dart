@@ -17,8 +17,8 @@ import 'package:flutterapp/services/userAuthentication.dart';
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
 
-    LoveApp.firebaseAuth = FirebaseAuthMock();
-    LoveApp.firestore = FirestoreMock();
+    LoveApp.firebaseAuth = FirebaseAuthMock.instance;
+    LoveApp.firestore = FirestoreMock.instance;
 
     // Build our app and trigger a frame.
     await tester.pumpWidget(LoveApp());
@@ -56,7 +56,7 @@ void main() {
     await tester.enterText(find.byKey(Key('Enter your password')), '12345678');
 
     await tester.tap(find.text('Sign up'));
-    await tester.pumpAndSettle();
+    await tester.pumpAndSettle(const Duration(seconds: 4));
 
     // Go to login screen
     await tester.tap(find.text('Sign in'));
@@ -69,14 +69,15 @@ void main() {
     await tester.enterText(find.byKey(Key('Enter your password')), '12345678');
 
     await tester.tap(find.text('Sign in'));
-    await tester.pumpAndSettle(const Duration(seconds: 3));
+    //await tester.pumpWidget(LoveApp());
+    await tester.pumpAndSettle(const Duration(seconds: 30));
 
     // Check that on home page.
     expect(find.text("logout"), findsOneWidget);
 
     // Verify that logout works
     await tester.tap(find.text('logout'));
-    await tester.pumpAndSettle(const Duration(seconds: 3));
+    await tester.pumpAndSettle(const Duration(seconds: 30));
 
     expect(find.text('Improve your relationship with measurable expressions of love'), findsOneWidget);
 

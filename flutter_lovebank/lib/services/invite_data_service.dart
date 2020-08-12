@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutterapp/models/local_invite.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutterapp/main.dart';
 
 class InviteDataService {
 
@@ -27,7 +28,7 @@ class InviteDataService {
             _streamSub.cancel();
         }
 
-        _reference = Firestore.instance.collection('invites').document(id);
+        _reference = LoveApp.firestore.collection('invites').document(id);
 
         //create a new listener
         _streamSub = _reference.snapshots().listen( (snapshot) {
