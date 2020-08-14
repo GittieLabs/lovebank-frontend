@@ -20,7 +20,7 @@ jobs:
 
     - stage: Fastlane iOS Build
       language: objective-c
-      osx_image: xcode12u
+      osx_image: xcode12
       install:
         - bundle install
       script:
