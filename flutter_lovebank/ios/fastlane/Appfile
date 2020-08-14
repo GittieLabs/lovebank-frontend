@@ -1,0 +1,8 @@
+app_identifier("com.gittie.lovebank") # The bundle identifier of your app
+apple_id("yifei.han-123@outlook.com") # Your Apple email address
+
+itc_team_id("117948098") # App Store Connect Team ID
+team_id("834C8Q72TG") # Developer Portal Team ID
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile
