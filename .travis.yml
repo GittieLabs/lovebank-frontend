@@ -20,6 +20,7 @@ jobs:
 
     - stage: Fastlane iOS Build
       language: objective-c
+      os: osx
       osx_image: xcode12
       before_install:
         - echo -e "machine github.com\n  login $GITHUB_USER\n  password $GITHUB_USER_PASSWORD" > ~/.netrc
