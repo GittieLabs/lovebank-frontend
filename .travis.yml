@@ -22,12 +22,12 @@ jobs:
       language: objective-c
       os: osx
       osx_image: xcode12
-      before_script:
-        - cd $TRAVIS_BUILD_DIR/flutter_lovebank
-        - sudo apt-get install -y --no-install-recommends lib32stdc++6 libstdc++6 > /dev/null
-        - git clone https://github.com/flutter/flutter.git -b beta
-        - export PATH="$PATH":"$HOME/.pub-cache/bin"
-        - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
+      # before_script:
+      #   - cd $TRAVIS_BUILD_DIR/flutter_lovebank
+      #   - sudo apt-get install -y --no-install-recommends lib32stdc++6 libstdc++6 > /dev/null
+      #   - git clone https://github.com/flutter/flutter.git -b beta
+      #   - export PATH="$PATH":"$HOME/.pub-cache/bin"
+      #   - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
       before_install:
         - echo -e "machine github.com\n  login $GITHUB_USER\n  password $GITHUB_USER_PASSWORD" > ~/.netrc
       script:
