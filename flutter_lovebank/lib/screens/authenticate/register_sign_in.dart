@@ -1,5 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutterapp/redux/actions.dart';
+import 'package:flutterapp/redux/app_state.dart';
 import 'package:flutterapp/services/userAuthentication.dart';
 import 'package:flutterapp/screens/components/wide_button.dart';
 
@@ -209,24 +212,36 @@ class _RegisterSignInState extends State<RegisterSignIn> {
       ),
     );
 
-    Widget submitButton = WideButton(
-        color: Theme.of(context).primaryColor,
-        text: (showSignIn) ? ('Sign in') : ('Sign up'),
-        onTap: () async {
-          if (_formKey.currentState.validate()) {
-            dynamic result;
-            if (showSignIn) {
-              result = await _authentication.signInWithEmail(email, password);
-            } else {
-              result = await _authentication.registerWithEmail(
-                  displayName, mobile, email, password);
-            }
-            if (result == null) {
-              ///Error with signin or registration.
-            } else {
-              Navigator.pop(context);
-            }
-          }
+    Widget submitButton = StoreConnector<AppState, dynamic>(
+        converter: (store) => (reg, name, mobile, email, password) {
+              if (reg) {
+                store.dispatch(RegisterAction(name, mobile, email, password));
+              } else {
+                store.dispatch(LoginAction(email, password));
+              }
+            },
+        builder: (context, callback) {
+          return WideButton(
+              color: Theme.of(context).primaryColor,
+              text: (showSignIn) ? ('Sign in') : ('Sign up'),
+              onTap: () async {
+                if (_formKey.currentState.validate()) {
+                  //dynamic result;
+                  if (showSignIn) {
+                    //result = await _authentication.signInWithEmail(email, password);
+                    callback(false, null, null, email, password);
+                  } else {
+                    //result = await _authentication.registerWithEmail(
+                    //    displayName, mobile, email, password);
+                    callback(true, displayName, mobile, email, password);
+                  }
+                  //if (result == null) {
+                  ///Error with signin or registration.
+                  //} else {
+                  Navigator.pop(context);
+                  //}
+                }
+              });
         });
 
     // The list below keeps the fields positioned in the correct way in preparation

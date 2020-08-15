@@ -54,7 +54,7 @@ class DontListenToInviteAction {
 // The actions below are intended for the reducer
 // (to be created by the middleware)
 class ChangeAuthDataAction {
-    final FirebaseAuth auth;
+    final FirebaseUser auth;
     ChangeAuthDataAction(this.auth);
 }
 class ChangeUserDataAction {

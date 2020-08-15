@@ -3,16 +3,29 @@ import 'package:flutterapp/redux/app_state.dart';
 
 AppState reducer(AppState state, dynamic action) {
     if (action is ChangeAuthDataAction) {
-        return state.copy(auth: action.auth);
+        AppState cp =  state.copy();
+        cp.auth = action.auth;
+        if (action.auth == null) {
+            cp.user = null;
+            cp.partner = null;
+            cp.invite = null;
+        }
+        return cp;
     }
     if (action is ChangeUserDataAction) {
-        return state.copy(user: action.user);
+        AppState cp =  state.copy();
+        cp.user = action.user;
+        return cp;
     }
     if (action is ChangePartnerDataAction) {
-        return state.copy(partner: action.partner);
+        AppState cp =  state.copy();
+        cp.partner = action.partner;
+        return cp;
     }
     if (action is ChangeInviteDataAction) {
-        return state.copy(invite: action.invite);
+        AppState cp =  state.copy();
+        cp.invite = action.invite;
+        return cp;
     }
 
     // if action not intended, don't change state.
