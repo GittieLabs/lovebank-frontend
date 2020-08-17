@@ -33,9 +33,9 @@ Future uploadFile(File image, String id) async {
   await uploadTask.onComplete;
 
   // Return the photo url
-  var fileURL = sr.getDownloadURL();
+  var imageURL = sr.getDownloadURL();
 
-  return fileURL;
+  return imageURL;
 }
 
 // This method will query the firebase storage and delete the image.
@@ -47,7 +47,7 @@ deleteFile(String imageURL) async {
 // This method takes in an user id and update the prfoile picture
 // In the case, the user already has a profile picture, 
 // the old profile pic will be deleted from the storage 
-Future updateProfilePic(String id, String fileURL, token) async {
+Future updateProfilePic(String id, String imageURL, token) async {
   final response = await http.put(
       'http://localhost:5001/love-bank-9a624/us-central1/profile-profilePic',
       headers: <String, String>{
@@ -56,7 +56,7 @@ Future updateProfilePic(String id, String fileURL, token) async {
       },
       body: jsonEncode(<String, String>{
         'id' : id,
-        'fileURL' : fileURL
+        'fileURL' : imageURL
       })
   );
 
