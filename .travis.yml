@@ -30,10 +30,17 @@ jobs:
         - export PATH="$PATH":"$HOME/.pub-cache/bin"
         - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
       script:
-        - cd ios
-        - bundle install
-        - travis_wait flutter build ios --release --no-codesign
-        - fastlane betatravis
+        - cd $TRAVIS_BUILD_DIR
+        - git clone https://github.com/BabyCube/lovebank-cert.git
+        - ls
+        - cd lovebank-cert 
+        - mv GoogleService-Info.plist $TRAVIS_BUILD_DIR/flutter_lovebank/ios/Runner
+        - cd $TRAVIS_BUILD_DIR/flutter_lovebank/ios/Runner
+        - ls
+        # - cd ios
+        # - bundle install
+        # - travis_wait flutter build ios --release --no-codesign
+        # - fastlane betatravis
 
   
 #   - stage: Fastlane Andriod Build
