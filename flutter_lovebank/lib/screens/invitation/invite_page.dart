@@ -61,9 +61,9 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
            isDefaultAction: true,
            onPressed: () async {
              File image = await openGallery();
-             String fileURL = await uploadFile(image, user.uid);
+             String imageURL = await uploadFile(image, user.uid);
              var idToken = await user.getIdToken();
-             updateProfilePic(user.uid, fileURL, idToken.token);
+             updateProfilePic(user.uid, imageURL, idToken.token);
              Navigator.pop(context);
            },
          )
