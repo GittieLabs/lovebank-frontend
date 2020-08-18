@@ -20,33 +20,38 @@ class _WrapperState extends State<Wrapper> {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, FirebaseUser>(
-        distinct: true,
         converter: (store) => store.state.auth,
         builder: (context, user) {
-          return (user == null)
-              ? ThreePageIntro()
-              : StoreConnector<AppState, User>(
-                  onInit: (store) =>
-                      store.dispatch(ListenToUserAction(user.uid)),
-                  onDispose: (store) =>
-                      store.dispatch(DontListenToUserAction(user.uid)),
-                  converter: (store) => store.state.user,
-                  builder: (context, userData) {
-                    return (userData == null)
-                        ? Container()
-                        : (userData.partnerId == "")
-                            ? InvitePartnerPage()
-                            : StoreConnector<AppState, User>(
-                                onInit: (store) => store.dispatch(
-                                    ListenToPartnerAction(userData.partnerId)),
-                                onDispose: (store) => store.dispatch(
-                                    DontListenToPartnerAction(
-                                        userData.partnerId)),
-                                converter: (store) => store.state.partner,
-                                builder: (context, partnerData) {
-                                  return CompleteHome();
-                                });
-                  });
+          if (user == null) {
+            return ThreePageIntro();
+          } else {
+            return StoreConnector<AppState, User>(
+                onInit: (store) => store.dispatch(ListenToUserAction(user.uid)),
+                onDispose: (store) =>
+                    store.dispatch(DontListenToUserAction(user.uid)),
+                converter: (store) => store.state.user,
+                builder: (context, userData) {
+                  if (userData == null) {
+                    return Container();
+                  } else if (userData.partnerId == "") {
+                    return InvitePartnerPage();
+                  } else {
+                    return StoreConnector<AppState, User>(
+                        onInit: (store) => store.dispatch(
+                            ListenToPartnerAction(userData.partnerId)),
+                        onDispose: (store) => store.dispatch(
+                            DontListenToPartnerAction(userData.partnerId)),
+                        converter: (store) => store.state.partner,
+                        builder: (context, partnerData) {
+                          if (partnerData == null) {
+                            return Container();
+                          } else {
+                            return CompleteHome();
+                          }
+                        });
+                  }
+                });
+          }
         });
   }
 }
