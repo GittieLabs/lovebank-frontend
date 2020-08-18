@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutterapp/models/local_user.dart';
 import 'package:flutterapp/redux/actions.dart';
 import 'package:flutterapp/redux/app_state.dart';
 // import 'package:flutter/src/material/icons.dart';
@@ -39,36 +40,44 @@ class _HomeState extends State<Home> {
   String taskSuggestion4 = 'Walk the dog everyday this week';
   @override
   Widget build(BuildContext context) {
-    Widget userImageNameBalance = Column(
-      children: <Widget>[
-        CircleImage(imagePath: userImagePath),
-        Text(userName),
-        Row(
-          children: <Widget>[
-            Text('balance '),
-            Text(
-              userBalance.toString(),
-              style: TextStyle(fontFamily: 'Roboto', fontSize: 40),
-            ),
-          ],
-        ),
-      ],
-    );
-    Widget partnerImageNameBalance = Column(
-      children: <Widget>[
-        CircleImage(imagePath: partnerImagePath),
-        Text(partnerName),
-        Row(
-          children: <Widget>[
-            Text('balance '),
-            Text(
-              partnerBalance.toString(),
-              style: TextStyle(fontFamily: 'Roboto', fontSize: 40),
-            ),
-          ],
-        ),
-      ],
-    );
+    Widget userImageNameBalance = StoreConnector<AppState, User>(
+        converter: (store) => store.state.user,
+        builder: (context, userData) {
+          return Column(
+            children: <Widget>[
+              CircleImage(imagePath: userImagePath),
+              Text(userData.displayName),
+              Row(
+                children: <Widget>[
+                  Text('balance '),
+                  Text(
+                    userData.balance.toString(),
+                    style: TextStyle(fontFamily: 'Roboto', fontSize: 40),
+                  ),
+                ],
+              ),
+            ],
+          );
+        });
+    Widget partnerImageNameBalance = StoreConnector<AppState, User>(
+        converter: (store) => store.state.partner,
+        builder: (context, partnerData) {
+          return Column(
+            children: <Widget>[
+              CircleImage(imagePath: partnerImagePath),
+              Text(partnerData.displayName),
+              Row(
+                children: <Widget>[
+                  Text('balance '),
+                  Text(
+                    partnerData.balance.toString(),
+                    style: TextStyle(fontFamily: 'Roboto', fontSize: 40),
+                  ),
+                ],
+              ),
+            ],
+          );
+        });
     Widget userAndPartnerProfilePictures = Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,

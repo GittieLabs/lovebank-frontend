@@ -19,8 +19,6 @@ class Wrapper extends StatefulWidget {
 class _WrapperState extends State<Wrapper> {
   @override
   Widget build(BuildContext context) {
-
-
     return StoreConnector<AppState, FirebaseUser>(
         distinct: true,
         converter: (store) => store.state.auth,
@@ -28,15 +26,26 @@ class _WrapperState extends State<Wrapper> {
           return (user == null)
               ? ThreePageIntro()
               : StoreConnector<AppState, User>(
-                  onInit: (store) => store.dispatch(ListenToUserAction(user.uid)),
-                  onDispose: (store) => store.dispatch(DontListenToUserAction(user.uid)),
+                  onInit: (store) =>
+                      store.dispatch(ListenToUserAction(user.uid)),
+                  onDispose: (store) =>
+                      store.dispatch(DontListenToUserAction(user.uid)),
                   converter: (store) => store.state.user,
                   builder: (context, userData) {
                     return (userData == null)
                         ? Container()
                         : (userData.partnerId == "")
                             ? InvitePartnerPage()
-                            : CompleteHome();
+                            : StoreConnector<AppState, User>(
+                                onInit: (store) => store.dispatch(
+                                    ListenToPartnerAction(userData.partnerId)),
+                                onDispose: (store) => store.dispatch(
+                                    DontListenToPartnerAction(
+                                        userData.partnerId)),
+                                converter: (store) => store.state.partner,
+                                builder: (context, partnerData) {
+                                  return CompleteHome();
+                                });
                   });
         });
   }
