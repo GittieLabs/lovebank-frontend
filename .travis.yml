@@ -37,7 +37,7 @@ jobs:
         - mv GoogleService-Info.plist $TRAVIS_BUILD_DIR/flutter_lovebank/ios/Runner
         - cd $TRAVIS_BUILD_DIR/flutter_lovebank/ios
         - bundle install
-        - travis_wait flutter build ios --release --no-codesign
+        - travis_wait flutter build ios --release --no-codesign -v
         - fastlane betatravis
 
   #   - stage: Fastlane Andriod Build
