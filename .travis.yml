@@ -22,6 +22,7 @@ jobs:
       language: objective-c
       os: osx
       osx_image: xcode12
+      cache: bundler
       before_install:
         - echo -e "machine github.com\n  login $GITHUB_USER\n  password $GITHUB_USER_PASSWORD" > ~/.netrc
       install:
@@ -35,10 +36,8 @@ jobs:
         - cd lovebank-cert 
         - mv GoogleService-Info.plist $TRAVIS_BUILD_DIR/flutter_lovebank/ios/Runner
         - cd $TRAVIS_BUILD_DIR/flutter_lovebank/ios
-        - cd ios
         - bundle install
         - travis_wait flutter build ios --release --no-codesign
         - fastlane betatravis
 
-  
-#   - stage: Fastlane Andriod Build
+  #   - stage: Fastlane Andriod Build

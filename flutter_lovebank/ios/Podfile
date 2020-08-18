@@ -1,3 +1,4 @@
+plugin 'cocoapods-binary'
 # Uncomment this line to define a global platform for your project
 # platform :ios, '9.0'
 
@@ -33,6 +34,7 @@ def parse_KV_file(file, separator='=')
 end
 
 target 'Runner' do
+  all_binary!
   use_frameworks!
   use_modular_headers!
 
