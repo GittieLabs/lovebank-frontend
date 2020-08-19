@@ -12,7 +12,7 @@ import 'package:flutterapp/main.dart';
 import 'package:flutterapp/mocks/firebase_auth_mock.dart';
 import 'package:flutterapp/mocks/firestore_mock.dart';
 import 'package:flutterapp/screens/intro/three_page_intro.dart';
-import 'package:flutterapp/services/userAuthentication.dart';
+import 'package:flutterapp/services/user_authentication.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {

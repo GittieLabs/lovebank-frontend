@@ -46,9 +46,10 @@ Future revokeBtnClicked(String creatorId, token) async {
       })
   );
 
-  if (response.statusCode == 200){
-    return true;
+  if (response.statusCode != 200){
+    throw Exception('Failed to revoke the invite');
   }
 
-  return false;
+  return true;
+
 }

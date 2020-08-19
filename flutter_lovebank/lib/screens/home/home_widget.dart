@@ -4,7 +4,7 @@ import 'package:flutterapp/models/local_user.dart';
 import 'package:flutterapp/redux/actions.dart';
 import 'package:flutterapp/redux/app_state.dart';
 // import 'package:flutter/src/material/icons.dart';
-import 'package:flutterapp/services/userAuthentication.dart';
+import 'package:flutterapp/services/user_authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutterapp/screens/components/circular_image.dart';
