@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutterapp/screens/wrapper.dart';
 import 'package:flutterapp/services/invite_data_service.dart';
 import 'package:provider/provider.dart';
-import 'package:flutterapp/services/userAuthentication.dart';
+import 'package:flutterapp/services/user_authentication.dart';
 import 'package:flutter/rendering.dart'; //used for debugPaintSizeEnabled
 import 'package:flutterapp/models/local_user.dart';
 import 'package:flutterapp/models/local_invite.dart';
