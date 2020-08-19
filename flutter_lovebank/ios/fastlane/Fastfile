@@ -14,11 +14,36 @@
 # update_fastlane
 
 default_platform(:ios)
+xcode_project_path = "Runner.xcodeproj"
 
 platform :ios do
   desc "Push a new beta build to TestFlight"
   lane :beta do
+    # Set the build number to the current date (UTC, 24h) -> "20190419.0510"
+    build_number = Time.new.utc.strftime("%Y%m%d.%H%M")
+    increment_build_number(
+      xcodeproj: xcode_project_path,
+      build_number: build_number
+    )
     build_app(workspace: "Runner.xcworkspace", scheme: "Runner")
+    upload_to_testflight
+  end
+
+  desc "Push a new beta build to TestFlight"
+  lane :betatravis do
+    # Set the build number to the current date (UTC, 24h) -> "20190419.0510"
+    build_number = Time.new.utc.strftime("%Y%m%d.%H%M")
+    increment_build_number(
+      xcodeproj: xcode_project_path,
+      build_number: build_number
+    )
+
+    # Instal the required certificates and profiles
+    setup_travis
+    match(type: "appstore", readonly: true)
+
+    # Build and deploy to TestFlight
+    build_app(export_method: "app-store")
     upload_to_testflight
   end
 end
