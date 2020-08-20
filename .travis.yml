@@ -38,7 +38,8 @@ jobs:
         - cd $TRAVIS_BUILD_DIR/flutter_lovebank/ios
         - bundle install
         - flutter pub get
-        - pod install --verbose # almost all pods will pre-build at this stage 
+        - flutter precache
+        - pod install # almost all pods will pre-build at this stage 
         - fastlane betatravis
 
   #   - stage: Fastlane Andriod Build
