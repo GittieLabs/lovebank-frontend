@@ -22,7 +22,9 @@ jobs:
       language: objective-c
       os: osx
       osx_image: xcode12
-      cache: bundler
+      cache:
+          bundler: true
+          cocoapods: true
       before_install:
         - echo -e "machine github.com\n  login $GITHUB_USER\n  password $GITHUB_USER_PASSWORD" > ~/.netrc
       install:
@@ -39,7 +41,7 @@ jobs:
         - bundle install
         - flutter pub get
         - flutter precache
-        - pod install # almost all pods will pre-build at this stage 
+        - travis_wait pod install # almost all pods will pre-build at this stage 
         - fastlane betatravis
 
   #   - stage: Fastlane Andriod Build
