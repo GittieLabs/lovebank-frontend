@@ -46,7 +46,7 @@ jobs:
         - flutter clean
         - flutter pub get
         - flutter precache
-        - (cd $TRAVIS_BUILD_DIR/,,/flutter && ls)
+        - (cd $TRAVIS_BUILD_DIR/../flutter && ls)
         - (cd $TRAVIS_BUILD_DIR/../flutter/.pub-cache/hosted/pub.dartlang.org && ls)
         - flutter test
         - (cd $TRAVIS_BUILD_DIR/../flutter && ls)
