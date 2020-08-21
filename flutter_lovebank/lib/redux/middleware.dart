@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutterapp/redux/actions.dart';
 import 'package:flutterapp/redux/app_state.dart';
-import 'package:flutterapp/services/userAuthentication.dart';
+import 'package:flutterapp/services/user_authentication.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:flutterapp/models/local_user.dart';

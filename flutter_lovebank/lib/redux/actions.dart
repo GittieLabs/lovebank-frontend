@@ -9,7 +9,8 @@ class RegisterAction {
     final String mobile;
     final String email;
     final String password;
-    RegisterAction(this.name, this.mobile, this.email, this.password);
+    final String profilePic;
+    RegisterAction(this.name, this.mobile, this.email, this.password, this.profilePic);
 }
 class LoginAction {
     final String email;
