@@ -234,31 +234,53 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
+				"${PODS_ROOT}/BoringSSL-GRPC/openssl_grpc.framework",
+				"${PODS_ROOT}/BoringSSL-GRPC/openssl_grpc.framework.dSYM",
 				"${PODS_ROOT}/../Flutter/Flutter.framework",
-				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
-				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
-				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
-				"${BUILT_PRODUCTS_DIR}/abseil/absl.framework",
-				"${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework",
-				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
-				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
-				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+				"${PODS_ROOT}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${PODS_ROOT}/GTMSessionFetcher/GTMSessionFetcher.framework.dSYM",
+				"${PODS_ROOT}/GoogleUtilities/GoogleUtilities.framework",
+				"${PODS_ROOT}/GoogleUtilities/GoogleUtilities.framework.dSYM",
+				"${PODS_ROOT}/PromisesObjC/FBLPromises.framework",
+				"${PODS_ROOT}/PromisesObjC/FBLPromises.framework.dSYM",
+				"${PODS_ROOT}/Protobuf/Protobuf.framework",
+				"${PODS_ROOT}/Protobuf/Protobuf.framework.dSYM",
+				"${PODS_ROOT}/abseil/absl.framework",
+				"${PODS_ROOT}/abseil/absl.framework.dSYM",
+				"${PODS_ROOT}/gRPC-C++/grpcpp.framework",
+				"${PODS_ROOT}/gRPC-C++/grpcpp.framework.dSYM",
+				"${PODS_ROOT}/gRPC-Core/grpc.framework",
+				"${PODS_ROOT}/gRPC-Core/grpc.framework.dSYM",
+				"${BUILT_PRODUCTS_DIR}/image_picker/image_picker.framework",
+				"${PODS_ROOT}/leveldb-library/leveldb.framework",
+				"${PODS_ROOT}/leveldb-library/leveldb.framework.dSYM",
+				"${PODS_ROOT}/nanopb/nanopb.framework",
+				"${PODS_ROOT}/nanopb/nanopb.framework.dSYM",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/openssl_grpc.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Flutter.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/GTMSessionFetcher.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/GoogleUtilities.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/FBLPromises.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/Protobuf.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/absl.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/absl.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/grpcpp.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/grpc.framework.dSYM",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/image_picker.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/leveldb.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/nanopb.framework.dSYM",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -396,7 +418,7 @@
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 20200818.2102;
+				CURRENT_PROJECT_VERSION = 20200821.0127;
 				DEVELOPMENT_TEAM = 834C8Q72TG;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -537,7 +559,7 @@
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 20200818.2102;
+				CURRENT_PROJECT_VERSION = 20200821.0127;
 				DEVELOPMENT_TEAM = 834C8Q72TG;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -569,7 +591,7 @@
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 20200818.2102;
+				CURRENT_PROJECT_VERSION = 20200821.0127;
 				DEVELOPMENT_TEAM = 834C8Q72TG;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (

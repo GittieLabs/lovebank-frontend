@@ -22,7 +22,10 @@ jobs:
       language: objective-c
       os: osx
       osx_image: xcode12
-      cache: bundler
+      podfile: $TRAVIS_BUILD_DIR/flutter_lovebank/ios/Podfile
+      cache:
+          bundler: true
+          cocoapods: true
       before_install:
         - echo -e "machine github.com\n  login $GITHUB_USER\n  password $GITHUB_USER_PASSWORD" > ~/.netrc
       install:
@@ -37,7 +40,9 @@ jobs:
         - mv GoogleService-Info.plist $TRAVIS_BUILD_DIR/flutter_lovebank/ios/Runner
         - cd $TRAVIS_BUILD_DIR/flutter_lovebank/ios
         - bundle install
-        - travis_wait flutter build ios --release --no-codesign -v
+        - flutter pub get
+        - flutter precache
+        # - travis_wait pod install # almost all pods will pre-build at this stage 
         - fastlane betatravis
 
   #   - stage: Fastlane Andriod Build
