@@ -29,7 +29,7 @@ jobs:
       before_install:
         - echo -e "machine github.com\n  login $GITHUB_USER\n  password $GITHUB_USER_PASSWORD" > ~/.netrc
       install:
-        - cd $TRAVIS_BUILD_DIR/flutter_lovebank
+        - cd ..
         - git clone https://github.com/flutter/flutter.git -b stable
         - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
         - flutter doctor
@@ -44,7 +44,9 @@ jobs:
         - flutter pub get
         - flutter precache
         - (cd $HOME && ls)
+        - (cd $TRAVIS_BUILD_DIR && ls)
         - (cd $HOME/flutter/.pub-cache//hosted/pub.dartlang.org && ls)
+        - (cd $TRAVIS_BUILD_DIR/flutter/.pub-cache//hosted/pub.dartlang.org && ls)
         # - flutter build ios --release --no-codesign
         # - pod install # almost all pods will pre-build at this stage 
         - fastlane betatravis
