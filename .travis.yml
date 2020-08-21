@@ -24,15 +24,15 @@ jobs:
       osx_image: xcode12
       podfile: $TRAVIS_BUILD_DIR/flutter_lovebank/ios/Podfile
       cache:
-          bundler: true
-          cocoapods: true
+          directories:
+            - $HOME/.pub-cache
       before_install:
         - echo -e "machine github.com\n  login $GITHUB_USER\n  password $GITHUB_USER_PASSWORD" > ~/.netrc
       install:
         - cd $TRAVIS_BUILD_DIR/flutter_lovebank
-        - git clone https://github.com/flutter/flutter.git -b beta
-        - export PATH="$PATH":"$HOME/.pub-cache/bin"
+        - git clone https://github.com/flutter/flutter.git -b stable
         - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
+        - flutter doctor
       script:
         - cd $TRAVIS_BUILD_DIR
         - git clone https://github.com/BabyCube/lovebank-cert.git
