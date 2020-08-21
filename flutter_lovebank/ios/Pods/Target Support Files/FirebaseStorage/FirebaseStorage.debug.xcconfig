@@ -1,5 +1,5 @@
 CONFIGURATION_BUILD_DIR = ${PODS_CONFIGURATION_BUILD_DIR}/FirebaseStorage
-FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/FirebaseCore" "${PODS_ROOT}/FirebaseCoreDiagnostics" "${PODS_ROOT}/GTMSessionFetcher" "${PODS_ROOT}/GoogleDataTransport" "${PODS_ROOT}/GoogleDataTransportCCTSupport" "${PODS_ROOT}/GoogleUtilities" "${PODS_ROOT}/PromisesObjC" "${PODS_ROOT}/nanopb"
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/FirebaseCore" "${PODS_ROOT}/FirebaseCoreDiagnostics" "${PODS_ROOT}/FirebaseStorage" "${PODS_ROOT}/GTMSessionFetcher" "${PODS_ROOT}/GoogleDataTransport" "${PODS_ROOT}/GoogleDataTransportCCTSupport" "${PODS_ROOT}/GoogleUtilities" "${PODS_ROOT}/PromisesObjC" "${PODS_ROOT}/nanopb"
 GCC_C_LANGUAGE_STANDARD = c99
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1 FIRStorage_VERSION=3.6.1
 HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_TARGET_SRCROOT}"

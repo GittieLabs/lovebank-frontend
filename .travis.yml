@@ -22,6 +22,7 @@ jobs:
       language: objective-c
       os: osx
       osx_image: xcode12
+      podfile: $TRAVIS_BUILD_DIR/flutter_lovebank/ios/Podfile
       cache:
           bundler: true
           cocoapods: true
@@ -41,7 +42,7 @@ jobs:
         - bundle install
         - flutter pub get
         - flutter precache
-        - travis_wait pod install # almost all pods will pre-build at this stage 
+        # - travis_wait pod install # almost all pods will pre-build at this stage 
         - fastlane betatravis
 
   #   - stage: Fastlane Andriod Build
