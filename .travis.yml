@@ -30,9 +30,12 @@ jobs:
         - echo -e "machine github.com\n  login $GITHUB_USER\n  password $GITHUB_USER_PASSWORD" > ~/.netrc
       install:
         - cd ..
+        - pwd
+        - ls
         - git clone https://github.com/flutter/flutter.git -b stable
         - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
         - flutter doctor
+        - ls
       script:
         - cd $TRAVIS_BUILD_DIR
         - git clone https://github.com/BabyCube/lovebank-cert.git
