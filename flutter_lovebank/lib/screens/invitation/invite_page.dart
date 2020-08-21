@@ -61,9 +61,11 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
            isDefaultAction: true,
            onPressed: () async {
              File image = await openGallery();
-             String imageURL = await uploadFile(image, user.uid);
-             var idToken = await user.getIdToken();
-             updateProfilePic(user.uid, imageURL, idToken.token);
+             if (image != null){
+              String imageURL = await uploadFile(image, user.uid);
+              var idToken = await user.getIdToken();
+              updateProfilePic(user.uid, imageURL, idToken.token);
+             }
              Navigator.pop(context);
            },
          )
@@ -97,7 +99,7 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
                           borderSide: BorderSide(
                               color: Theme.of(context).primaryColor)),
                     ),
-                    validator: (value) {
+                     validator: (value) {
                       if (value.isEmpty) {
                         return 'Please provide a mobile number';
                       }
