@@ -18,4 +18,4 @@ The first link deals with redux in flutter in general, and the second is an impl
   - The basic idea for the firestore listening is to have an epic return the firestore update stream after a "listen" action has been received by the epic and until a "stop listening" action is received by the epic.
   - Use a StoreConnector widget anywhere in the widget tree that you need to access or modify state that exists in the Redux store.
   - Modifying a piece of state held in the Redux store from the widget tree should be done by using a StoreConnector and using "converter:" to create a callback containing "store.dispatch([ACTION])" in some form and then calling that callback at the proper point in the widget tree code.
-
+  - The StoreConnector is a widget that wraps around other widgets to expose the Redux store to the widgets within it's "builder:" field in the form that is declared in the "converter:" field. The type parameters for StoreConnector in our app is of the form "StoreConnector<AppState, X>" where "X" is the type of what is returned by the "converter:" field.
