@@ -20,14 +20,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final AuthService _auth = AuthService();
-  String userImagePath =
-      'assets/images/home/Ellipse_1.png'; //need to replace this with the url to User's profile pic
-  String partnerImagePath = 'assets/images/home/Ellipse_2.png';
-  String userName = 'You';
-  String partnerName = 'Ben';
-  int userBalance = 500;
-  int partnerBalance = 500;
   String userMostRecentTask = 'take out the trash';
   String partnerMostRecentTask = 'buy take-out';
   int userRecentTaskPoints = 50;
@@ -45,7 +37,14 @@ class _HomeState extends State<Home> {
         builder: (context, userData) {
           return Column(
             children: <Widget>[
-              CircleImage(imagePath: userImagePath),
+              CircleAvatar(
+                radius: 60,
+                backgroundImage:
+                    userData.profilePic == null || userData.profilePic == ""
+                        ? AssetImage('assets/images/invite/person.png')
+                        : NetworkImage(userData.profilePic),
+                backgroundColor: Colors.white,
+              ),
               Text(userData.displayName),
               Row(
                 children: <Widget>[
@@ -64,7 +63,14 @@ class _HomeState extends State<Home> {
         builder: (context, partnerData) {
           return Column(
             children: <Widget>[
-              CircleImage(imagePath: partnerImagePath),
+              CircleAvatar(
+                radius: 60,
+                backgroundImage: partnerData.profilePic == null ||
+                        partnerData.profilePic == ""
+                    ? AssetImage('assets/images/invite/person.png')
+                    : NetworkImage(partnerData.profilePic),
+                backgroundColor: Colors.white,
+              ),
               Text(partnerData.displayName),
               Row(
                 children: <Widget>[
@@ -88,87 +94,94 @@ class _HomeState extends State<Home> {
       ),
     );
     Widget recentTasks = Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
-      margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
-      // height: 200.0,
-      decoration: new BoxDecoration(
-        color: Colors.grey[300],
-        borderRadius: new BorderRadius.only(
-            topLeft: const Radius.circular(14.0),
-            topRight: const Radius.circular(14.0),
-            bottomLeft: const Radius.circular(14.0),
-            bottomRight: const Radius.circular(14.0)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            'Recent Tasks',
-            style: TextStyle(
-              fontFamily: 'Roboto',
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 5.0),
-            child: Text(
-              userName +
-                  ': asked ' +
-                  partnerName +
-                  ' to ' +
-                  userMostRecentTask +
-                  ' for ' +
-                  userRecentTaskPoints.toString() +
-                  ' points',
-              style: TextStyle(
-                fontFamily: 'Actor',
-                fontSize: 14,
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 5.0),
-            child: Text(
-              userRecentTaskTime + 'ago',
-              style: TextStyle(
-                fontFamily: 'Roboto',
-                fontSize: 12,
-                color: Colors.grey[700],
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 5.0),
-            child: Text(
-              partnerName +
-                  ': asked ' +
-                  userName +
-                  ' to ' +
-                  partnerMostRecentTask +
-                  ' for ' +
-                  partnerRecentTaskPoints.toString() +
-                  ' points ',
-              style: TextStyle(
-                fontFamily: 'Actor',
-                fontSize: 14,
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 5.0),
-            child: Text(
-              partnerRecentTaskTime + 'ago',
-              style: TextStyle(
-                fontFamily: 'Roboto',
-                fontSize: 12,
-                color: Colors.grey[700],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+        margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+        // height: 200.0,
+        decoration: new BoxDecoration(
+          color: Colors.grey[300],
+          borderRadius: new BorderRadius.only(
+              topLeft: const Radius.circular(14.0),
+              topRight: const Radius.circular(14.0),
+              bottomLeft: const Radius.circular(14.0),
+              bottomRight: const Radius.circular(14.0)),
+        ),
+        child: StoreConnector<AppState, User>(
+            converter: (store) => store.state.partner,
+            builder: (context, partnerData) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    'Recent Tasks',
+                    style: TextStyle(
+                      fontFamily: 'Roboto',
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 0.0, vertical: 5.0),
+                    child: Text(
+                      'you' +
+                          ': asked ' +
+                          partnerData.displayName +
+                          ' to ' +
+                          userMostRecentTask +
+                          ' for ' +
+                          userRecentTaskPoints.toString() +
+                          ' points',
+                      style: TextStyle(
+                        fontFamily: 'Actor',
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 0.0, vertical: 5.0),
+                    child: Text(
+                      userRecentTaskTime + 'ago',
+                      style: TextStyle(
+                        fontFamily: 'Roboto',
+                        fontSize: 12,
+                        color: Colors.grey[700],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 0.0, vertical: 5.0),
+                    child: Text(
+                      partnerData.displayName +
+                          ': asked ' +
+                          'you' +
+                          ' to ' +
+                          partnerMostRecentTask +
+                          ' for ' +
+                          partnerRecentTaskPoints.toString() +
+                          ' points ',
+                      style: TextStyle(
+                        fontFamily: 'Actor',
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 0.0, vertical: 5.0),
+                    child: Text(
+                      partnerRecentTaskTime + 'ago',
+                      style: TextStyle(
+                        fontFamily: 'Roboto',
+                        fontSize: 12,
+                        color: Colors.grey[700],
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            }));
     Widget taskSuggestions = Container(
       margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
       padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),

@@ -216,7 +216,7 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
                                   padding: EdgeInsets.only(top: 10, bottom: 20),
                                   child: CircleAvatar(
                                     radius: smallScreen ? 30 : 60,
-                                    backgroundImage: localUser.profilePic == ""
+                                    backgroundImage: localUser.profilePic == null || localUser.profilePic == ""
                                         ? AssetImage(
                                             'assets/images/invite/person.png')
                                         : NetworkImage(localUser.profilePic),

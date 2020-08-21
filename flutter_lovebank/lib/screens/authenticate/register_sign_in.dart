@@ -213,9 +213,9 @@ class _RegisterSignInState extends State<RegisterSignIn> {
     );
 
     Widget submitButton = StoreConnector<AppState, dynamic>(
-        converter: (store) => (reg, name, mobile, email, password) {
+        converter: (store) => (reg, name, mobile, email, password, profilePic) {
               if (reg) {
-                store.dispatch(RegisterAction(name, mobile, email, password));
+                store.dispatch(RegisterAction(name, mobile, email, password, profilePic));
               } else {
                 store.dispatch(LoginAction(email, password));
               }
@@ -229,11 +229,11 @@ class _RegisterSignInState extends State<RegisterSignIn> {
                   //dynamic result;
                   if (showSignIn) {
                     //result = await _authentication.signInWithEmail(email, password);
-                    callback(false, null, null, email, password);
+                    callback(false, null, null, email, password, null);
                   } else {
                     //result = await _authentication.registerWithEmail(
                     //    displayName, mobile, email, password);
-                    callback(true, displayName, mobile, email, password);
+                    callback(true, displayName, mobile, email, password, "");
                   }
                   //if (result == null) {
                   ///Error with signin or registration.
