@@ -36,6 +36,7 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+    Color buttonColor = Theme.of(context).primaryColor;
 
     bool smallScreen = screenHeight < 601;
 
@@ -95,7 +96,7 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
                       contentPadding: const EdgeInsets.only(left: 10),
                       focusedBorder: UnderlineInputBorder(
                           borderSide: BorderSide(
-                              color: Theme.of(context).primaryColor)),
+                              color: buttonColor)),
                     ),
                     validator: (value) {
                       if (value.isEmpty) {
@@ -112,7 +113,7 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
                       builder: (context, user) {
                         return SquareButton(
                             text: 'Invite',
-                            color: Theme.of(context).primaryColor,
+                            color: buttonColor,
                             onPressed: () async {
                               if (_mobileFormKey.currentState.validate()) {
                                 var idToken = await user.getIdToken();
@@ -137,7 +138,7 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
                         contentPadding: const EdgeInsets.only(left: 10),
                         focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
-                                color: Theme.of(context).primaryColor)),
+                                color: buttonColor)),
                       ),
                       validator: (value) {
                         if (value.isEmpty) {
@@ -151,7 +152,7 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
                   builder: (context, user) {
                     return SquareButton(
                         text: 'Connect',
-                        color: Theme.of(context).primaryColor,
+                        color: buttonColor,
                         onPressed: () async {
                           // Connect to partner by providing invite code
                           if (_codeFormKey.currentState.validate()) {
@@ -178,7 +179,7 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
                 builder: (context, user) {
                   return SquareButton(
                       text: 'Revoke Invitation',
-                      color: Theme.of(context).primaryColor,
+                      color: buttonColor,
                       onPressed: () async {
                         var idToken = await user.getIdToken();
                         revokeBtnClicked(user.uid, idToken.token);
@@ -194,6 +195,8 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
                     height: screenHeight,
                     width: screenWidth,
                     child: StoreConnector<AppState, AppState>(
+                        onInit: (store) => store.dispatch(ListenToInviteAction(store.state.user.userId)),
+                        onDispose: (store) => store.dispatch(DontListenToInviteAction(store.state.user.userId)),
                         converter: (store) => (store.state),
                         builder: (context, state) {
                           User localUser = state.user;
