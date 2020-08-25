@@ -11,7 +11,6 @@ import 'package:flutterapp/redux/app_state.dart';
 import 'package:flutterapp/screens/components/square_button.dart';
 import 'package:flutterapp/services/image_storage_service.dart';
 import 'package:flutterapp/services/invitation_handler.dart';
-import 'package:flutterapp/services/user_authentication.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
@@ -56,22 +55,19 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
               StoreConnector<AppState, FirebaseUser>(
                   converter: (store) => store.state.auth,
                   builder: (context, user) {
-
-
-                  return CupertinoActionSheetAction(
-                    child: Text("Photo Gallery"),
-                    isDefaultAction: true,
-                    onPressed: () async {
+                    return CupertinoActionSheetAction(
+                      child: Text("Photo Gallery"),
+                      isDefaultAction: true,
+                      onPressed: () async {
                         File image = await openGallery();
-                        if (image != null){
-                            String imageURL = await uploadFile(image, user.uid);
-                            var idToken = await user.getIdToken();
-                            updateProfilePic(user.uid, imageURL, idToken.token);
+                        if (image != null) {
+                          String imageURL = await uploadFile(image, user.uid);
+                          var idToken = await user.getIdToken();
+                          updateProfilePic(user.uid, imageURL, idToken.token);
                         }
                         Navigator.pop(context);
-                    },
-                  );
-
+                      },
+                    );
                   })
             ],
           );
@@ -100,10 +96,9 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
                       hintText: 'Mobile',
                       contentPadding: const EdgeInsets.only(left: 10),
                       focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                              color: buttonColor)),
+                          borderSide: BorderSide(color: buttonColor)),
                     ),
-                     validator: (value) {
+                    validator: (value) {
                       if (value.isEmpty) {
                         return 'Please provide a mobile number';
                       }
@@ -142,8 +137,7 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
                         hintText: 'Invitation code',
                         contentPadding: const EdgeInsets.only(left: 10),
                         focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                                color: buttonColor)),
+                            borderSide: BorderSide(color: buttonColor)),
                       ),
                       validator: (value) {
                         if (value.isEmpty) {
@@ -200,8 +194,10 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
                     height: screenHeight,
                     width: screenWidth,
                     child: StoreConnector<AppState, AppState>(
-                        onInit: (store) => store.dispatch(ListenToInviteAction(store.state.user.userId)),
-                        onDispose: (store) => store.dispatch(DontListenToInviteAction(store.state.user.userId)),
+                        onInit: (store) => store.dispatch(
+                            ListenToInviteAction(store.state.user.userId)),
+                        onDispose: (store) => store.dispatch(
+                            DontListenToInviteAction(store.state.user.userId)),
                         converter: (store) => (store.state),
                         builder: (context, state) {
                           User localUser = state.user;
@@ -224,7 +220,9 @@ class _InvitePartnerState extends State<InvitePartnerPage> {
                                   padding: EdgeInsets.only(top: 10, bottom: 20),
                                   child: CircleAvatar(
                                     radius: smallScreen ? 30 : 60,
-                                    backgroundImage: localUser.profilePic == null || localUser.profilePic == ""
+                                    backgroundImage: localUser.profilePic ==
+                                                null ||
+                                            localUser.profilePic == ""
                                         ? AssetImage(
                                             'assets/images/invite/person.png')
                                         : NetworkImage(localUser.profilePic),
