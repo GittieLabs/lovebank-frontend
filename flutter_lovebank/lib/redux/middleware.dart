@@ -37,8 +37,14 @@ Stream<dynamic> inviteChangesEpic(Stream<dynamic> actions, EpicStore<AppState> s
     Stream<ListenToInviteAction> inviteListenRequests = actions.whereType<ListenToInviteAction>();
     Stream<dynamic> inviteChangeActions = inviteListenRequests.switchMap(
         (ListenToInviteAction requestAction) {
-            return Firestore.instance.collection("invites").document(requestAction.id).snapshots()
-                .map((x) => ChangeInviteDataAction(Invite.fromJson(x.data)))
+            return Firestore.instance.collection("invites").where("requester_id", isEqualTo: requestAction.id).snapshots() //document(requestAction.id).snapshots()
+                .map((x) {
+                    if (x.documents.length != 1) {
+                        return ChangeInviteDataAction(null);
+                    } else {
+                        return ChangeInviteDataAction(Invite.fromJson(x.documents[0].data));
+                    }
+                })
                 .takeUntil(actions.whereType<DontListenToInviteAction>());
         }
     );
