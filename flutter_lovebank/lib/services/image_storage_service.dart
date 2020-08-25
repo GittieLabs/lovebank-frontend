@@ -13,6 +13,8 @@ Future openGallery() async {
   var picker = ImagePicker();
   var pickedImage = await picker.getImage(source: ImageSource.gallery);
 
+  if (pickedImage == null) return null;
+
   File image = File(pickedImage.path);
   return image;
 }

@@ -24,15 +24,18 @@ jobs:
       osx_image: xcode12
       podfile: $TRAVIS_BUILD_DIR/flutter_lovebank/ios/Podfile
       cache:
-          bundler: true
-          cocoapods: true
+          directories:
+            - $HOME/.pub-cache
       before_install:
         - echo -e "machine github.com\n  login $GITHUB_USER\n  password $GITHUB_USER_PASSWORD" > ~/.netrc
       install:
-        - cd $TRAVIS_BUILD_DIR/flutter_lovebank
-        - git clone https://github.com/flutter/flutter.git -b beta
-        - export PATH="$PATH":"$HOME/.pub-cache/bin"
+        - cd ..
+        - pwd
+        - ls
+        - git clone https://github.com/flutter/flutter.git -b stable
         - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
+        - flutter doctor
+        - ls
       script:
         - cd $TRAVIS_BUILD_DIR
         - git clone https://github.com/BabyCube/lovebank-cert.git
@@ -40,9 +43,16 @@ jobs:
         - mv GoogleService-Info.plist $TRAVIS_BUILD_DIR/flutter_lovebank/ios/Runner
         - cd $TRAVIS_BUILD_DIR/flutter_lovebank/ios
         - bundle install
+        - flutter clean
         - flutter pub get
         - flutter precache
-        # - travis_wait pod install # almost all pods will pre-build at this stage 
+        - (cd $TRAVIS_BUILD_DIR/../flutter && ls)
+        - (cd $TRAVIS_BUILD_DIR/../flutter/.pub-cache/hosted/pub.dartlang.org && ls)
+        - flutter test
+        - (cd $TRAVIS_BUILD_DIR/../flutter && ls)
+        - (cd $TRAVIS_BUILD_DIR/../flutter/.pub-cache/hosted/pub.dartlang.org && ls)
+        # - flutter build ios --release --no-codesign
+        # - pod install # almost all pods will pre-build at this stage 
         - fastlane betatravis
 
   #   - stage: Fastlane Andriod Build
