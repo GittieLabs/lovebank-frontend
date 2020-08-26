@@ -30,12 +30,9 @@ jobs:
         - echo -e "machine github.com\n  login $GITHUB_USER\n  password $GITHUB_USER_PASSWORD" > ~/.netrc
       install:
         - cd ..
-        - pwd
-        - ls
         - git clone https://github.com/flutter/flutter.git -b stable
         - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
         - flutter doctor
-        - ls
       script:
         - cd $TRAVIS_BUILD_DIR
         - git clone https://github.com/BabyCube/lovebank-cert.git
@@ -46,11 +43,9 @@ jobs:
         - flutter clean
         - flutter pub get
         - flutter precache
-        - (cd $TRAVIS_BUILD_DIR/../flutter && ls)
+        - (cd $TRAVIS_BUILD_DIR/../flutter && ls -a)
         - (cd $TRAVIS_BUILD_DIR/../flutter/.pub-cache/hosted/pub.dartlang.org && ls)
-        - flutter test
-        - (cd $TRAVIS_BUILD_DIR/../flutter && ls)
-        - (cd $TRAVIS_BUILD_DIR/../flutter/.pub-cache/hosted/pub.dartlang.org && ls)
+        # - flutter test
         # - flutter build ios --release --no-codesign
         # - pod install # almost all pods will pre-build at this stage 
         - fastlane betatravis
