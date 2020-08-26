@@ -4,7 +4,17 @@ import 'dart:async';
 
 class FirebaseAuthMock extends Mock implements FirebaseAuth {
 
-    static FirebaseAuthMock instance;
+    //The constructor and factory code below makes this a singleton
+    FirebaseAuthMock._privateConstructor();
+
+    static final FirebaseAuthMock instance = FirebaseAuthMock._privateConstructor();
+
+    factory FirebaseAuthMock() {
+        return instance;
+    }
+    //end
+
+
     dynamic stream = UserLoginLogout();
     dynamic users = [];
 
