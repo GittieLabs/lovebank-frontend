@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutterapp/redux/actions.dart';
 import 'package:flutterapp/redux/app_state.dart';
-import 'package:flutterapp/services/user_authentication.dart';
 import 'package:flutterapp/screens/components/wide_button.dart';
 
 /* Authenticate Class Deals with the task of presenting the Sign In/ Register Screen as requested by the User
@@ -21,7 +20,6 @@ class RegisterSignIn extends StatefulWidget {
 
 class _RegisterSignInState extends State<RegisterSignIn> {
   bool showSignIn = true; //shows the sign in page by default
-  final AuthService _authentication = AuthService();
   final _formKey = GlobalKey<FormState>();
 
   // Variables to Store name, email, and password
