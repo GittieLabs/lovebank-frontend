@@ -45,15 +45,6 @@ class AuthService {
         //return user;
       //}
 
-      LoveApp.firestore.collection('users').document(user.uid).setData({
-        'userId': user.uid,
-        'displayName': name,
-        'partnerId': "",
-        'email': email,
-        'balance': 0,
-        'mobile': mobile,
-        'profilePic': ""
-      });
       return user;
     } catch (e) {
       print(e.toString());

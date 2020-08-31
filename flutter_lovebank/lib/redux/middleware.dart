@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutterapp/main.dart';
 import 'package:flutterapp/redux/actions.dart';
 import 'package:flutterapp/redux/app_state.dart';
 import 'package:flutterapp/services/user_authentication.dart';
@@ -56,7 +57,21 @@ Stream<dynamic> registerEpic(Stream<dynamic> actions, EpicStore<AppState> store)
     Stream<dynamic> authTokenStream = registerRequests.switchMap(
         (RegisterAction requestAction) {
             return Stream.fromFuture(AuthService().registerWithEmail(requestAction.name, requestAction.mobile, requestAction.email, requestAction.password))
-                    .map((x) => ChangeAuthDataAction(x));
+                    .map((x) {
+                        if (x != null) {
+                            LoveApp.firestore.collection('users').document(x.uid).setData({
+                                'userId': x.uid,
+                                'displayName': requestAction.name,
+                                'partnerId': "",
+                                'email': requestAction.email,
+                                'balance': 0,
+                                'mobile': requestAction.mobile,
+                                'profilePic': ""
+                            });
+                        }
+                        return ChangeAuthDataAction(x);
+                    }
+            );
         }
     );
     return authTokenStream;
