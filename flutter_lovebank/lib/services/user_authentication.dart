@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutterapp/mocks/firebase_auth_mock.dart';
 import 'package:flutterapp/main.dart';
 
 class AuthService {

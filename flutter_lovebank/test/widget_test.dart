@@ -6,96 +6,102 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:flutterapp/main.dart';
-import 'package:flutterapp/mocks/firebase_auth_mock.dart';
-import 'package:flutterapp/mocks/firestore_mock.dart';
+import 'mocks/firebase_auth_mock.dart';
+import 'mocks/firestore_mock.dart';
 import 'package:flutterapp/screens/intro/three_page_intro.dart';
 
 void main() {
-    LoveApp.firestore = FirestoreMock.instance;
-    LoveApp.firebaseAuth = FirebaseAuthMock.instance;
+  LoveApp.firestore = FirestoreMock.instance;
+  LoveApp.firebaseAuth = FirebaseAuthMock.instance;
 
-    Future moveThroughSlider(WidgetTester tester, dynamic find) async {
-        await tester.pumpWidget(LoveApp());
+  Future moveThroughSlider(WidgetTester tester, dynamic find) async {
+    await tester.pumpWidget(LoveApp());
 
-        // Wait 3 seconds for intro screen to pass
-        expect(find.text('LoveBank'), findsOneWidget);
-        await tester.pumpAndSettle(const Duration(seconds: 3));
+    // Wait 3 seconds for intro screen to pass
+    expect(find.text('LoveBank'), findsOneWidget);
+    await tester.pumpAndSettle(const Duration(seconds: 3));
 
-        // Drag two times
-        expect(find.text('Improve your relationship with measurable expressions of love'), findsOneWidget);
-        expect(find.text('LoveBank'), findsOneWidget);
+    // Drag two times
+    expect(
+        find.text(
+            'Improve your relationship with measurable expressions of love'),
+        findsOneWidget);
+    expect(find.text('LoveBank'), findsOneWidget);
 
-        await tester.drag(find.byType(ThreePageIntro), Offset(-1000, 0));
-        await tester.pumpAndSettle();
-        expect(find.text('Increase your love bank account by performing the tasks most important to your partner'), findsOneWidget);
-        expect(find.text('LoveBank'), findsOneWidget);
+    await tester.drag(find.byType(ThreePageIntro), Offset(-1000, 0));
+    await tester.pumpAndSettle();
+    expect(
+        find.text(
+            'Increase your love bank account by performing the tasks most important to your partner'),
+        findsOneWidget);
+    expect(find.text('LoveBank'), findsOneWidget);
 
-        await tester.drag(find.byType(ThreePageIntro), Offset(-1000, 0));
-        await tester.pumpAndSettle();
+    await tester.drag(find.byType(ThreePageIntro), Offset(-1000, 0));
+    await tester.pumpAndSettle();
 
-        // Make sure to be at the end of the slider
-        expect(find.text('Sign in'), findsOneWidget);
-        expect(find.text('Create an account'), findsOneWidget);
-        expect(find.text('LoveBank'), findsOneWidget);
+    // Make sure to be at the end of the slider
+    expect(find.text('Sign in'), findsOneWidget);
+    expect(find.text('Create an account'), findsOneWidget);
+    expect(find.text('LoveBank'), findsOneWidget);
+  }
 
-    }
+  testWidgets('login with nonexistent user does nothing',
+      (WidgetTester tester) async {
+    await moveThroughSlider(tester, find);
 
-    testWidgets('login with nonexistent user does nothing', (WidgetTester tester) async {
-        await moveThroughSlider(tester, find);
+    // Go to login screen
+    await tester.tap(find.text('Sign in'));
+    await tester.pumpAndSettle();
 
-        // Go to login screen
-        await tester.tap(find.text('Sign in'));
-        await tester.pumpAndSettle();
+    // Ensure on login screen
+    expect(find.text('Sign in'), findsOneWidget);
 
-        // Ensure on login screen
-        expect(find.text('Sign in'), findsOneWidget);
+    // Login with test user
+    await tester.enterText(
+        find.byKey(Key('Enter your email')), 'nonexistent@test.test');
+    await tester.enterText(find.byKey(Key('Enter your password')), '12345677');
 
-        // Login with test user
-        await tester.enterText(find.byKey(Key('Enter your email')), 'nonexistent@test.test');
-        await tester.enterText(find.byKey(Key('Enter your password')), '12345677');
+    await tester.tap(find.text('Sign in'));
+    await tester.pumpAndSettle();
 
-        await tester.tap(find.text('Sign in'));
-        await tester.pumpAndSettle();
+    // Ensure back to three page intro
+    expect(find.text('Sign in'), findsOneWidget);
+    expect(find.text('Create an account'), findsOneWidget);
+  });
 
-        // Ensure back to three page intro
-        expect(find.text('Sign in'), findsOneWidget);
-        expect(find.text('Create an account'), findsOneWidget);
-    });
+  testWidgets(
+      'register a user and login with it calls the appropriate things in firebaseAuth and in firestore',
+      (WidgetTester tester) async {
+    await moveThroughSlider(tester, find);
 
-    testWidgets('register a user and login with it calls the appropriate things in firebaseAuth and in firestore', (WidgetTester tester) async {
-        await moveThroughSlider(tester, find);
+    // Load register screen
+    await tester.tap(find.text('Create an account'));
+    await tester.pumpAndSettle();
 
-        // Load register screen
-        await tester.tap(find.text('Create an account'));
-        await tester.pumpAndSettle();
+    expect(find.text('Sign up'), findsOneWidget);
 
-        expect(find.text('Sign up'), findsOneWidget);
+    // Register a test user
+    await tester.enterText(
+        find.byKey(Key('Enter your display name')), 'test_mctesterson');
+    await tester.enterText(
+        find.byKey(Key('Enter your email')), 'test@test.test');
+    await tester.enterText(
+        find.byKey(Key('Enter your mobile number')), '1111111111');
+    await tester.enterText(find.byKey(Key('Enter your password')), '12345678');
 
-        // Register a test user
-        await tester.enterText(find.byKey(Key('Enter your display name')), 'test_mctesterson');
-        await tester.enterText(find.byKey(Key('Enter your email')), 'test@test.test');
-        await tester.enterText(find.byKey(Key('Enter your mobile number')), '1111111111');
-        await tester.enterText(find.byKey(Key('Enter your password')), '12345678');
+    //await tester.tap(find.text('Sign up'));
+    //await tester.pumpAndSettle(const Duration(seconds: 4));
 
-        //await tester.tap(find.text('Sign up'));
-        //await tester.pumpAndSettle(const Duration(seconds: 4));
-
-        // Ensure logged in
-        //expect(find.text('logout'), findsOneWidget);
-    });
-
+    // Ensure logged in
+    //expect(find.text('logout'), findsOneWidget);
+  });
 
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-
-
 // Tests temporarily disabled due to being abandoned for a while.
 // To be redone promptly.
-
-
 
 //    LoveApp.firebaseAuth = FirebaseAuthMock.instance;
 //    LoveApp.firestore = FirestoreMock.instance;
@@ -160,6 +166,5 @@ void main() {
 //    await tester.pumpAndSettle(const Duration(seconds: 30));
 //
 //    expect(find.text('Improve your relationship with measurable expressions of love'), findsOneWidget);
-
   });
 }
