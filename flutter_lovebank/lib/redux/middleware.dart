@@ -14,7 +14,7 @@ Stream<dynamic> userChangesEpic(Stream<dynamic> actions, EpicStore<AppState> sto
     Stream<ListenToUserAction> userListenRequests = actions.whereType<ListenToUserAction>();
     Stream<dynamic> userChangeActions = userListenRequests.switchMap(
         (ListenToUserAction requestAction) {
-            return Firestore.instance.collection("users").document(requestAction.id).snapshots()
+            return LoveApp.firestore.collection("users").document(requestAction.id).snapshots()
                 .map((x) => ChangeUserDataAction(User.fromJson(x.data)))
                 .takeUntil(actions.whereType<DontListenToUserAction>());
         }
@@ -26,7 +26,7 @@ Stream<dynamic> partnerChangesEpic(Stream<dynamic> actions, EpicStore<AppState> 
     Stream<ListenToPartnerAction> partnerListenRequests = actions.whereType<ListenToPartnerAction>();
     Stream<dynamic> partnerChangeActions = partnerListenRequests.switchMap(
         (ListenToPartnerAction requestAction) {
-            return Firestore.instance.collection("users").document(requestAction.id).snapshots()
+            return LoveApp.firestore.collection("users").document(requestAction.id).snapshots()
                 .map((x) => ChangePartnerDataAction(User.fromJson(x.data)))
                 .takeUntil(actions.whereType<DontListenToPartnerAction>());
         }
@@ -38,7 +38,7 @@ Stream<dynamic> inviteChangesEpic(Stream<dynamic> actions, EpicStore<AppState> s
     Stream<ListenToInviteAction> inviteListenRequests = actions.whereType<ListenToInviteAction>();
     Stream<dynamic> inviteChangeActions = inviteListenRequests.switchMap(
         (ListenToInviteAction requestAction) {
-            return Firestore.instance.collection("invites").where("requester_id", isEqualTo: requestAction.id).snapshots()
+            return LoveApp.firestore.collection("invites").where("requester_id", isEqualTo: requestAction.id).snapshots()
                 .map((x) {
                     if (x.documents.length != 1) {
                         return ChangeInviteDataAction(null);

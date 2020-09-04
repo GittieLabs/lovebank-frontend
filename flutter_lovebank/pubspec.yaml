@@ -36,6 +36,8 @@ dependencies:
   redux_epics: ^0.14.0
   rxdart: ^0.24.0
   uuid: 2.2.0
+  mockito: 4.1.1
+
 
 
 dev_dependencies:

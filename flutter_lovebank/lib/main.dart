@@ -14,11 +14,13 @@ import 'package:flutterapp/models/local_invite.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:redux/redux.dart';
+import 'package:mockito/mockito.dart';
 
 void main() {
   //debugPaintSizeEnabled = true; //uncomment this line and restart to better see the sizes of elements drawn onscreen
   runApp(new LoveApp());
 }
+
 
 class LoveApp extends StatelessWidget {
   static FirebaseAuth firebaseAuth = FirebaseAuth.instance;
