@@ -21,7 +21,7 @@ jobs:
     - stage: Fastlane iOS Build
       language: objective-c
       os: osx
-      osx_image: xcode12
+      osx_image: xcode11.6
       podfile: $TRAVIS_BUILD_DIR/flutter_lovebank/ios/Podfile
       cache:
           directories:
@@ -45,7 +45,7 @@ jobs:
         - flutter precache
         - cp -R /Users/travis/.pub-cache $TRAVIS_BUILD_DIR/../flutter/
         - (cd $TRAVIS_BUILD_DIR/../flutter && ls -a)
-        - (cdc $TRAVIS_BUILD_DIR/../flutter/.pub-cache/hosted/pub.dartlang.org && ls)
+        - (cd $TRAVIS_BUILD_DIR/../flutter/.pub-cache/hosted/pub.dartlang.org && ls)
         # - flutter test
         # - flutter build ios --release --no-codesign
         # - pod install # almost all pods will pre-build at this stage 
