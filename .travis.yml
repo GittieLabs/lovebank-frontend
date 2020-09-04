@@ -33,11 +33,11 @@ jobs:
         - git clone https://github.com/flutter/flutter.git -b stable
         - export PATH=`pwd`/flutter/bin:`pwd`/flutter/bin/cache/dart-sdk/bin:$PATH
         - flutter doctor
-      script:
         - cd $TRAVIS_BUILD_DIR
         - git clone https://github.com/BabyCube/lovebank-cert.git
         - cd lovebank-cert 
         - mv GoogleService-Info.plist $TRAVIS_BUILD_DIR/flutter_lovebank/ios/Runner
+      script:
         - cd $TRAVIS_BUILD_DIR/flutter_lovebank/ios
         - bundle install
         - flutter clean
