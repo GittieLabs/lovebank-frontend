@@ -43,8 +43,9 @@ jobs:
         - flutter clean
         - flutter pub get
         - flutter precache
+        - cp -R /Users/travis/.pub-cache $TRAVIS_BUILD_DIR/../flutter/
         - (cd $TRAVIS_BUILD_DIR/../flutter && ls -a)
-        - (cd $TRAVIS_BUILD_DIR/../flutter/.pub-cache/hosted/pub.dartlang.org && ls)
+        - (cdc $TRAVIS_BUILD_DIR/../flutter/.pub-cache/hosted/pub.dartlang.org && ls)
         # - flutter test
         # - flutter build ios --release --no-codesign
         # - pod install # almost all pods will pre-build at this stage 
