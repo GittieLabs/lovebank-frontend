@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutterapp/redux/app_state.dart';
+import 'package:flutterapp/redux/middleware.dart';
+import 'package:flutterapp/redux/reducers.dart';
 import 'package:flutterapp/screens/wrapper.dart';
-import 'package:flutterapp/services/invite_data_service.dart';
 import 'package:provider/provider.dart';
 import 'package:flutterapp/services/user_authentication.dart';
 import 'package:flutter/rendering.dart'; //used for debugPaintSizeEnabled
 import 'package:flutterapp/models/local_user.dart';
 import 'package:flutterapp/models/local_invite.dart';
-import 'package:flutterapp/services/user_data_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutterapp/mocks/firebase_auth_mock.dart';
+import 'package:flutterapp/mocks/firestore_mock.dart';
+import 'package:redux_epics/redux_epics.dart';
+import 'package:redux/redux.dart';
 
 void main() {
   //debugPaintSizeEnabled = true; //uncomment this line and restart to better see the sizes of elements drawn onscreen
@@ -15,14 +22,25 @@ void main() {
 }
 
 class LoveApp extends StatelessWidget {
+  static FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  static Firestore firestore = Firestore.instance;
+
+  static final allEpics = combineEpics<AppState>([
+    registerEpic,
+    loginEpic,
+    logoutEpic,
+    userChangesEpic,
+    partnerChangesEpic,
+    inviteChangesEpic
+  ]);
+
+  final store = new Store<AppState>(reducer,
+      initialState: AppState(), middleware: [EpicMiddleware(LoveApp.allEpics)]);
+
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        StreamProvider<FirebaseUser>.value(value: AuthService().user),
-        StreamProvider<User>.value(value: UserDataService().userData),
-        StreamProvider<Invite>.value(value: InviteDataService().inviteData),
-      ],
+    return StoreProvider<AppState>(
+      store: store,
       child: MaterialApp(
         title: "LoveBank",
         theme: ThemeData(

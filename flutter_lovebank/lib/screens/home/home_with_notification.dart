@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutterapp/models/local_user.dart';
+import 'package:flutterapp/redux/actions.dart';
+import 'package:flutterapp/redux/app_state.dart';
 import 'package:flutterapp/screens/home/home_widget.dart';
 import 'package:flutterapp/services/push_notification_handler.dart';
-import 'package:provider/provider.dart';
-
 
 class CompleteHome extends StatefulWidget {
   CompleteHome();
@@ -34,12 +35,12 @@ class _CompleteHomeState extends State<CompleteHome> {
 
   @override
   Widget build(BuildContext context) {
-    User localUser = Provider.of<User>(context);
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          MessageHandler(), //background of home 
-          _widgetOptions.elementAt(_selectedIndex), //top layer - Changes with bottom navigation bar selection
+          MessageHandler(), //background of home
+          _widgetOptions.elementAt(
+              _selectedIndex), //top layer - Changes with bottom navigation bar selection
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
