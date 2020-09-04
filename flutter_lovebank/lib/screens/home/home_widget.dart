@@ -7,9 +7,9 @@ import 'package:flutterapp/redux/app_state.dart';
 import 'package:flutterapp/services/user_authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutterapp/screens/components/circular_image.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutterapp/main.dart';
+import 'package:flutterapp/services/invitation_handler.dart';
 
 /*
 Basic Home Screen Layout created to test user sign in
@@ -24,8 +24,8 @@ class _HomeState extends State<Home> {
   String partnerMostRecentTask = 'buy take-out';
   int userRecentTaskPoints = 50;
   int partnerRecentTaskPoints = 80;
-  String userRecentTaskTime = '30 mins';
-  String partnerRecentTaskTime = '1 day';
+  String userRecentTaskTime = '30 mins ';
+  String partnerRecentTaskTime = '1 day ';
   String taskSuggestion1 = 'Walk the dog everyday this week';
   String taskSuggestion2 = 'Walk the dog everyday this week';
   String taskSuggestion3 = 'Walk the dog everyday this week';
@@ -98,7 +98,7 @@ class _HomeState extends State<Home> {
         margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
         // height: 200.0,
         decoration: new BoxDecoration(
-          color: Colors.grey[300],
+          color: Theme.of(context).cardColor,
           borderRadius: new BorderRadius.only(
               topLeft: const Radius.circular(14.0),
               topRight: const Radius.circular(14.0),
@@ -282,29 +282,212 @@ class _HomeState extends State<Home> {
   }
 }
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
+  @override
+  _SettingsPageState createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
   final AuthService _auth = AuthService();
+  bool all_notifications = true;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.yellow[100],
-      appBar: AppBar(
-          title: Text('Account & Settings'),
-          backgroundColor: Colors.yellow[500],
-          elevation: 0.0,
-          actions: <Widget>[
-            StoreConnector<AppState, VoidCallback>(
-                converter: (store) => () {
-                      store.dispatch(LogoutAction());
-                    },
-                builder: (context, callback) {
-                  return FlatButton.icon(
-                      icon: Icon(Icons.person),
-                      label: Text('logout'),
-                      onPressed: callback);
-                })
-          ]),
+    Widget userImage = StoreConnector<AppState, User>(
+        converter: (store) => store.state.user,
+        builder: (context, userData) {
+          return CircleAvatar(
+            backgroundColor: Colors.white,
+            backgroundImage:
+                userData.profilePic == null || userData.profilePic == ""
+                    ? AssetImage('assets/images/invite/person.png')
+                    : NetworkImage(userData.profilePic),
+            radius: 60.0,
+          );
+        });
+    Widget settingsOptions = StoreConnector<AppState, User>(
+        converter: (store) => store.state.user,
+        builder: (context, userData) {
+          return StoreConnector<AppState, FirebaseUser>(
+              converter: (store) => store.state.auth,
+              builder: (context, user) {
+                return Container(
+                  margin: const EdgeInsets.only(left: 30.0, right: 30.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SwitchListTile(
+                        title: Text('Enable All Notifications'),
+                        activeColor: Theme.of(context).primaryColor,
+                        value: (userData.task_reminder_notifications &&
+                            userData.task_acceptance_notifications &&
+                            userData.task_completion_notifications &&
+                            all_notifications),
+                        onChanged: (bool value) async {
+                          setState(() {
+                            all_notifications = value;
+                          });
+                          var idToken = await user.getIdToken();
+                          var id = user.uid;
+                          if (value) {
+                            await updateBtnClicked(
+                                id, 'all_notifications', value, idToken.token);
+                          }
+                        },
+                      ),
+                      SwitchListTile(
+                        title: Text('Task Reminder Notifications'),
+                        activeColor: Theme.of(context).primaryColor,
+                        value: userData.task_reminder_notifications,
+                        onChanged: (bool value) async {
+                          var idToken = await user.getIdToken();
+                          await updateBtnClicked(
+                              user.uid,
+                              'task_reminder_notifications',
+                              !userData.task_reminder_notifications,
+                              idToken.token);
+                        },
+                      ),
+                      SwitchListTile(
+                        title: Text('Task Acceptance/Rejection Notifications'),
+                        activeColor: Theme.of(context).primaryColor,
+                        value: userData.task_acceptance_notifications,
+                        onChanged: (bool value) async {
+                          var idToken = await user.getIdToken();
+                          await updateBtnClicked(
+                              user.uid,
+                              'task_acceptance_notifications',
+                              !userData.task_acceptance_notifications,
+                              idToken.token);
+                        },
+                      ),
+                      SwitchListTile(
+                        title: Text('Task Complete/Incomplete Notifications'),
+                        activeColor: Theme.of(context).primaryColor,
+                        value: userData.task_completion_notifications,
+                        onChanged: (bool value) async {
+                          var idToken = await user.getIdToken();
+                          await updateBtnClicked(
+                              user.uid,
+                              'task_completion_notifications',
+                              !userData.task_completion_notifications,
+                              idToken.token);
+                        },
+                      ),
+                      SwitchListTile(
+                        title: Text('Dark Mode'),
+                        activeColor: Theme.of(context).primaryColor,
+                        value: userData.darkMode,
+                        onChanged: (bool value) async {
+                          var idToken = await user.getIdToken();
+                          await updateBtnClicked(user.uid, 'darkMode',
+                              !userData.darkMode, idToken.token);
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              });
+        });
+    Widget unlinkButtonText = StoreConnector<AppState, User>(
+      converter: (store) => store.state.partner,
+      builder: (context, partnerData) {
+        return Text('Unlink from ${partnerData.displayName}');
+      },
     );
+    Widget confirmButton = StoreConnector<AppState, FirebaseUser>(
+      converter: (store) => store.state.auth,
+      builder: (context, user) {
+        return FlatButton(
+          child: Text('Confirm'),
+          onPressed: () async {
+            var idToken = await user.getIdToken();
+            unlinkBtnClicked(user.uid, idToken.token);
+            Navigator.of(context).pop();
+          },
+        );
+      },
+    );
+    Widget cancelButton = StoreConnector<AppState, User>(
+      converter: (store) => store.state.partner,
+      builder: (context, partnerData) {
+        return FlatButton(
+          child: Text('Cancel'),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        );
+      },
+    );
+    Widget unlinkDialog = StoreConnector<AppState, User>(
+      converter: (store) => store.state.partner,
+      builder: (context, partnerData) {
+        return AlertDialog(
+          title: Text('Unlinking Accounts'),
+          content: Text(
+              'Are you sure you want to unlink from ${partnerData.displayName}? \n \nThis action cannot be reversed.'),
+          actions: [
+            confirmButton,
+            cancelButton,
+          ],
+        );
+      },
+    );
+    Widget unlinkOption = StoreConnector<AppState, FirebaseUser>(
+      converter: (store) => store.state.auth,
+      builder: (context, user) {
+        return Container(
+          child: FlatButton(
+            textColor: Theme.of(context).primaryColor,
+            child: unlinkButtonText,
+            onPressed: () {
+              return showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return unlinkDialog;
+                  });
+            },
+          ),
+        );
+      },
+    );
+    Widget logoutOption = StoreConnector<AppState, VoidCallback>(
+      converter: (store) => () {
+        store.dispatch(LogoutAction());
+      },
+      builder: (context, callback) {
+        return Container(
+          child: RaisedButton(
+            onPressed: (callback),
+            textColor: Colors.white,
+            color: Color(0xffce00e8),
+            child: Text('Logout'),
+          ),
+        );
+      },
+    );
+    Widget settingsLayout = StoreConnector<AppState, User>(
+        converter: (store) => store.state.user,
+        builder: (context, userData) {
+          return Scaffold(
+            body: SafeArea(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  userImage,
+                  settingsOptions,
+                  unlinkOption,
+                  logoutOption,
+                  Container(
+                    width: double.infinity,
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+    return settingsLayout;
   }
 }
 
@@ -345,23 +528,20 @@ class _ChallengePageState extends State<ChallengePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.orange[100],
-      appBar: AppBar(
-          title: Text('Challenges'),
-          backgroundColor: Colors.orange[500],
-          elevation: 0.0,
-          actions: <Widget>[
-            StoreConnector<AppState, VoidCallback>(
-                converter: (store) => () {
-                      store.dispatch(LogoutAction());
-                    },
-                builder: (context, callback) {
-                  return FlatButton.icon(
-                      icon: Icon(Icons.person),
-                      label: Text('logout'),
-                      onPressed: callback);
-                })
-          ]),
+      backgroundColor: Theme.of(context).backgroundColor,
+      appBar:
+          AppBar(title: Text('Challenges'), elevation: 0.0, actions: <Widget>[
+        StoreConnector<AppState, VoidCallback>(
+            converter: (store) => () {
+                  store.dispatch(LogoutAction());
+                },
+            builder: (context, callback) {
+              return FlatButton.icon(
+                  icon: Icon(Icons.person),
+                  label: Text('logout'),
+                  onPressed: callback);
+            })
+      ]),
     );
   }
 }

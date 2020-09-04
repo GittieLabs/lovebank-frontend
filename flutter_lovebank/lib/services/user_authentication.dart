@@ -4,13 +4,11 @@ import 'package:flutterapp/mocks/firebase_auth_mock.dart';
 import 'package:flutterapp/main.dart';
 
 class AuthService {
-
   static bool mockAuth = false;
   FirebaseAuth _auth;
 
-  AuthService()
-  {
-        _auth = LoveApp.firebaseAuth;
+  AuthService() {
+    _auth = LoveApp.firebaseAuth;
   }
 
   //create user object based on Firebase User
@@ -43,7 +41,7 @@ class AuthService {
 
       // This if statement skips the firestore data setting details if a mock is being used
       //if(_auth is FirebaseAuthMock){
-        //return user;
+      //return user;
       //}
 
       LoveApp.firestore.collection('users').document(user.uid).setData({
@@ -53,7 +51,11 @@ class AuthService {
         'email': email,
         'balance': 0,
         'mobile': mobile,
-        'profilePic': ""
+        'profilePic': "",
+        'darkMode': false,
+        'task_acceptance_notifications': true,
+        'task_completion_notifications': true,
+        'task_reminder_notifications': true
       });
       return user;
     } catch (e) {
