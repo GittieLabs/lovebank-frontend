@@ -51,7 +51,7 @@ deleteFile(String imageURL) async {
 // the old profile pic will be deleted from the storage 
 Future updateProfilePic(String id, String imageURL, token) async {
   final response = await http.put(
-      'https://us-central1-love-bank-9a624.cloudfunctions.net/profile-profilePic',
+      'https://us-central1-lovebank---staging.cloudfunctions.net/profile-profilePic',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $token'
