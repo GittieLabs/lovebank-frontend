@@ -5,14 +5,8 @@ import 'package:flutterapp/redux/app_state.dart';
 import 'package:flutterapp/redux/middleware.dart';
 import 'package:flutterapp/redux/reducers.dart';
 import 'package:flutterapp/screens/wrapper.dart';
-import 'package:provider/provider.dart';
-import 'package:flutterapp/services/user_authentication.dart';
 import 'package:flutter/rendering.dart'; //used for debugPaintSizeEnabled
-import 'package:flutterapp/models/local_user.dart';
-import 'package:flutterapp/models/local_invite.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutterapp/mocks/firebase_auth_mock.dart';
-import 'package:flutterapp/mocks/firestore_mock.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:redux/redux.dart';
 
