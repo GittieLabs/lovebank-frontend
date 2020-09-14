@@ -205,7 +205,7 @@ class _RegisterSignInState extends State<RegisterSignIn> {
             ..onTap = () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => PasswordReset()
+                    builder: (context) => PasswordResetPage()
                   ),
                 ),
         ),
