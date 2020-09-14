@@ -6,6 +6,8 @@ import 'package:flutterapp/redux/app_state.dart';
 import 'package:flutterapp/services/user_authentication.dart';
 import 'package:flutterapp/screens/components/wide_button.dart';
 
+import 'Password_reset_page.dart';
+
 /* Authenticate Class Deals with the task of presenting the Sign In/ Register Screen as requested by the User
    Default is the Sign In Screen
 */
@@ -203,9 +205,7 @@ class _RegisterSignInState extends State<RegisterSignIn> {
             ..onTap = () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => Material(
-                      child: Text("Password reset page placeholder"),
-                    ),
+                    builder: (context) => PasswordReset()
                   ),
                 ),
         ),
