@@ -6,25 +6,26 @@ import 'package:flutterapp/redux/app_state.dart';
 import 'package:flutterapp/screens/components/square_button.dart';
 import 'package:flutterapp/services/password_reset_service.dart';
 
-class PasswordReset extends StatelessWidget {
+class PasswordResetPage extends StatefulWidget {
+  @override
+  _PasswordResetState createState() => _PasswordResetState();
+}
+
+class _PasswordResetState extends State<PasswordResetPage> {
+
+  final _passwordFormKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
 
-    final _passwordFormKey = GlobalKey<FormState>();
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
     Widget passwordField = Form(
         key: _passwordFormKey,
         child: Padding(
-            padding: EdgeInsets.only(top: 25.0, bottom: 25.0),
+            padding: EdgeInsets.only(top: screenHeight * 0.45, bottom: 25.0),
             child: Column(children: <Widget>[
-              Text("Enter your email \n to retrieve your password",
-                  style: TextStyle(
-                    fontFamily: 'Roboto',
-                    fontSize: 20,
-                  )),
               Container(
                 width: 305,
                 color: Color.fromRGBO(216, 216, 216, 0.4),
@@ -36,10 +37,10 @@ class PasswordReset extends StatelessWidget {
                           borderSide: BorderSide(color: Theme.of(context).primaryColor)),
                     ),
                     validator: (value) {
-//                      if (value.isEmpty) {
-//                        return 'Please enter an email address';
-//                      }
-//                      return null;
+                      if (value.isEmpty) {
+                        return 'Please enter an email address';
+                      }
+                      return null;
                     }),
               ),
               Padding(
@@ -48,26 +49,43 @@ class PasswordReset extends StatelessWidget {
                             text: 'Reset Your Password',
                             color: Theme.of(context).primaryColor,
                             onPressed: () async {
+                              if (_passwordFormKey.currentState.validate()){
+
+                              }
                             })
-                      ),
+                      )
             ])));
 
     return MaterialApp(
         home: Scaffold(
-          body: Container(
-              height: screenHeight,
-              width: screenWidth,
-              child: Column (
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children:[
-                    Spacer(),
-                    passwordField,
-                    Spacer()
-                  ]
-              )
+          body: Center (
+//                height: screenHeight,
+//                width: screenWidth,
+                child: Column (
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children:[
+                      passwordField,
+                      Spacer(),
+                      Padding(
+                        padding: EdgeInsets.only(bottom: screenHeight * 0.05),
+                          child: FlatButton(
+                          child: Text('Back',
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontFamily: 'Roboto',
+                                color: Theme.of(context).primaryColor),
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          })
+                      )
+                    ]
+                )
+            )
           )
-        )
-        );
+    );
   }
+
 }
 
