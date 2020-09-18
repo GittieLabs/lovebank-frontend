@@ -40,7 +40,7 @@ jobs:
       script:
         - cd $TRAVIS_BUILD_DIR/flutter_lovebank/ios
         - bundle install
-        - flutter clean
+        # - flutter clean
         - flutter pub get
         - flutter precache
         - cp -R /Users/travis/.pub-cache $TRAVIS_BUILD_DIR/../flutter/
