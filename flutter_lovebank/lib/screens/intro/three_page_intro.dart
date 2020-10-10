@@ -87,9 +87,9 @@ class BottomTitleBar extends StatelessWidget {
   }
 }
 
-///Each individual page, including 
+///Each individual page, including
 /// page 0 (the splash page).
-/// Generated differently depending 
+/// Generated differently depending
 /// on the value of page passed in.
 class IntroPage extends StatelessWidget {
   final int page;
@@ -98,9 +98,11 @@ class IntroPage extends StatelessWidget {
   void _loadLoginScreen(bool signIn, BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => RegisterSignIn(showSignIn: signIn)),
+      MaterialPageRoute(
+          builder: (context) => RegisterSignIn(showSignIn: signIn)),
     );
-}
+  }
+
   @override
   Widget build(BuildContext context) {
     Container mainContent = Container();
@@ -206,7 +208,7 @@ class _ThreePageIntroState extends State<ThreePageIntro> {
     super.initState();
     _pageController = PageController();
     Future.delayed(const Duration(milliseconds: 2500), () {
-      if (this.mounted){
+      if (this.mounted) {
         setState(() {
           _page = 1;
         });
