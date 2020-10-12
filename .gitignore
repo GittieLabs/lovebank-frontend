@@ -29,5 +29,8 @@ flutter_lovebank/ios/Flutter/.last_build_id
 flutter_lovebank/ios/Runner.ipa
 flutter_lovebank/ios/Runner.app.dSYM.zip
 flutter_lovebank/ios/Flutter/.last_build_id
+flutter_lovebank/ios/Pods/
 
 .vscode/
+.idea/**
+**/.idea
