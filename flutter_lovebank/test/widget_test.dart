@@ -12,6 +12,7 @@ void main() {
   testWidgets('First test', (WidgetTester tester) async {
     await tester.pumpWidget(LoveApp());
     await tester.pumpAndSettle(const Duration(seconds: 3));
+
     final titleFinder = find.text('test');
     expect(titleFinder, findsNothing);
   });
