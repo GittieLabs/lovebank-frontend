@@ -73,6 +73,7 @@ class _PasswordResetState extends State<PasswordResetPage> {
 
     return MaterialApp(
         home: Scaffold(
+          resizeToAvoidBottomPadding: false,
           body: Center (
                 child: Column (
                     mainAxisAlignment: MainAxisAlignment.center,
