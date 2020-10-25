@@ -30,7 +30,6 @@ class _HomeState extends State<Home> {
   String taskSuggestion2 = 'Walk the dog everyday this week';
   String taskSuggestion3 = 'Walk the dog everyday this week';
   String taskSuggestion4 = 'Walk the dog everyday this week';
-
   @override
   Widget build(BuildContext context) {
     Widget userImageNameBalance = StoreConnector<AppState, User>(
