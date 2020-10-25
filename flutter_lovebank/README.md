@@ -1,5 +1,3 @@
-[![Build Status](https://app.bitrise.io/app/6d0031ba53ff36bf/status.svg?token=PySaeQRmcFYXhjVGvEW_qA)](https://app.bitrise.io/app/6d0031ba53ff36bf)
-
 # flutterapp
 
 The flutter structure for LoveBank
