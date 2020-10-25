@@ -11,6 +11,8 @@ import 'package:flutterapp/screens/components/circular_image.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutterapp/main.dart';
 
+import '../components/taskCreationWindow.dart';
+
 /*
 Basic Home Screen Layout created to test user sign in
 */
@@ -274,7 +276,9 @@ class _HomeState extends State<Home> {
           color: Theme.of(context).backgroundColor,
           size: 50.0,
         ),
-        onPressed: () {},
+        onPressed: () {Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => TaskWindow()),
+                        );},
         backgroundColor: Theme.of(context).primaryColor,
       ),
     );
