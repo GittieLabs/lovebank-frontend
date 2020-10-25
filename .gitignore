@@ -22,6 +22,7 @@ doc/api/
 flutter_lovebank/ios/Runner/GoogleService-Info.plist
 flutter_lovebank/android/app/google-services.json
 
+**/.idea/
 .DS_Store
 .DS_Store
 flutter_lovebank/ios/Pods/
@@ -31,3 +32,4 @@ flutter_lovebank/ios/Flutter/.last_build_id
 flutter_lovebank/ios/Runner.ipa
 flutter_lovebank/ios/Runner.app.dSYM.zip
 flutter_lovebank/ios/Flutter/.last_build_id
+flutter_lovebank/ios/Flutter/App.framework
