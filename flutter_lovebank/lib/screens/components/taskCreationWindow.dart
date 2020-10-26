@@ -45,14 +45,14 @@ class _TaskWindowState extends State<TaskWindow> {
         return 'please enter a valid score';
       } else {
         return null;
-      } }, (val) => (setState(() => points = int.parse(val))), false);
+      } }, (val) => (setState(() => description = val)), false);
 
     Widget pointsField = buildField("Points", (val) {
       if (val.length <= 8) {
         return 'please enter a valid description';
       } else {
         return null;
-      } }, (val) => (setState(() => description = val)), false);
+      } }, (val) => (setState(() => points = int.parse(val))), false);
 
     return SimpleDialog(
       // key: _formKey,
