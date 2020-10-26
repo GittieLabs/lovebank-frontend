@@ -1,3 +1,5 @@
+[![Build Status](https://app.bitrise.io/app/6d0031ba53ff36bf/status.svg?token=PySaeQRmcFYXhjVGvEW_qA&branch=master)](https://app.bitrise.io/app/6d0031ba53ff36bf)
+
 # lovebank-frontend
 Mobile app for the LoveBank app
 
