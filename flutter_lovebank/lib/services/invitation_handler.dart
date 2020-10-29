@@ -4,7 +4,7 @@ import '../models/local_user.dart';
 
 Future inviteBtnClicked(String userId, String mobile, token) async {
   final response = await http.put(
-      'https://us-central1-love-bank-9a624.cloudfunctions.net/users-invite',
+      'https://us-central1-lovebank---staging.cloudfunctions.net/users-invite',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $token'
@@ -22,7 +22,7 @@ Future inviteBtnClicked(String userId, String mobile, token) async {
 
 Future acceptBtnClicked(String userId, String code, token) async {
   final response = await http.put(
-      'https://us-central1-love-bank-9a624.cloudfunctions.net/users-accept',
+      'https://us-central1-lovebank---staging.cloudfunctions.net/users-accept',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $token'
@@ -36,20 +36,17 @@ Future acceptBtnClicked(String userId, String code, token) async {
 
 // This method takes in an user id and delete the invite code from the database.
 Future revokeBtnClicked(String creatorId, token) async {
-  final response = await http.put('https://us-central1-love-bank-9a624.cloudfunctions.net/users-revoke',
+  final response = await http.put(
+      'https://us-central1-lovebank---staging.cloudfunctions.net/users-revoke',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $token'
       },
-      body: jsonEncode(<String, String>{
-        'id' : creatorId
-      })
-  );
+      body: jsonEncode(<String, String>{'id': creatorId}));
 
-  if (response.statusCode != 200){
+  if (response.statusCode != 200) {
     throw Exception('Failed to revoke the invite');
   }
 
   return true;
-
 }
