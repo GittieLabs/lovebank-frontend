@@ -23,9 +23,11 @@ flutter_lovebank/ios/Runner/GoogleService-Info.plist
 flutter_lovebank/android/app/google-services.json
 
 **/.idea/
+**/key.properties
+**/key.jks
 .idea/
 .DS_Store
-.DS_Store
+**/.DS_Store
 flutter_lovebank/ios/Pods/
 flutter_lovebank/ios/Flutter/Flutter.framework/
 flutter_lovebank/ios/Flutter/.last_build_id
@@ -33,3 +35,7 @@ flutter_lovebank/ios/Runner.ipa
 flutter_lovebank/ios/Runner.app.dSYM.zip
 flutter_lovebank/ios/Flutter/.last_build_id
 flutter_lovebank/ios/Flutter/App.framework
+
+# For staging branch only - These files contain URLs to LoveBank-Staging Firebase project
+flutter_lovebank/lib/services/image_storage_service.dart
+flutter_lovebank/lib/services/invitation_handler.dart
