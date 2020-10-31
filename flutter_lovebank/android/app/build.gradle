@@ -27,8 +27,8 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 def keystoreProperties = new Properties()
-//def keystorePropertiesFile = rootProject.file('key.properties')
-def keystorePropertiesFile = rootProject.file('app/key.properties')
+def keystorePropertiesFile = rootProject.file('key.properties')
+//def keystorePropertiesFile = rootProject.file('app/key.properties')
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
@@ -62,10 +62,11 @@ android {
 
     signingConfigs {
         release {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-            storePassword keystoreProperties['storePassword']
+            keyAlias System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS")
+            keyPassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD")
+            storeFile file(System.getenv("BITRISEIO_ANDROID_KEYSTORE_URL"))
+            storePassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PASSWORD")
+
         }
     }
     buildTypes {
