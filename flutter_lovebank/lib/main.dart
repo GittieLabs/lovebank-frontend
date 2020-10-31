@@ -18,7 +18,6 @@ void main() {
 class LoveApp extends StatelessWidget {
   static FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   static Firestore firestore = Firestore.instance;
-
   static final allEpics = combineEpics<AppState>([
     registerEpic,
     loginEpic,
