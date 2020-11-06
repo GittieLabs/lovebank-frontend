@@ -31,4 +31,13 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
+
+    <uses-permission
+        android:name="android.permission.CAMERA" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <uses-permission
+        android:name="android.permission.INTERNET" />
 </manifest>
