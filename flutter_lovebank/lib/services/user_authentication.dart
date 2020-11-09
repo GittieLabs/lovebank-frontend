@@ -4,13 +4,11 @@ import 'package:flutterapp/mocks/firebase_auth_mock.dart';
 import 'package:flutterapp/main.dart';
 
 class AuthService {
-
   static bool mockAuth = false;
   FirebaseAuth _auth;
 
-  AuthService()
-  {
-        _auth = LoveApp.firebaseAuth;
+  AuthService() {
+    _auth = LoveApp.firebaseAuth;
   }
 
   //create user object based on Firebase User
@@ -19,6 +17,12 @@ class AuthService {
   //user stream - changes when the user signs in and signs out
   Stream<FirebaseUser> get user {
     return _auth.onAuthStateChanged;
+  }
+
+  void getUserData() async {
+    final FirebaseAuth _auth = LoveApp.firebaseAuth;
+    FirebaseUser user = await _auth.currentUser();
+    String uid = user.uid;
   }
 
   //Sign In Anon for test; could be opened up as an Option in the future
@@ -43,7 +47,7 @@ class AuthService {
 
       // This if statement skips the firestore data setting details if a mock is being used
       //if(_auth is FirebaseAuthMock){
-        //return user;
+      //return user;
       //}
 
       LoveApp.firestore.collection('users').document(user.uid).setData({
