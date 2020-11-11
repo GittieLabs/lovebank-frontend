@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutterapp/models/local_user.dart';
@@ -14,6 +15,8 @@ import 'package:flutterapp/main.dart';
 /*
 Basic Home Screen Layout created to test user sign in
 */
+final FirebaseAuth auth = FirebaseAuth.instance;
+
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -316,6 +319,13 @@ class ChallengePage extends StatefulWidget {
 class _ChallengePageState extends State<ChallengePage> {
   final AuthService _auth = AuthService();
 
+  Future<String> getUserData() async {
+    final FirebaseAuth _auth = LoveApp.firebaseAuth;
+    FirebaseUser user = await _auth.currentUser();
+    String uid = user.uid;
+    return uid;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -323,14 +333,10 @@ class _ChallengePageState extends State<ChallengePage> {
   }
 
   void get_update_notification() async {
-    // Get the current user
-    final FirebaseAuth _auth = LoveApp.firebaseAuth;
-    FirebaseUser user = await _auth.currentUser();
-    String uid = user.uid;
     final FirebaseMessaging _fcm = FirebaseMessaging();
-
     // Get the token for this device
     String fcmToken = await _fcm.getToken();
+    String uid = await getUserData();
 
     final response =
         await http.get('http://lovebank.herokuapp.com/update/$uid/$fcmToken');
@@ -345,23 +351,47 @@ class _ChallengePageState extends State<ChallengePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.orange[100],
-      appBar: AppBar(
-          title: Text('Challenges'),
-          backgroundColor: Colors.orange[500],
-          elevation: 0.0,
-          actions: <Widget>[
-            StoreConnector<AppState, VoidCallback>(
-                converter: (store) => () {
-                      store.dispatch(LogoutAction());
-                    },
-                builder: (context, callback) {
-                  return FlatButton.icon(
-                      icon: Icon(Icons.person),
-                      label: Text('logout'),
-                      onPressed: callback);
-                })
-          ]),
-    );
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+            title: Text('Tasks'),
+            backgroundColor: Color(0xD015F6).withOpacity(0.71),
+            elevation: 0.0,
+            actions: <Widget>[
+              StoreConnector<AppState, VoidCallback>(
+                  converter: (store) => () {
+                        store.dispatch(LogoutAction());
+                      },
+                  builder: (context, callback) {
+                    return FlatButton.icon(
+                        icon: Icon(Icons.person),
+                        label: Text('logout'),
+                        onPressed: callback);
+                  })
+            ]),
+        body: StoreConnector<AppState, FirebaseUser>(
+            converter: (store) => store.state.auth,
+            builder: (context, user) {
+              return StreamBuilder(
+                  stream: Firestore.instance
+                      .collection("tasks")
+                      .where("requester_id", isEqualTo: user.uid)
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) return const Text('Loading ...');
+                    return ListView.builder(
+                        itemCount: snapshot.data.documents.length,
+                        itemBuilder: (context, index) => _buildListItem(
+                            context, snapshot.data.documents[index]));
+                  });
+            }));
   }
+}
+
+Widget _buildListItem(BuildContext context, DocumentSnapshot document) {
+  return Card(
+      child: ListTile(
+    title: Text(document['title']),
+    subtitle: Text(document['description']),
+    trailing: Text(document['points'].toString() + " points"),
+  ));
 }
