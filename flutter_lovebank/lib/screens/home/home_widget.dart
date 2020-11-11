@@ -102,7 +102,7 @@ class _HomeState extends State<Home> {
         margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
         // height: 200.0,
         decoration: new BoxDecoration(
-          color: Colors.grey[300],
+          color: Theme.of(context).cardColor,
           borderRadius: new BorderRadius.only(
               topLeft: const Radius.circular(14.0),
               topRight: const Radius.circular(14.0),
@@ -145,11 +145,10 @@ class _HomeState extends State<Home> {
                     padding:
                         EdgeInsets.symmetric(horizontal: 0.0, vertical: 5.0),
                     child: Text(
-                      userRecentTaskTime + 'ago',
+                      userRecentTaskTime + ' ago',
                       style: TextStyle(
                         fontFamily: 'Roboto',
                         fontSize: 12,
-                        color: Colors.grey[700],
                       ),
                     ),
                   ),
@@ -175,11 +174,10 @@ class _HomeState extends State<Home> {
                     padding:
                         EdgeInsets.symmetric(horizontal: 0.0, vertical: 5.0),
                     child: Text(
-                      partnerRecentTaskTime + 'ago',
+                      partnerRecentTaskTime + ' ago',
                       style: TextStyle(
                         fontFamily: 'Roboto',
                         fontSize: 12,
-                        color: Colors.grey[700],
                       ),
                     ),
                   ),
@@ -292,7 +290,27 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  bool all_notifications = true;
+  bool useLocalPreferenceVariables = false;
+
+  // Define local preference variables
+  bool reminderNotifications;
+  bool acceptanceNotifications;
+  bool completionNotifications;
+  bool darkMode;
+
+  // Set semaphores for blocking switches
+  bool reminder_block = false;
+  bool acceptance_block = false;
+  bool completion_block = false;
+
+  // Function to initialize local preference variables for faster switch updates
+  initLocalPreferences(data) {
+    reminderNotifications = data.task_reminder_notifications;
+    acceptanceNotifications = data.task_acceptance_notifications;
+    completionNotifications = data.task_completion_notifications;
+    darkMode = data.darkMode;
+    useLocalPreferenceVariables = true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -324,12 +342,8 @@ class _SettingsPageState extends State<SettingsPage> {
                         activeColor: Theme.of(context).primaryColor,
                         value: (userData.task_reminder_notifications &&
                             userData.task_acceptance_notifications &&
-                            userData.task_completion_notifications &&
-                            all_notifications),
+                            userData.task_completion_notifications),
                         onChanged: (bool value) async {
-                          setState(() {
-                            all_notifications = value;
-                          });
                           var idToken = await user.getIdToken();
                           var id = user.uid;
                           if (value) {
@@ -341,8 +355,16 @@ class _SettingsPageState extends State<SettingsPage> {
                       SwitchListTile(
                         title: Text('Task Reminder Notifications'),
                         activeColor: Theme.of(context).primaryColor,
-                        value: userData.task_reminder_notifications,
+                        value: useLocalPreferenceVariables
+                            ? reminderNotifications
+                            : userData.task_reminder_notifications,
                         onChanged: (bool value) async {
+                          if (!useLocalPreferenceVariables) {
+                            initLocalPreferences(userData);
+                          }
+                          setState(() {
+                            reminderNotifications = value;
+                          });
                           var idToken = await user.getIdToken();
                           await updateBtnClicked(
                               user.uid,
@@ -354,8 +376,16 @@ class _SettingsPageState extends State<SettingsPage> {
                       SwitchListTile(
                         title: Text('Task Acceptance/Rejection Notifications'),
                         activeColor: Theme.of(context).primaryColor,
-                        value: userData.task_acceptance_notifications,
+                        value: useLocalPreferenceVariables
+                            ? acceptanceNotifications
+                            : userData.task_acceptance_notifications,
                         onChanged: (bool value) async {
+                          if (!useLocalPreferenceVariables) {
+                            initLocalPreferences(userData);
+                          }
+                          setState(() {
+                            acceptanceNotifications = value;
+                          });
                           var idToken = await user.getIdToken();
                           await updateBtnClicked(
                               user.uid,
@@ -367,8 +397,16 @@ class _SettingsPageState extends State<SettingsPage> {
                       SwitchListTile(
                         title: Text('Task Complete/Incomplete Notifications'),
                         activeColor: Theme.of(context).primaryColor,
-                        value: userData.task_completion_notifications,
+                        value: useLocalPreferenceVariables
+                            ? completionNotifications
+                            : userData.task_completion_notifications,
                         onChanged: (bool value) async {
+                          if (!useLocalPreferenceVariables) {
+                            initLocalPreferences(userData);
+                          }
+                          setState(() {
+                            completionNotifications = value;
+                          });
                           var idToken = await user.getIdToken();
                           await updateBtnClicked(
                               user.uid,

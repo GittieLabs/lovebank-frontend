@@ -27,7 +27,7 @@ class _WrapperState extends State<Wrapper> {
     brightness: Brightness.dark,
     primaryColor: Color(0xffce00e8),
     backgroundColor: Color(0xff303030),
-    cardColor: Colors.grey[600],
+    cardColor: Colors.grey[700],
     fontFamily: 'LiberationSans',
   );
   @override
