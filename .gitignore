@@ -24,7 +24,7 @@ flutter_lovebank/android/app/google-services.json
 
 **/.idea/
 .idea/
-.DS_Store
+**/.DS_Store
 .DS_Store
 flutter_lovebank/ios/Pods/
 flutter_lovebank/ios/Flutter/Flutter.framework/
