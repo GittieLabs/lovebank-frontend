@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -388,10 +390,25 @@ class _ChallengePageState extends State<ChallengePage> {
 }
 
 Widget _buildListItem(BuildContext context, DocumentSnapshot document) {
+  //final doc = document.data;
   return Card(
       child: ListTile(
-    title: Text(document['title']),
-    subtitle: Text(document['description']),
-    trailing: Text(document['points'].toString() + " points"),
-  ));
+          title: Text(document['title']),
+          subtitle: Text(document['description']),
+          trailing: Text(document['points'].toString() + " points"),
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => TaskDetailScreen()));
+          }));
+}
+
+class TaskDetailScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+          title: Text("Tasks"),
+          backgroundColor: Color(0xD015F6).withOpacity(0.71)),
+    );
+  }
 }
