@@ -293,6 +293,7 @@ class _SettingsPageState extends State<SettingsPage> {
   bool useLocalPreferenceVariables = false;
 
   // Define local preference variables
+  bool all_notifications;
   bool reminderNotifications;
   bool acceptanceNotifications;
   bool completionNotifications;
@@ -340,15 +341,30 @@ class _SettingsPageState extends State<SettingsPage> {
                       SwitchListTile(
                         title: Text('Enable All Notifications'),
                         activeColor: Theme.of(context).primaryColor,
-                        value: (userData.task_reminder_notifications &&
-                            userData.task_acceptance_notifications &&
-                            userData.task_completion_notifications),
+                        value: useLocalPreferenceVariables
+                            ? (reminderNotifications &&
+                                acceptanceNotifications &&
+                                completionNotifications)
+                            : (userData.task_reminder_notifications &&
+                                userData.task_acceptance_notifications &&
+                                userData.task_completion_notifications),
                         onChanged: (bool value) async {
-                          var idToken = await user.getIdToken();
-                          var id = user.uid;
+                          initLocalPreferences(userData);
                           if (value) {
+                            setState(() {
+                              reminderNotifications = true;
+                              acceptanceNotifications = true;
+                              completionNotifications = true;
+                              all_notifications = true;
+                            });
+                            var idToken = await user.getIdToken();
+                            var id = user.uid;
                             await updateBtnClicked(
                                 id, 'all_notifications', value, idToken.token);
+                          } else {
+                            setState(() {
+                              all_notifications = false;
+                            });
                           }
                         },
                       ),
@@ -359,18 +375,30 @@ class _SettingsPageState extends State<SettingsPage> {
                             ? reminderNotifications
                             : userData.task_reminder_notifications,
                         onChanged: (bool value) async {
-                          if (!useLocalPreferenceVariables) {
-                            initLocalPreferences(userData);
+                          if (reminder_block) {
+                            // Null: This will block the switch
+                          } else {
+                            // Initialize local preference variables (instead of using value from Firestore user document)
+                            if (!useLocalPreferenceVariables) {
+                              initLocalPreferences(userData);
+                            }
+                            // Update local 'Reminder Notifications' value and block the switch
+                            setState(() {
+                              reminderNotifications = value;
+                              reminder_block = true;
+                            });
+                            // Call cloud function to Firestore update user document accordingly
+                            var idToken = await user.getIdToken();
+                            await updateBtnClicked(
+                                user.uid,
+                                'task_reminder_notifications',
+                                !userData.task_reminder_notifications,
+                                idToken.token);
+                            // Unblock switch
+                            setState(() {
+                              reminder_block = false;
+                            });
                           }
-                          setState(() {
-                            reminderNotifications = value;
-                          });
-                          var idToken = await user.getIdToken();
-                          await updateBtnClicked(
-                              user.uid,
-                              'task_reminder_notifications',
-                              !userData.task_reminder_notifications,
-                              idToken.token);
                         },
                       ),
                       SwitchListTile(
@@ -380,18 +408,26 @@ class _SettingsPageState extends State<SettingsPage> {
                             ? acceptanceNotifications
                             : userData.task_acceptance_notifications,
                         onChanged: (bool value) async {
-                          if (!useLocalPreferenceVariables) {
-                            initLocalPreferences(userData);
+                          if (acceptance_block) {
+                            // Null: This will block the switch
+                          } else {
+                            if (!useLocalPreferenceVariables) {
+                              initLocalPreferences(userData);
+                            }
+                            setState(() {
+                              acceptanceNotifications = value;
+                              acceptance_block = true;
+                            });
+                            var idToken = await user.getIdToken();
+                            await updateBtnClicked(
+                                user.uid,
+                                'task_acceptance_notifications',
+                                !userData.task_acceptance_notifications,
+                                idToken.token);
+                            setState(() {
+                              acceptance_block = false;
+                            });
                           }
-                          setState(() {
-                            acceptanceNotifications = value;
-                          });
-                          var idToken = await user.getIdToken();
-                          await updateBtnClicked(
-                              user.uid,
-                              'task_acceptance_notifications',
-                              !userData.task_acceptance_notifications,
-                              idToken.token);
                         },
                       ),
                       SwitchListTile(
@@ -401,18 +437,25 @@ class _SettingsPageState extends State<SettingsPage> {
                             ? completionNotifications
                             : userData.task_completion_notifications,
                         onChanged: (bool value) async {
-                          if (!useLocalPreferenceVariables) {
-                            initLocalPreferences(userData);
+                          if (completion_block) {
+                          } else {
+                            if (!useLocalPreferenceVariables) {
+                              initLocalPreferences(userData);
+                            }
+                            setState(() {
+                              completionNotifications = value;
+                              completion_block = true;
+                            });
+                            var idToken = await user.getIdToken();
+                            await updateBtnClicked(
+                                user.uid,
+                                'task_completion_notifications',
+                                !userData.task_completion_notifications,
+                                idToken.token);
+                            setState(() {
+                              completion_block = false;
+                            });
                           }
-                          setState(() {
-                            completionNotifications = value;
-                          });
-                          var idToken = await user.getIdToken();
-                          await updateBtnClicked(
-                              user.uid,
-                              'task_completion_notifications',
-                              !userData.task_completion_notifications,
-                              idToken.token);
                         },
                       ),
                       SwitchListTile(
