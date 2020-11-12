@@ -388,7 +388,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               reminderNotifications = value;
                               reminder_block = true;
                             });
-                            // Call cloud function to Firestore update user document accordingly
+                            // Call cloud function to Firestore update user document
                             var idToken = await user.getIdToken();
                             await updateBtnClicked(
                                 user.uid,
@@ -412,19 +412,23 @@ class _SettingsPageState extends State<SettingsPage> {
                           if (acceptance_block) {
                             // Null: This will block the switch
                           } else {
+                            // Initialize local preference variables (instead of using value from Firestore user document)
                             if (!useLocalPreferenceVariables) {
                               initLocalPreferences(userData);
                             }
+                            // Update local 'Reminder Notifications' value and block the switch
                             setState(() {
                               acceptanceNotifications = value;
                               acceptance_block = true;
                             });
+                            // Call cloud function to Firestore update user document
                             var idToken = await user.getIdToken();
                             await updateBtnClicked(
                                 user.uid,
                                 'task_acceptance_notifications',
                                 !userData.task_acceptance_notifications,
                                 idToken.token);
+                            // Unblock switch
                             setState(() {
                               acceptance_block = false;
                             });
@@ -439,20 +443,25 @@ class _SettingsPageState extends State<SettingsPage> {
                             : userData.task_completion_notifications,
                         onChanged: (bool value) async {
                           if (completion_block) {
+                            // Null: This will block the switch
                           } else {
+                            // Initialize local preference variables (instead of using value from Firestore user document)
                             if (!useLocalPreferenceVariables) {
                               initLocalPreferences(userData);
                             }
+                            // Update local 'Reminder Notifications' value and block the switch
                             setState(() {
                               completionNotifications = value;
                               completion_block = true;
                             });
+                            // Call cloud function to Firestore update user document
                             var idToken = await user.getIdToken();
                             await updateBtnClicked(
                                 user.uid,
                                 'task_completion_notifications',
                                 !userData.task_completion_notifications,
                                 idToken.token);
+                            // Unblock switch
                             setState(() {
                               completion_block = false;
                             });
