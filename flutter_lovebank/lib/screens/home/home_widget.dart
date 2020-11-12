@@ -344,7 +344,8 @@ class _SettingsPageState extends State<SettingsPage> {
                         value: useLocalPreferenceVariables
                             ? (reminderNotifications &&
                                 acceptanceNotifications &&
-                                completionNotifications)
+                                completionNotifications &&
+                                all_notifications)
                             : (userData.task_reminder_notifications &&
                                 userData.task_acceptance_notifications &&
                                 userData.task_completion_notifications),
