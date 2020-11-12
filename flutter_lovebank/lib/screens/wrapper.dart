@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutterapp/main.dart';
 import 'package:flutterapp/models/local_user.dart';
 import 'package:flutterapp/redux/actions.dart';
 import 'package:flutterapp/redux/app_state.dart';
@@ -15,6 +16,20 @@ class Wrapper extends StatefulWidget {
 }
 
 class _WrapperState extends State<Wrapper> {
+  static var defaultTheme = ThemeData(
+    primaryColor: Color(0xffce00e8),
+    accentColor: Color(0xfff68dc7),
+    backgroundColor: Color(0xfff2f2f2),
+    cardColor: Colors.grey[300],
+    fontFamily: 'LiberationSans',
+  );
+  static var darkTheme = ThemeData(
+    brightness: Brightness.dark,
+    primaryColor: Color(0xffce00e8),
+    backgroundColor: Color(0xff303030),
+    cardColor: Colors.grey[700],
+    fontFamily: 'LiberationSans',
+  );
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, FirebaseUser>(
@@ -44,7 +59,17 @@ class _WrapperState extends State<Wrapper> {
                           if (partnerData == null) {
                             return Container();
                           } else {
-                            return CompleteHome();
+                            return StoreConnector<AppState, User>(
+                              converter: (store) => store.state.user,
+                              builder: (context, user) {
+                                return Theme(
+                                  data: (user.darkMode ?? false)
+                                      ? darkTheme
+                                      : defaultTheme,
+                                  child: CompleteHome(),
+                                );
+                              },
+                            );
                           }
                         });
                   }

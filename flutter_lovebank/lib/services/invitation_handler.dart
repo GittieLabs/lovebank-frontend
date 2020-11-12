@@ -36,20 +36,31 @@ Future acceptBtnClicked(String userId, String code, token) async {
 
 // This method takes in an user id and delete the invite code from the database.
 Future revokeBtnClicked(String creatorId, token) async {
-  final response = await http.put('https://us-central1-love-bank-9a624.cloudfunctions.net/users-revoke',
+  final response = await http.put(
+      'https://us-central1-love-bank-9a624.cloudfunctions.net/users-revoke',
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $token'
       },
-      body: jsonEncode(<String, String>{
-        'id' : creatorId
-      })
-  );
+      body: jsonEncode(<String, String>{'id': creatorId}));
 
-  if (response.statusCode != 200){
+  if (response.statusCode != 200) {
     throw Exception('Failed to revoke the invite');
   }
 
   return true;
+}
 
+Future unlinkBtnClicked(String userId, token) async {
+  final response = await http.put(
+      'https://us-central1-love-bank-9a624.cloudfunctions.net/users-unlink',
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token'
+      },
+      body: jsonEncode(<String, String>{'id': userId}));
+  if (response.statusCode != 200) {
+    throw Exception('Failed to unlink from partner');
+  }
+  return true;
 }

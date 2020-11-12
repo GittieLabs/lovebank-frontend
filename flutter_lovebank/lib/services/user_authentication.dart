@@ -57,7 +57,11 @@ class AuthService {
         'email': email,
         'balance': 0,
         'mobile': mobile,
-        'profilePic': ""
+        'profilePic': "",
+        'darkMode': false,
+        'task_acceptance_notifications': true,
+        'task_completion_notifications': true,
+        'task_reminder_notifications': true
       });
       return user;
     } catch (e) {
